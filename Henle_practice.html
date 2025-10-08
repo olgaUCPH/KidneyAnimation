@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dynamic Henle Loop Simulation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+  
+<div class="grid-container" style="display:flex; align-items:flex-start;">
+  
+  <!-- Wrap the main canvas and SVG together -->
+  <div class="canvas-wrapper">
+    <canvas id="henleCanvas" width="960" height="1600"></canvas>
+
+    <!-- SVG overlay -->
+    <object id="overlaySvg" type="image/svg+xml" data="henle.svg"></object>
+  </div>
+
+  <!-- Keep color bar beside -->
+  <canvas id="colorBar" width="160" height="1600" style="margin-left:10px;"></canvas>
+</div>
+
+
+<!-- Sliders -->
+<ul id="parameterList">
+  <li>
+    <label for="kSlider">Water permeability: <span id="kValue">0.0005</span> unit</label>
+    <input type="range" id="kSlider" min="0.00025" max="0.001" step="0.0001" value="0.0005">
+  </li>
+
+  <li>
+    <label for="maxRNaSlider">Maximum NaCl reabsorption: <span id="maxRNaValue">100</span> unit</label>
+    <input type="range" id="maxRNaSlider" min="50" max="200" step="1" value="100">
+  </li>
+
+  <li>
+    <label for="F0Slider">Flow: <span id="F0Value">2</span> unit</label>
+    <input type="range" id="F0Slider" min="1" max="4" step="0.1" value="2">
+  </li>
+
+  <li>
+    <button id="resetButton">Reset</button>
+  </li>
+</ul>
+
+
+<script src="script_cleaned_renamed.js"></script>
+</body>
+</html>
