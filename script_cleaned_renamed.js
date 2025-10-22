@@ -94,8 +94,22 @@ resetButton.addEventListener("click", () => {
     segmentState.asc = new Array(nSegments).fill(Na0) 
     segmentState.ints = new Array(nSegments).fill(Na0) 
 
+
+
 });
 
+// -- Replay button --
+const replayButton = document.getElementById("replayButton");
+replayButton.addEventListener("click", () => {
+  // Just reset the container states (not variables)
+  segmentState.desc = new Array(nSegments).fill(Na0);
+  segmentState.asc = new Array(nSegments).fill(Na0);
+  segmentState.ints = new Array(nSegments).fill(Na0);
+
+  // Optional: immediately redraw so the reset is visible right away
+  draw();
+  drawArrows(new Array(nSegments).fill(0), new Array(nSegments).fill(0));
+});
 
 // ==================== 3. System state ====================
 // Creating arrays for every segment. Sets value to osmolarity of isotonic fluid
