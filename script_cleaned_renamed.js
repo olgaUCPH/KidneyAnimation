@@ -168,25 +168,34 @@ function eulerStep(segmentState, dt) {
 // ==================== 5. Drawing functions ====================
 // -- 5.1 Color mapping---
 function concentrationToColor(c) {
-    // Ratio decided by max concentration we expect to find in the graph
+    // Ratio: 0 = min, 1 = max
     const ratio = Math.min(1, Math.max(0, c / maxConcentration));
 
     let r, g, b;
-    if (ratio < 0.5) {
-        // interpolate Blue (0,0,255) → Cyan (0,255,255)
-        const t = ratio / 0.5;
+
+    if (ratio < 0.33) {
+        // Blue (0,0,255) → Cyan (0,255,255)
+        const t = ratio / 0.33;
         r = 0;
         g = Math.round(255 * t);
         b = 255;
-    } else {
-        // interpolate Cyan (0,255,255) → Yellow (255,255,0)
-        const t = (ratio - 0.5) / 0.5;
+    } else if (ratio < 0.66) {
+        // Cyan (0,255,255) → Yellow (255,255,0)
+        const t = (ratio - 0.33) / 0.33;
         r = Math.round(255 * t);
         g = 255;
         b = Math.round(255 * (1 - t));
+    } else {
+        // Yellow (255,255,0) → Orange (255,165,0)
+        const t = (ratio - 0.66) / 0.34;  // remainder to 1
+        r = 255;
+        g = Math.round(255 - t * (255 - 165)); // 255 → 165
+        b = 0;
     }
+
     return `rgb(${r}, ${g}, ${b})`;
 }
+
 
 // -- 5.2 Loop of Henle --
 function draw() {
