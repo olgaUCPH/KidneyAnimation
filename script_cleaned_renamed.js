@@ -14,10 +14,18 @@ let F0 = 2;           // Flow of isotonic fluid into the descending limb
 
 // -- 1.3 Henle graph --
 const nSegments = 20;   // Vertical segments
-const totalHeight = 400;    
-const totalWidth = 240;    
-const segmentHeight = totalHeight/nSegments;
-const segmentWidth = totalWidth/3   // 3 parts, ascending, descending and interstits
+const totalHeight = 400;
+const totalWidth = 240;
+
+// specify interstitium width explicitly, then split remaining width for the two limbs
+const interstitiumWidth = 109;                 // pick desired px for interstitium
+const limbWidth = (totalWidth - interstitiumWidth) / 2; // width for each limb
+
+const segmentHeight = totalHeight / nSegments;
+const descWidth = limbWidth;
+const intWidth = interstitiumWidth;
+const ascWidth = limbWidth;
+
 
 // -- 1.4 Arrows --
 const waterArrowScale = 250;
@@ -220,16 +228,15 @@ function draw() {
 
         // Descending
         ctx.fillStyle = concentrationToColor(segmentState.desc[i]);
-        ctx.fillRect(0, y, segmentWidth, segmentHeight);
+        ctx.fillRect(0, y, descWidth, segmentHeight);
 
         // Interstitium
         ctx.fillStyle = concentrationToColor(segmentState.ints[i]);
-        ctx.fillRect(segmentWidth, y, segmentWidth, segmentHeight);
+        ctx.fillRect(descWidth, y, intWidth, segmentHeight);
 
         // Ascending (reversed display)
         ctx.fillStyle = concentrationToColor(segmentState.asc[nSegments-1-i]);
-        ctx.fillRect(segmentWidth*2, y, segmentWidth, segmentHeight);
-        // TODO change equation to fit without reverse order?
+        ctx.fillRect(descWidth + intWidth, y, ascWidth, segmentHeight);
     }
 }
 
@@ -301,30 +308,30 @@ function drawArrows(R, RNa) {
 
 // __Descending limb → water movement (black arrows)__
     for (let i = 0; i < nSegments; i++) {
-    const y = i * segmentHeight + segmentHeight/2; 
-    const magnitude = Math.abs(R[i]) * waterArrowScale;
+        const y = i * segmentHeight + segmentHeight/2; 
+        const magnitude = Math.abs(R[i]) * waterArrowScale;
 
-    if (R[i] > 0) {
-        // Water exits DESC → INT
-        drawArrow(segmentWidth, y, segmentWidth + magnitude, y, "black");
-    } else if (R[i] < 0) {
-        // (rare) water backflow INT → DESC
-        drawArrow(segmentWidth, y, segmentWidth - magnitude, y, "black");
-    }
+        if (R[i] > 0) {
+            // Water exits DESC → INT
+            drawArrow(descWidth, y, descWidth + magnitude, y, "black");
+        } else if (R[i] < 0) {
+            // (rare) water backflow INT → DESC
+            drawArrow(descWidth, y, descWidth - magnitude, y, "black");
+        }
     }
 
-// __Ascending limb → NaCl movement (red arrows)__
+    // __Ascending limb → NaCl movement (red arrows)__
+    const ascX = descWidth + intWidth; // left edge of ascending
     for (let j = 0; j < nSegments; j++) {
-    // y-position must match reversed display
-    const revIndex = nSegments - 1 - j;
-    const y = revIndex * segmentHeight + segmentHeight/2;
+        const revIndex = nSegments - 1 - j;
+        const y = revIndex * segmentHeight + segmentHeight/2;
 
-    const magnitude = Math.abs(RNa[j]) * saltArrowScale; // scale factor
+        const magnitude = Math.abs(RNa[j]) * saltArrowScale;
 
-    if (RNa[j] > 0) {
-        // start at ASC wall (x=160), point left into INT
-        drawArrow(segmentWidth*2, y, segmentWidth*2 - magnitude, y, "red");
-    }
+        if (RNa[j] > 0) {
+            // start at ASC wall (left edge of ascending), point left into INT
+            drawArrow(ascX, y, ascX - magnitude, y, "red");
+        }
     }
 
     // Single labels for the fluxes
