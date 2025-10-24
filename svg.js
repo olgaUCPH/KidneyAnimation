@@ -1,14 +1,16 @@
-// ==================== svg.js ====================
 import { params } from "./config.js";
 import { concentrationToColor, concentrationToColorVasa } from "./draw.js";
 
 // svg.js
-let henleLoopBottom, henleIntBottom;
-let vasaLoopBottom, vasaIntBottom;
+let henleLoopBottom, henleIntBottom, henleOutline;
+let vasaLoopBottom, vasaIntBottom, vasaOutline;
 let vasaDesc, vasaAsc;
 let glomerulus, collectingDuct;
 
 let segmentState, vasaState;  // store references
+
+// references to checkboxes
+let showHenleCheckbox, showVasaCheckbox;
 
 export function initSvg(segment, vasa) {
     segmentState = segment;
@@ -20,17 +22,26 @@ export function initSvg(segment, vasa) {
     window.addEventListener("load", () => {
         console.log('SVG loaded');
         const svgDoc = overlay.contentDocument;
+
+        // Henle
         henleLoopBottom = svgDoc.getElementById("HenleLoop");
         henleIntBottom = svgDoc.getElementById("HenleInt");
+        henleOutline = svgDoc.getElementById("HenleOutline");
 
+        // Vasa
         vasaLoopBottom = svgDoc.getElementById("VasaLoop");
         vasaIntBottom = svgDoc.getElementById("VasaInt");
-
+        vasaOutline = svgDoc.getElementById("VasaOutline");
         vasaDesc = svgDoc.getElementById("VasaDesc");
         vasaAsc = svgDoc.getElementById("VasaAsc");
 
+        // Other structures
         glomerulus = svgDoc.getElementById("Glomerulus");
         collectingDuct = svgDoc.getElementById("CollectingDuct");
+
+        // get checkboxes
+        showHenleCheckbox = document.getElementById("showHenle");
+        showVasaCheckbox = document.getElementById("showVasa");
     });
 }
 
@@ -40,24 +51,42 @@ export function updateSvgColors() {
     const nSegments = segmentState.desc.length;
     const nVasa = vasaState.desc.length;
 
-    // Henle
-    const avgHenleBottom = (segmentState.desc[nSegments - 1] + segmentState.asc[0]) / 2;
-    const bottomInt = segmentState.ints[nSegments - 1];
+    // ---- Henle ----
+    const showHenle = showHenleCheckbox?.checked ?? true;
+    const henleDisplay = showHenle ? "inline" : "none";
 
-    henleLoopBottom.style.fill = concentrationToColor(avgHenleBottom);
-    henleIntBottom.style.fill = concentrationToColor(bottomInt);
+    [henleLoopBottom, henleIntBottom, henleOutline, glomerulus, collectingDuct].forEach(el => {
+        if (el) el.style.display = henleDisplay;
+    });
 
-    // Vasa
-    const avgVasaBottom = (vasaState.desc[nVasa - 1] + vasaState.asc[0]) / 2;
-    const topVasaDesc = vasaState.desc[0];
-    const topVasaAsc = vasaState.asc[nVasa - 1];
+    if (showHenle) {
+        const avgHenleBottom = (segmentState.desc[nSegments - 1] + segmentState.asc[0]) / 2;
+        const bottomInt = segmentState.ints[nSegments - 1];
 
-    vasaIntBottom.style.fill = concentrationToColor(bottomInt);
-    vasaLoopBottom.style.fill = concentrationToColorVasa(avgVasaBottom);
+        henleLoopBottom.style.fill = concentrationToColor(avgHenleBottom);
+        henleIntBottom.style.fill = concentrationToColor(bottomInt);
+        glomerulus.style.fill = concentrationToColor(params.Na0);
+        collectingDuct.style.fill = concentrationToColor(segmentState.asc[nSegments - 1]);
+    }
 
-    vasaDesc.style.fill = concentrationToColorVasa(topVasaDesc);
-    vasaAsc.style.fill = concentrationToColorVasa(topVasaAsc);
+    // ---- Vasa ----
+    const showVasa = showVasaCheckbox?.checked ?? true;
+    const vasaDisplay = showVasa ? "inline" : "none";
 
-    glomerulus.style.fill = concentrationToColor(params.Na0);
-    collectingDuct.style.fill = concentrationToColor(segmentState.asc[nSegments - 1]);
+    [vasaLoopBottom, vasaIntBottom, vasaOutline, vasaDesc, vasaAsc].forEach(el => {
+        if (el) el.style.display = vasaDisplay;
+    });
+
+    if (showVasa) {
+        const avgVasaBottom = (vasaState.desc[nVasa - 1] + vasaState.asc[0]) / 2;
+        const bottomInt = segmentState.ints[nSegments - 1];
+        const topVasaDesc = vasaState.desc[0];
+        const topVasaAsc = vasaState.asc[nVasa - 1];
+
+        vasaIntBottom.style.fill = concentrationToColor(bottomInt);
+        vasaLoopBottom.style.fill = concentrationToColorVasa(avgVasaBottom);
+
+        vasaDesc.style.fill = concentrationToColorVasa(topVasaDesc);
+        vasaAsc.style.fill = concentrationToColorVasa(topVasaAsc);
+    }
 }

@@ -43,7 +43,7 @@ export function concentrationToColorVasa(c) {
  * Draw Henle loop
  */
 export function drawHenle(ctx, segmentState) {
-    ctx.clearRect(0, 0, params.totalWidth, params.totalHeight);
+    // ctx.clearRect(0, 0, params.totalWidth, params.totalHeight);
 
     for (let i = 0; i < params.nSegments; i++) {
         const y = i * params.segmentHeight;

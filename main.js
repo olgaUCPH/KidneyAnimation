@@ -59,14 +59,26 @@ function drawAll(
     fluxes = { R: createFilledArray(params.nSegments, 0), RNa: createFilledArray(params.nSegments, 0) },
     vasaFluxes = { R: createFilledArray(params.nVasa, 0), RNa: createFilledArray(params.nVasa, 0) }
 ) {
-    drawHenle(ctx, segmentState);
-    drawArrows(ctx, fluxes.R, fluxes.RNa);
+    const showHenle = document.getElementById("showHenle").checked;
+    const showVasa = document.getElementById("showVasa").checked;
 
-    drawVasa(vasaCtx, vasaState, segmentState);
-    drawVasaArrows(vasaCtx, vasaFluxes.R, vasaFluxes.RNa);
+    // Clear canvases first
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    vasaCtx.clearRect(0, 0, vasaCanvas.width, vasaCanvas.height);
+
+    if (showHenle) {
+        drawHenle(ctx, segmentState);
+        drawArrows(ctx, fluxes.R, fluxes.RNa);
+    }
+
+    if (showVasa) {
+        drawVasa(vasaCtx, vasaState, segmentState);
+        drawVasaArrows(vasaCtx, vasaFluxes.R, vasaFluxes.RNa);
+    }
 
     drawColorBar(ctxBar);
 }
+
 
 // ---- Animation loop ----
 setInterval(() => {
