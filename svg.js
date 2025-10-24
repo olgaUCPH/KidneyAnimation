@@ -1,6 +1,5 @@
 // ==================== svg.js ====================
 import { params } from "./config.js";
-import { createSegmentState, createVasaState } from "./state.js";
 import { concentrationToColor, concentrationToColorVasa } from "./draw.js";
 
 // svg.js
@@ -16,8 +15,10 @@ export function initSvg(segment, vasa) {
     vasaState = vasa;
 
     const overlay = document.getElementById("overlaySvg");
-
-    overlay.addEventListener("load", () => {
+    console.log('Loading SVG overlay');
+    
+    window.addEventListener("load", () => {
+        console.log('SVG loaded');
         const svgDoc = overlay.contentDocument;
         henleLoopBottom = svgDoc.getElementById("HenleLoop");
         henleIntBottom = svgDoc.getElementById("HenleInt");
