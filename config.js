@@ -35,8 +35,8 @@ export const params = {
     // -- 1.5 Arrows --
     waterArrowScale: 350,
     saltArrowScale: 0.8,
-    vasaArrowScale: 0,
-    vasaSaltArrowScale: 0,
+    vasaArrowScale: 1,
+    vasaSaltArrowScale: 1,
 
     // -- 1.6 Vasa recta graph --
     nVasa: 20,

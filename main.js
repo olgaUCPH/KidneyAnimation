@@ -8,6 +8,7 @@ import { drawHenle, drawVasa, drawArrows, drawVasaArrows, drawColorBar } from ".
 import { initUI } from "./ui.js";
 import { createFilledArray } from "./utils.js";
 import { initSvg, updateSvgColors } from "./svg.js";
+import { concentrationToColor } from "./draw.js";
 
 
 // ---- Canvas contexts ----
@@ -62,6 +63,7 @@ function drawAll(
     const showHenle = document.getElementById("showHenle").checked;
     const showVasa = document.getElementById("showVasa").checked;
 
+    drawInterstitiumGradient(segmentState);
     // Clear canvases first
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     vasaCtx.clearRect(0, 0, vasaCanvas.width, vasaCanvas.height);
@@ -78,6 +80,24 @@ function drawAll(
 
     drawColorBar(ctxBar);
 }
+
+// ---- Draw interstitium gradient ----
+const interstitiumCanvas = document.getElementById("interstitiumCanvas");
+const interCtx = interstitiumCanvas.getContext("2d");
+
+function drawInterstitiumGradient(segmentState) {
+    const nSegments = segmentState.ints.length;
+    const segmentHeight = interstitiumCanvas.height / nSegments;
+    const width = interstitiumCanvas.width;
+
+    for (let i = 0; i < nSegments; i++) {
+        const y = i * segmentHeight;
+        const color = concentrationToColor(segmentState.ints[i]);
+        interCtx.fillStyle = color;
+        interCtx.fillRect(0, y, width, segmentHeight);
+    }
+}
+
 
 
 // ---- Animation loop ----

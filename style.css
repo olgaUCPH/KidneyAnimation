@@ -7,6 +7,16 @@ body {
   background: #f0f0f0;
 }
 
+/* Prevent page scroll */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* hides scrollbars */
+    height: 100vh;    /* force viewport height */
+}
+
+
+
 .grid-container {
   display: flex;
   justify-content: center;
@@ -27,7 +37,7 @@ canvas {
 #colorBar {
   width: 40px;    /* display size for color bar */
   height: 400px;
-  margin-top: 80px;     /* adjust vertical position as needed */
+  margin-top: 0px;     /* adjust vertical position as needed */
   margin-right: 40px; /* pushes the slider list further to the right */
 }
 
@@ -35,7 +45,7 @@ canvas {
   list-style: none;       /* remove bullets */
   padding: 10px;
   margin: 20px 0;
-  margin-top: 75px;    /* List vertical alignment */
+  margin-top: -5px;    /* List vertical alignment */
   width: 300px;
 }
 
@@ -57,11 +67,12 @@ canvas {
   position: relative;       /* create positioning context */
   width: 240px;             /* match your canvas */
   height: 400px;
+  padding-right: 10px
 }
 
 #henleCanvas {
   position: absolute;
-  top: 209px;
+  top: 129px;
   left: -20px;
   width: 125px;
   height: 220px;
@@ -71,7 +82,7 @@ canvas {
 
 #vasaCanvas {
   position: absolute;
-  top: 209px;
+  top: 129px;
   left: 167px;
   width: 132px;
   height: 220px;
@@ -80,12 +91,22 @@ canvas {
 
 #overlaySvg {
   position: absolute;
-  top: -100px;
+  top: -180px;
   left: -100px;
   width: 400px;              /* match canvas dimensions */
   height: 800px;
   pointer-events: none;     /* allow mouse input to reach the canvas */
 }
+
+#interstitiumCanvas {
+  position: absolute;       /* sit behind the other canvases */
+  width: 450px;             /* displayed width on screen */
+  height: 220px;            /* displayed height on screen */
+  z-index: 0;               /* behind other canvases */
+  border: 1px solid black;
+  box-sizing: border-box;
+}
+
 
 #parameterList li:has(input[type="range"]) {
   margin-bottom: 0px; /* Adjust vertical spacing between sliders */
