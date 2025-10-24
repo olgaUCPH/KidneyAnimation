@@ -73,16 +73,14 @@ setInterval(() => {
     let fluxes, vasaFluxes;
 
     for (let n = 0; n < params.eulerStepsPerFrame; n++) {
-        fluxes = eulerStep(segmentState, params.dt);        // only pass dt, not modelVars
-        vasaFluxes = vasaEulerStep(segmentState, vasaState, params.dt);
+        fluxes = eulerStep(segmentState, params.dt, modelVars);
+        vasaFluxes = vasaEulerStep(segmentState, vasaState, params.dt, modelVars);
     }
 
-    //console.log(segmentState.desc, segmentState.ints, segmentState.asc);
-    //console.log(vasaState.desc, vasaState.asc);
-
     drawAll(fluxes, vasaFluxes);
-    updateSvgColors()
+    updateSvgColors();
 }, params.miliSecondWait);
+
 
 
 // ---- Initial draw ----

@@ -9,14 +9,21 @@ import { params } from "./config.js";
  */
 export function initUI(modelVars, onReset, onReplay) {
     // ---- Sliders ----
-    const kSlider = document.getElementById("kSlider");
-    const kValueDisplay = document.getElementById("kValue");
+    document.getElementById("kSlider").addEventListener("input", (e) => {
+        modelVars.k = parseFloat(e.target.value);
+        document.getElementById("kValue").textContent = e.target.value;
+    });
 
-    const maxRNaSlider = document.getElementById("maxRNaSlider");
-    const maxRNaValueDisplay = document.getElementById("maxRNaValue");
+    document.getElementById("maxRNaSlider").addEventListener("input", (e) => {
+        modelVars.maxRNa = parseFloat(e.target.value);
+        document.getElementById("maxRNaValue").textContent = e.target.value;
+    });
 
-    const F0Slider = document.getElementById("F0Slider");
-    const F0ValueDisplay = document.getElementById("F0Value");
+    document.getElementById("F0Slider").addEventListener("input", (e) => {
+        modelVars.F0 = parseFloat(e.target.value);
+        document.getElementById("F0Value").textContent = e.target.value;
+    });
+
 
     // ---- Slider events ----
     kSlider.addEventListener("input", () => {

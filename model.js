@@ -1,13 +1,13 @@
-// ==================== model.js ====================
 import { params } from "./config.js";
-
 /**
  * One Euler step for Henle loop
  * @param {Object} segmentState - { desc: [], asc: [], ints: [] }
  * @param {number} dt - time step
+ * @param {Object} modelVars - { k, maxRNa, F0 }
  * @returns {Object} fluxes { R: waterFluxDesc, RNa: saltFluxAsc }
  */
-export function eulerStep(segmentState, dt = params.dt) {
+export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.k, maxRNa: params.maxRNa, F0: params.F0 }) {
+    const { k, maxRNa, F0 } = modelVars; // extract slider-controlled params
     const nSegments = params.nSegments;
 
     const dNa = {
@@ -23,11 +23,11 @@ export function eulerStep(segmentState, dt = params.dt) {
     // Descending limb
     for (let i = 0; i < nSegments; i++) {
         if (i === 0) {
-            waterFluxDesc[i] = params.k * (segmentState.ints[i] - segmentState.desc[i]);
-            flowRateDesc[i] = params.F0 - waterFluxDesc[i];
-            dNa.desc[i] = params.F0 * params.Na0 - flowRateDesc[i] * segmentState.desc[i];
+            waterFluxDesc[i] = k * (segmentState.ints[i] - segmentState.desc[i]);
+            flowRateDesc[i] = F0 - waterFluxDesc[i];
+            dNa.desc[i] = F0 * params.Na0 - flowRateDesc[i] * segmentState.desc[i];
         } else {
-            waterFluxDesc[i] = params.k * (segmentState.ints[i] - segmentState.desc[i]);
+            waterFluxDesc[i] = k * (segmentState.ints[i] - segmentState.desc[i]);
             flowRateDesc[i] = flowRateDesc[i - 1] - waterFluxDesc[i];
             dNa.desc[i] = flowRateDesc[i - 1] * segmentState.desc[i - 1] - flowRateDesc[i] * segmentState.desc[i];
         }
@@ -38,7 +38,7 @@ export function eulerStep(segmentState, dt = params.dt) {
     for (let j = 0; j < nSegments; j++) {
         const revIndex = nSegments - 1 - j;
         const delNa = segmentState.ints[revIndex] - segmentState.asc[j];
-        saltFluxAsc[j] = Math.max(params.maxRNa - (params.maxRNa / params.maxGrad) * delNa, 0);
+        saltFluxAsc[j] = Math.max(maxRNa - (maxRNa / params.maxGrad) * delNa, 0);
 
         const prev = j === 0 ? segmentState.desc[nSegments - 1] : segmentState.asc[j - 1];
         dNa.asc[j] = Fa * (prev - segmentState.asc[j]) - saltFluxAsc[j];
@@ -64,10 +64,12 @@ export function eulerStep(segmentState, dt = params.dt) {
  * @param {Object} segmentState - Henle segment state
  * @param {Object} vasaState - { desc: [], asc: [] }
  * @param {number} dt - time step
+ * @param {Object} modelVars - { F0 } (or additional vars if you want sliders to affect vasa)
  * @returns {Object} fluxes for visualization
  */
-export function vasaEulerStep(segmentState, vasaState, dt = params.dt) {
+export function vasaEulerStep(segmentState, vasaState, dt = params.dt, modelVars = { F0: params.F0 }) {
     const nVasa = params.nVasa;
+    const { F0 } = modelVars;
 
     const dNa = { desc: new Array(nVasa).fill(0), asc: new Array(nVasa).fill(0) };
     const Rdvr = new Array(nVasa).fill(0);
@@ -82,8 +84,8 @@ export function vasaEulerStep(segmentState, vasaState, dt = params.dt) {
         Rdvr[i] = params.kdvr * (segmentState.ints[i] - vasaState.desc[i]);
 
         if (i === 0) {
-            Fdvr[i] = params.F0vr - Rdvr[i];
-            dNa.desc[i] = params.F0vr * params.Na0
+            Fdvr[i] = F0 - Rdvr[i]; // use F0 from sliders if desired
+            dNa.desc[i] = F0 * params.Na0
                         - Fdvr[i] * vasaState.desc[i]
                         - params.knadvr * (vasaState.desc[i] - segmentState.ints[i]);
         } else {
