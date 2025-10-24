@@ -28,12 +28,14 @@ canvas {
   width: 40px;    /* display size for color bar */
   height: 400px;
   margin-top: 80px;     /* adjust vertical position as needed */
+  margin-right: 40px; /* pushes the slider list further to the right */
 }
 
 #parameterList {
   list-style: none;       /* remove bullets */
   padding: 10px;
   margin: 20px 0;
+  margin-top: 75px;    /* List vertical alignment */
   width: 300px;
 }
 
@@ -84,3 +86,31 @@ canvas {
   height: 800px;
   pointer-events: none;     /* allow mouse input to reach the canvas */
 }
+
+#parameterList li:has(input[type="range"]) {
+  margin-bottom: 0px; /* Adjust vertical spacing between sliders */
+}
+
+/* Slider width */
+#parameterList input[type="range"] {
+  width: 130px; /* Adjust as needed */
+}
+#infoBox {
+  background-color: #f9f9f9; /* light background */
+  border: 1px solid #333;    /* square outline around the box */
+  border-radius: 4px;         /* slightly rounded corners */
+  padding: 10px;              /* inner spacing */
+  max-width: 300px;           /* optional: constrain width */
+  margin-top: 0; /* remove space above the box */
+}
+
+#infoBox h3 {
+  margin: 0 0 5px 0;          /* remove top margin, small bottom margin */
+  font-size: 1.2em;           /* slightly larger title */
+}
+
+#infoBox p {
+  margin: 0;                  /* remove default paragraph margin */
+  line-height: 1.4;           /* improves readability */
+}
+
