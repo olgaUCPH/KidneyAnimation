@@ -42,7 +42,7 @@ export const params = {
     nVasa: 20,
     totalHeightVasa: 300,
     totalWidthVasa: 225,
-    interstitiumWidthVasa: 130, // width for interstitium in vasa
+    interstitiumWidthVasa: 133, // width for interstitium in vasa
 
     get limbWidthVasa() { return (this.totalWidthVasa - this.interstitiumWidthVasa) / 2; },
     get segmentHeightVasa() { return this.totalHeightVasa / this.nVasa; },
