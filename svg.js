@@ -5,7 +5,7 @@ import { concentrationToColor, concentrationToColorVasa } from "./draw.js";
 let henleLoopBottom, henleIntBottom, henleOutline;
 let vasaLoopBottom, vasaIntBottom, vasaOutline;
 let vasaDesc, vasaAsc;
-let glomerulus, collectingDuct;
+let bowmanCap, collectingDuct;
 
 let segmentState, vasaState;  // store references
 
@@ -36,12 +36,13 @@ export function initSvg(segment, vasa) {
         vasaAsc = svgDoc.getElementById("VasaAsc");
 
         // Other structures
-        glomerulus = svgDoc.getElementById("Glomerulus");
+        bowmanCap = svgDoc.getElementById("BowmanCapsule");
         collectingDuct = svgDoc.getElementById("CollectingDuct");
 
         // get checkboxes
         showHenleCheckbox = document.getElementById("showHenle");
         showVasaCheckbox = document.getElementById("showVasa");
+        
     });
 }
 
@@ -55,7 +56,7 @@ export function updateSvgColors() {
     const showHenle = showHenleCheckbox?.checked ?? true;
     const henleDisplay = showHenle ? "inline" : "none";
 
-    [henleLoopBottom, henleIntBottom, henleOutline, glomerulus, collectingDuct].forEach(el => {
+    [henleLoopBottom, henleIntBottom, henleOutline, bowmanCap, collectingDuct].forEach(el => {
         if (el) el.style.display = henleDisplay;
     });
 
@@ -65,7 +66,7 @@ export function updateSvgColors() {
 
         henleLoopBottom.style.fill = concentrationToColor(avgHenleBottom);
         henleIntBottom.style.fill = concentrationToColor(bottomInt);
-        glomerulus.style.fill = concentrationToColor(params.Na0);
+        bowmanCap.style.fill = concentrationToColor(params.Na0);
         collectingDuct.style.fill = concentrationToColor(segmentState.asc[nSegments - 1]);
     }
 
