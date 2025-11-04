@@ -156,14 +156,14 @@ export function drawVasaArrows(vasaCtx, R, RNa) {
         const y = j * params.segmentHeightVasa + params.segmentHeightVasa / 2;
 
         // Descending vasa
-        const magWaterDesc = R[params.nVasa - 1 - j] * params.waterArrowScale * params.vasaArrowScale;
+        const magWaterDesc = R[j] * params.waterArrowScale * params.vasaArrowScale;
         const magNaDesc = RNa[j] * params.saltArrowScale * params.vasaArrowScale * params.vasaSaltArrowScale;
 
         drawArrowOn(vasaCtx, xDesc + params.descWidthVasa, y, xDesc + params.descWidthVasa + magWaterDesc, y, "red");
         drawArrowOn(vasaCtx, xDesc + params.descWidthVasa, y, xDesc + params.descWidthVasa - magNaDesc, y, "black");
 
         // Ascending vasa
-        const magWaterAsc = R[params.nVasa - 1 - j] * params.waterArrowScale * params.vasaArrowScale;
+        const magWaterAsc = R[j] * params.waterArrowScale * params.vasaArrowScale;
         const magNaAsc = RNa[j] * params.saltArrowScale * params.vasaArrowScale * params.vasaSaltArrowScale;
 
         drawArrowOn(vasaCtx, xAsc, y, xAsc + magWaterAsc, y, "red");

@@ -65,6 +65,7 @@ function drawAll(
     const showVasa = document.getElementById("showVasa").checked;
 
     drawInterstitiumGradient(segmentState);
+
     // Clear canvases first
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     vasaCtx.clearRect(0, 0, vasaCanvas.width, vasaCanvas.height);
@@ -97,6 +98,14 @@ function drawInterstitiumGradient(segmentState) {
         interCtx.fillStyle = color;
         interCtx.fillRect(0, y, width, segmentHeight);
     }
+
+    const bottomCanvas = document.getElementById("bottomCanvas");
+    const bottomCtx = bottomCanvas.getContext("2d");
+
+    const bottomInt = segmentState.ints[segmentState.ints.length - 1];
+    const color = concentrationToColor(bottomInt);
+    bottomCtx.fillStyle = color;
+    bottomCtx.fillRect(0, 0, bottomCanvas.width, bottomCanvas.height);    
 }
 
 

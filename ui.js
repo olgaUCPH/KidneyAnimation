@@ -29,22 +29,28 @@ export function initUI(modelVars, onReset, onReplay) {
         modelVars.k = parseFloat(e.target.value);
         kValueDisplay.textContent = e.target.value;
         
-        infoText.textContent = ``;
+        infoText.textContent = `Water permeability (k) controls how easily water can leave the descending limb of the loop of Henle.`;
     });
 
     maxRNaSlider.addEventListener("input", (e) => {
         modelVars.maxRNa = parseFloat(e.target.value);
         maxRNaValueDisplay.textContent = e.target.value;
+
+        infoText.textContent = `Maximum NaCl reabsorption rate (maxRNa) controls how much sodium chloride the ascending limb can actively pump out into the interstitium.`;
     });
 
     F0Slider.addEventListener("input", (e) => {
         modelVars.F0 = parseFloat(e.target.value);
         F0ValueDisplay.textContent = e.target.value;
+
+        infoText.textContent = `Inflow rate (F0) sets the initial flow of isotonic fluid entering the descending limb of the loop of Henle.`;
     });
 
     FvasaSlider.addEventListener("input", (e) => {
         modelVars.F0vr = parseFloat(e.target.value); // update live parameter
         FvasaValueDisplay.textContent = e.target.value;
+
+        infoText.textContent = `Vasa recta inflow rate (F0vr) sets the initial flow of blood entering the descending vasa recta.`;
     });
 
 

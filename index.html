@@ -6,15 +6,41 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
+<div class="page-header" style="
+    position: fixed; 
+    top: 5px; 
+    left: 1%;          /* move left edge to the center of the viewport */
+    width: 98%; 
+    text-align: center; 
+    background:  rgba(255, 255, 255, 0.9); /* semi-transparent white */
+    z-index: 100; 
+    padding: 12px 0; 
+    padding-top: 5px;
+    box-shadow: 0 0 8px 4px rgba(0,0,0,0.2); 
+    border-radius: 15px;
+">
+  <h1 style="
+      margin: 0; 
+      font-size: 1.7em; 
+      margin-bottom: 3px;
+      font-family: 'Segoe UI', 'Arial Narrow', Arial, sans-serif
+  ">Medullary concentration gradient</h1>
+  <h2 style="
+      margin: 0; 
+      font-size: 0.8em; 
+      color: #000000;
+      font-family: 'Segoe UI', 'Arial Narrow', Arial, sans-serif;
+      font-weight: 100;
+  ">Created by Katrine Ohms and Sabrina Granberg under the supervision of Olga Sosnovtseva and Niels-Henrik Holstein-Rathlou</h2>
+</div>
 
   
 <div class="grid-container" style="display:flex; align-items:flex-start;">
-    
   <!-- Wrap the main canvas and SVG together -->
-  <div class="canvas-wrapper">
+  <div class="canvas-wrapper" >
     <!-- Interstitium gradient canvas -->
     <canvas id="interstitiumCanvas" width="960" height="1600" style="position:absolute; top:129px; left:-130px; z-index:0;"></canvas>
+    <canvas id="bottomCanvas" width="450" height="70" style="position:absolute; top:345px; left:-130px; z-index:0;"></canvas>
 
     <canvas id="henleCanvas" width="960" height="1600"></canvas>
 
@@ -44,7 +70,7 @@
       <input type="range" id="maxRNaSlider" min="50" max="200" step="1" value="100">
     </li>
     <li>
-      <label for="F0Slider">Flow: <span id="F0Value">2</span> unit</label>
+      <label for="F0Slider">Loop of Henle flow: <span id="F0Value">2</span> unit</label>
       <input type="range" id="F0Slider" min="1" max="4" step="0.1" value="2">
     </li>
     <li>

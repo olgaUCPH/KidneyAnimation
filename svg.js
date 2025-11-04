@@ -2,8 +2,8 @@ import { params } from "./config.js";
 import { concentrationToColor, concentrationToColorVasa } from "./draw.js";
 
 // svg.js
-let henleLoopBottom, henleIntBottom, henleOutline;
-let vasaLoopBottom, vasaIntBottom, vasaOutline;
+let henleLoopBottom, henleOutline;
+let vasaLoopBottom, vasaOutline;
 let vasaDesc, vasaAsc;
 let bowmanCap, collectingDuct;
 
@@ -25,12 +25,12 @@ export function initSvg(segment, vasa) {
 
         // Henle
         henleLoopBottom = svgDoc.getElementById("HenleLoop");
-        henleIntBottom = svgDoc.getElementById("HenleInt");
+        //henleIntBottom = svgDoc.getElementById("HenleInt");
         henleOutline = svgDoc.getElementById("HenleOutline");
 
         // Vasa
         vasaLoopBottom = svgDoc.getElementById("VasaLoop");
-        vasaIntBottom = svgDoc.getElementById("VasaInt");
+        //vasaIntBottom = svgDoc.getElementById("VasaInt");
         vasaOutline = svgDoc.getElementById("VasaOutline");
         vasaDesc = svgDoc.getElementById("VasaDesc");
         vasaAsc = svgDoc.getElementById("VasaAsc");
@@ -56,7 +56,7 @@ export function updateSvgColors() {
     const showHenle = showHenleCheckbox?.checked ?? true;
     const henleDisplay = showHenle ? "inline" : "none";
 
-    [henleLoopBottom, henleIntBottom, henleOutline, bowmanCap, collectingDuct].forEach(el => {
+    [henleLoopBottom, henleOutline, bowmanCap, collectingDuct].forEach(el => {
         if (el) el.style.display = henleDisplay;
     });
 
@@ -65,7 +65,7 @@ export function updateSvgColors() {
         const bottomInt = segmentState.ints[nSegments - 1];
 
         henleLoopBottom.style.fill = concentrationToColor(avgHenleBottom);
-        henleIntBottom.style.fill = concentrationToColor(bottomInt);
+        //henleIntBottom.style.fill = concentrationToColor(bottomInt);
         bowmanCap.style.fill = concentrationToColor(params.Na0);
         collectingDuct.style.fill = concentrationToColor(segmentState.asc[nSegments - 1]);
     }
@@ -74,7 +74,7 @@ export function updateSvgColors() {
     const showVasa = showVasaCheckbox?.checked ?? true;
     const vasaDisplay = showVasa ? "inline" : "none";
 
-    [vasaLoopBottom, vasaIntBottom, vasaOutline, vasaDesc, vasaAsc].forEach(el => {
+    [vasaLoopBottom, vasaOutline, vasaDesc, vasaAsc].forEach(el => {
         if (el) el.style.display = vasaDisplay;
     });
 
@@ -84,7 +84,7 @@ export function updateSvgColors() {
         const topVasaDesc = vasaState.desc[0];
         const topVasaAsc = vasaState.asc[nVasa - 1];
 
-        vasaIntBottom.style.fill = concentrationToColor(bottomInt);
+        //vasaIntBottom.style.fill = concentrationToColor(bottomInt);
         vasaLoopBottom.style.fill = concentrationToColorVasa(avgVasaBottom);
 
         vasaDesc.style.fill = concentrationToColorVasa(topVasaDesc);
