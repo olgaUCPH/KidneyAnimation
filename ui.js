@@ -19,10 +19,17 @@ export function initUI(modelVars, onReset, onReplay) {
     const F0ValueDisplay = document.getElementById("F0Value");
     const FvasaValueDisplay = document.getElementById("FvasaValue"); // NEW
 
+    // Info box and related init
+    const infoText = document.getElementById("infoText");
+    const showHenle = document.getElementById("showHenle");
+    const showVasa = document.getElementById("showVasa");
+
     // ---- Sliders ----
     kSlider.addEventListener("input", (e) => {
         modelVars.k = parseFloat(e.target.value);
         kValueDisplay.textContent = e.target.value;
+        
+        infoText.textContent = ``;
     });
 
     maxRNaSlider.addEventListener("input", (e) => {
@@ -39,6 +46,23 @@ export function initUI(modelVars, onReset, onReplay) {
         modelVars.F0vr = parseFloat(e.target.value); // update live parameter
         FvasaValueDisplay.textContent = e.target.value;
     });
+
+
+    showHenle.addEventListener("change", () => {
+        infoText.textContent = `Countercurrent multiplication occurs in the loop of Henle.
+            - The ascending limb increases the medullary osmolarity by actively pumping sodium and chloride into the medullary interstitium.
+            - The descending limb is permeable to water but not to solutes, so water leaves into the increasingly salty medulla.
+            - This interaction “multiplies” small differences in solute concentration along the loop, creating a steep osmotic gradient in the medulla.`;
+    });
+
+    showVasa.addEventListener("change", () => {
+        infoText.textContent = `Countercurrent exchange happens in the vasa recta.
+            - Descending limb blood loses water and gains sodium chloride.
+            - Ascending limb blood gains water and loses sodium chloride.
+            - This helps maintain the medullary gradient while allowing nutrient and gas exchange.`;
+    
+    });
+
 
     // ---- Reset button ----
     const resetButton = document.getElementById("resetButton");
