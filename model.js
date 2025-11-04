@@ -123,9 +123,11 @@ export function vasaEulerStep(segmentState, vasaState, dt = params.dt, modelVars
         const Rna = dNa.desc[i] + dNa.asc[nVasa - 1 - i];
         const RH2O = Rdvr[i] + Ravr[nVasa - 1 - i];
 
+        dNa.ints[i] = (3000 + Rna) / (10 + RH2O) - 300;
+
          // update interstitium (or vasa) with coupling
-        segmentState.ints[i] += (Rna) * dt;    // Na flux
-        segmentState.ints[i] += (RH2O) * dt;   // water flux
+        //segmentState.ints[i] += (Rna) * dt;    // Na flux
+        //segmentState.ints[i] += (RH2O) * dt;   // water flux
     }
 
     // ---- UPDATE VASA STATE ----
