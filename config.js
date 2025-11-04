@@ -13,13 +13,14 @@ export const params = {
     F0: 2,             // Flow of isotonic fluid into the descending limb
 
     // -- 1.3 Vasa recta parameters --
-    kdvr: 0.01,        // Water permeability, descending vasa recta
-    kavr: 0.01,        // Water permeability, ascending vasa recta
-    knadvr: 0.001,     // Na permeability, descending
-    knaavr: 0.001,     // Na permeability, ascending
-    F0vr: 1.3,         // Flow into descending vasa recta
+    // DIFFERENT VALUES TO MATLAB
+    kdvr: 0.0005,        // Water permeability, descending vasa recta
+    kavr: 0.0005,        // Water permeability, ascending vasa recta
+    knadvr: 0.0005,     // Na permeability, descending
+    knaavr: 0.0005,     // Na permeability, ascending
+    F0vr: 1.7,         // Flow into descending vasa recta
 
-    // -- 1.4 Henle graph --
+    // -- 1.4 Henle graph --    
     nSegments: 20,
     totalHeight: 400,
     totalWidth: 240,
@@ -35,8 +36,9 @@ export const params = {
     // -- 1.5 Arrows --
     waterArrowScale: 350,
     saltArrowScale: 0.8,
-    vasaArrowScale: 1,
-    vasaSaltArrowScale: 1,
+
+    vasaArrowScale: 0.8,
+    vasaSaltArrowScale: 800,
 
     // -- 1.6 Vasa recta graph --
     nVasa: 20,

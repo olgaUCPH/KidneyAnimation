@@ -33,7 +33,8 @@ initSvg(segmentState, vasaState);
 const modelVars = {
     k: 0.0005,
     maxRNa: 100,
-    F0: 2
+    F0: 2,
+    F0vr: 1.3
 };
 
 // ---- UI callbacks ----

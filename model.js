@@ -64,14 +64,14 @@ export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.
  * @param {Object} segmentState - Henle segment state
  * @param {Object} vasaState - { desc: [], asc: [] }
  * @param {number} dt - time step
- * @param {Object} modelVars - { F0 } (or additional vars if you want sliders to affect vasa)
+ * @param {Object} modelVars - {F0vr} (vasa recta inlet flow, from slider)
  * @returns {Object} fluxes for visualization
  */
-export function vasaEulerStep(segmentState, vasaState, dt = params.dt, modelVars = { F0: params.F0 }) {
+export function vasaEulerStep(segmentState, vasaState, dt = params.dt, modelVars = { F0vr: params.F0vr }) {
     const nVasa = params.nVasa;
-    const { F0 } = modelVars;
+    const { F0vr } = modelVars;
 
-    const dNa = { desc: new Array(nVasa).fill(0), asc: new Array(nVasa).fill(0) };
+    const dNa = { desc: new Array(nVasa).fill(0), asc: new Array(nVasa).fill(0), ints: new Array(nVasa).fill(0) };
     const Rdvr = new Array(nVasa).fill(0);
     const Fdvr = new Array(nVasa).fill(0);
     const Ravr = new Array(nVasa).fill(0);
@@ -79,13 +79,13 @@ export function vasaEulerStep(segmentState, vasaState, dt = params.dt, modelVars
     const knadFluxDesc = new Array(nVasa).fill(0);
     const knaFluxAsc = new Array(nVasa).fill(0);
 
-    // Descending vasa recta
+    // ---- DESCENDING VASA ----
     for (let i = 0; i < nVasa; i++) {
         Rdvr[i] = params.kdvr * (segmentState.ints[i] - vasaState.desc[i]);
 
         if (i === 0) {
-            Fdvr[i] = F0 - Rdvr[i]; // use F0 from sliders if desired
-            dNa.desc[i] = F0 * params.Na0
+            Fdvr[i] = F0vr - Rdvr[i];
+            dNa.desc[i] = F0vr * params.Na0
                         - Fdvr[i] * vasaState.desc[i]
                         - params.knadvr * (vasaState.desc[i] - segmentState.ints[i]);
         } else {
@@ -98,11 +98,10 @@ export function vasaEulerStep(segmentState, vasaState, dt = params.dt, modelVars
         knadFluxDesc[i] = params.knadvr * (vasaState.desc[i] - segmentState.ints[i]);
     }
 
-    // Ascending vasa recta
+    // ---- ASCENDING VASA ----
     const F0avr = Fdvr[nVasa - 1];
     for (let i = 0; i < nVasa; i++) {
         const revIndex = nVasa - 1 - i;
-
         Ravr[i] = params.kavr * (segmentState.ints[revIndex] - vasaState.asc[i]);
 
         if (i === 0) {
@@ -118,7 +117,14 @@ export function vasaEulerStep(segmentState, vasaState, dt = params.dt, modelVars
         knaFluxAsc[i] = params.knaavr * (vasaState.asc[i] - segmentState.ints[revIndex]);
     }
 
-    // Update vasa state
+    // ---- INTERSTITIUM COUPLING ----
+    for (let i = 0; i < nVasa; i++) {
+        // combine descending & ascending Na fluxes
+        const Rna = dNa.desc[i] + dNa.asc[nVasa - 1 - i];
+        const RH2O = Rdvr[i] + Ravr[nVasa - 1 - i];
+    }
+
+    // ---- UPDATE VASA STATE ----
     for (let i = 0; i < nVasa; i++) {
         vasaState.desc[i] += dNa.desc[i] * dt;
         vasaState.asc[i] += dNa.asc[i] * dt;
@@ -126,7 +132,8 @@ export function vasaEulerStep(segmentState, vasaState, dt = params.dt, modelVars
 
     return {
         Rdvr, Fdvr, Ravr, Favr,
-        R: Rdvr,           // alias for drawing
+        R: Rdvr,
         RNa: knaFluxAsc
     };
+    
 }

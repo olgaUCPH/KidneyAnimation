@@ -1,43 +1,47 @@
 // ==================== draw.js ====================
 import { params } from "./config.js";
+import { data, evaluate_cmap } from './colormaps.js';
 
 /**
- * Map osmolarity to Henle loop color
+ * Map osmolarity to Henle loop color using a colormap
  */
+
+
+// Pick a colormap.
+const HenleColormap = (x) => evaluate_cmap(x, 'turbo', false);
+const VasaColormap = (x) => evaluate_cmap(x, 'coolwarm', true);
+
 export function concentrationToColor(c) {
-    const ratio = Math.min(1, Math.max(0, c / params.maxConcentration));
-    let r, g, b;
+    const cMin = 0;
+    const cMax = params.maxConcentration;
+    const clamped = Math.min(cMax, Math.max(cMin, c));
 
-    if (ratio < 0.33) {
-        const t = ratio / 0.33;
-        r = 0;
-        g = Math.round(255 * t);
-        b = 255;
-    } else if (ratio < 0.66) {
-        const t = (ratio - 0.33) / 0.33;
-        r = Math.round(255 * t);
-        g = 255;
-        b = Math.round(255 * (1 - t));
-    } else {
-        const t = (ratio - 0.66) / 0.34;
-        r = 255;
-        g = Math.round(255 - t * (255 - 165));
-        b = 0;
-    }
+    // Normalize to [0, 1]
+    const ratio = (clamped - cMin) / (cMax - cMin);
+   
+    // Use the colormap function
+    const [r, g, b] = HenleColormap(ratio);
 
     return `rgb(${r}, ${g}, ${b})`;
 }
 
-/**
- * Map osmolarity to Vasa Recta color
- */
+
 export function concentrationToColorVasa(c) {
-    const ratio = Math.min(1, Math.max(0, c / params.maxConcentration));
-    const r = Math.round(255 * ratio);
-    const g = 0;
-    const b = Math.round(255 * (1 - ratio));
+    // Clamp the concentration to [100, max-100]
+    const cMin = 200;
+    const cMax = params.maxConcentration - 300;
+    const clamped = Math.min(cMax, Math.max(cMin, c));
+
+    // Normalize to [0, 1]
+    const ratio = (clamped - cMin) / (cMax - cMin);
+
+    // Use the colormap function
+    const [r, g, b] = VasaColormap(ratio);
+
     return `rgb(${r}, ${g}, ${b})`;
 }
+
+
 
 /**
  * Draw Henle loop
@@ -151,19 +155,22 @@ export function drawVasaArrows(vasaCtx, R, RNa) {
     for (let j = 0; j < params.nVasa; j++) {
         const y = j * params.segmentHeightVasa + params.segmentHeightVasa / 2;
 
-        const magNaDesc = RNa[j] / 200 * params.vasaArrowScale;
+        // Descending vasa
+        const magWaterDesc = R[params.nVasa - 1 - j] * params.waterArrowScale * params.vasaArrowScale;
+        const magNaDesc = RNa[j] * params.saltArrowScale * params.vasaArrowScale * params.vasaSaltArrowScale;
+
+        drawArrowOn(vasaCtx, xDesc + params.descWidthVasa, y, xDesc + params.descWidthVasa + magWaterDesc, y, "red");
         drawArrowOn(vasaCtx, xDesc + params.descWidthVasa, y, xDesc + params.descWidthVasa - magNaDesc, y, "black");
 
-        const magWaterDesc = 5 * R[params.nVasa - 1 - j] * params.vasaArrowScale;
-        drawArrowOn(vasaCtx, xDesc + params.descWidthVasa, y, xDesc + params.descWidthVasa + magWaterDesc, y, "red");
+        // Ascending vasa
+        const magWaterAsc = R[params.nVasa - 1 - j] * params.waterArrowScale * params.vasaArrowScale;
+        const magNaAsc = RNa[j] * params.saltArrowScale * params.vasaArrowScale * params.vasaSaltArrowScale;
 
-        const magNaAsc = RNa[j] / 200 * params.vasaArrowScale;
-        drawArrowOn(vasaCtx, xAsc, y, xAsc - magNaAsc, y, "black");
-
-        const magWaterAsc = 5 * R[params.nVasa - 1 - j] * params.vasaArrowScale;
         drawArrowOn(vasaCtx, xAsc, y, xAsc + magWaterAsc, y, "red");
+        drawArrowOn(vasaCtx, xAsc, y, xAsc - magNaAsc, y, "black");
     }
 }
+
 
 /**
  * Draw color bar for Henle loop
