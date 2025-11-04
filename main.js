@@ -116,10 +116,24 @@ function drawInterstitiumGradient(segmentState) {
 
 
 // ---- Animation loop ----
+let stepsPerFrame = params.eulerStepsPerFrame; // can be changed by speed input
+const speedInput = document.getElementById("speedInput"); // your spin box
+
+speedInput.addEventListener("input", (e) => {
+    let multiplier = parseFloat(e.target.value);
+
+    // clamp to allowed range if you want
+    multiplier = Math.min(Math.max(multiplier, 0.25), 4);
+
+    // update stepsPerFrame
+    stepsPerFrame = Math.max(1, Math.round(params.eulerStepsPerFrame * multiplier));
+});
+
+
 setInterval(() => {
     let fluxes, vasaFluxes;
 
-    for (let n = 0; n < params.eulerStepsPerFrame; n++) {
+    for (let n = 0; n < stepsPerFrame; n++) {
         fluxes = eulerStep(segmentState, params.dt, modelVars);
         vasaFluxes = vasaEulerStep(segmentState, vasaState, params.dt, modelVars);
     }
