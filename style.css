@@ -42,8 +42,13 @@ canvas {
 #colorBar {
   width: 40px;    /* display size for color bar */
   height: 400px;
-  margin-top: 85px;     /* adjust vertical position as needed */
-  margin-right: 40px; /* pushes the slider list further to the right */
+  margin-right: 0px; /* pushes the slider list further to the right */
+}
+
+#colorBarVasa {
+  width: 40px;    /* display size for color bar */
+  height: 400px;
+  margin-right: 20px; /* pushes the slider list further to the right */
 }
 
 #parameterList {

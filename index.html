@@ -51,8 +51,32 @@
   </div>
 
  
-  <!-- Keep color bar beside -->
-  <canvas id="colorBar" width="160" height="1600" style="margin-left:10px;"></canvas>
+  <!-- Color bars beside each other -->
+    <div class="colorbars" style="
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 10px;
+      margin-left: 10px;
+    ">
+      <!-- Henle color bar -->
+      <div class="colorbar-wrapper" style="text-align: center; margin-top: 63px;">
+        <div class="colorbar-title" style="font-family: Arial; font-size: 12px; margin-bottom: 8px;">
+          mOsm/L
+        </div>
+        <canvas id="colorBar" width="160" height="1600" style="width:40px; height:400px;"></canvas>
+      </div>
+
+      <!-- Vasa color bar -->
+      <div class="colorbar-wrapper" style="text-align: center; margin-top: 63px;">
+        <div class="colorbar-title" style="font-family: Arial; font-size: 12px; margin-bottom: 8px;">
+          mOsm/L
+        </div>
+        <canvas id="colorBarVasa" width="160" height="1600" style="width:40px; height:400px; margin-right:20px;"></canvas>
+      </div>
+    </div>
+
+
 
 
 </div>

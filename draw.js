@@ -175,31 +175,61 @@ export function drawVasaArrows(vasaCtx, R, RNa) {
 /**
  * Draw color bar for Henle loop
  */
-export function drawColorBar(ctxBar) {
+export function drawColorBar(ctxBar, mode) {
     const height = ctxBar.canvas.height;
     const width = ctxBar.canvas.width;
-    const nTicks = params.maxConcentration / params.colorbarTickStep;
 
+    let cMin, cMax, colorFunc;
+
+    // Set range and color function depending on mode
+    if (mode === 'vasa') {
+        cMin = 200;
+        cMax = params.maxConcentration - 300;
+        colorFunc = concentrationToColorVasa;
+    }
+    else if (mode === 'henle') {
+        cMin = 200;
+        cMax = params.maxConcentration;
+        colorFunc = concentrationToColor;
+    } else {
+        cMin = 0;
+        cMax = params.maxConcentration;
+        colorFunc = concentrationToColorHenle;
+    }
+
+    const range = cMax - cMin;
+    const nTicks = Math.floor(range / params.colorbarTickStep);
+
+    // Draw gradient
     for (let i = 0; i < height; i++) {
-        const c = params.maxConcentration * i / height;
-        ctxBar.fillStyle = concentrationToColor(c);
+        const c = cMin + (i / height) * range;
+        ctxBar.fillStyle = colorFunc(c);
         ctxBar.fillRect(0, i, width, 1);
     }
 
+    // Draw tick marks and labels
     ctxBar.strokeStyle = "black";
     ctxBar.fillStyle = "black";
     ctxBar.font = "50px Arial";
     ctxBar.textAlign = "right";
     ctxBar.textBaseline = "middle";
-    ctxBar.lineWidth = 5;
+    ctxBar.lineWidth = 4; // <-- bolder lines
 
+    // Tick marks
     for (let t = 0; t <= nTicks; t++) {
-        const value = t * params.colorbarTickStep;
-        const y = (value / params.maxConcentration) * height;
-        ctxBar.beginPath();
-        ctxBar.moveTo(width - 25, y);
-        ctxBar.lineTo(width, y);
-        ctxBar.stroke();
-        ctxBar.fillText(value, width - 30, y);
+        const value = cMin + t * params.colorbarTickStep;
+        const y = ((value - cMin) / range) * height;
+
+        // ✅ Skip ticks that would be too close to the top or bottom edges
+        if (y > 20 && y < height - 20) {
+            ctxBar.beginPath();
+            ctxBar.moveTo(width - 25, y);
+            ctxBar.lineTo(width, y);
+            ctxBar.stroke();
+
+            ctxBar.fillText(value.toFixed(0), width - 30, y);
+        }
     }
 }
+
+

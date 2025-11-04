@@ -23,6 +23,10 @@ vasaCtx.scale(4, 4);
 const colorBarCanvas = document.getElementById("colorBar");
 const ctxBar = colorBarCanvas.getContext("2d");
 
+const colorBarVasaCanvas = document.getElementById("colorBarVasa");
+const ctxBarVasa = colorBarVasaCanvas.getContext("2d");
+
+
 // ---- Model state ----
 const segmentState = createSegmentState();
 const vasaState = createVasaState();
@@ -80,7 +84,8 @@ function drawAll(
         drawVasaArrows(vasaCtx, vasaFluxes.R, vasaFluxes.RNa);
     }
 
-    drawColorBar(ctxBar);
+    drawColorBar(ctxBar, 'henle');
+    drawColorBar(ctxBarVasa, 'vasa');
 }
 
 // ---- Draw interstitium gradient ----
