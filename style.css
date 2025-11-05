@@ -140,6 +140,13 @@
     margin: 20px 0;
     margin-top: 90px;    /* List vertical alignment */
     width: 400px;
+    height: 390px;
+
+    margin-left: 10px;
+    background-color: #fdfdfd; /* light box background */
+    border: 0px solid #333;    /* outline */
+    border-radius: 6px;         /* rounded corners */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* subtle shadow */
   }
 
   #parameterList li {
@@ -173,20 +180,35 @@
     flex-direction: column;
   }
 
+  #speedInput {
+    width: 60px;              /* control width */
+    height: 18px;             /* control height */
+    padding: 4px 8px;         /* inner spacing */
+    font-size: 14px;          /* readable text */
+    border: 1px solid #ccc;   /* subtle border */
+    border-radius: 4px;       /* rounded corners */
+    background-color: #fff;   /* white background */
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); /* subtle inner shadow */
+    text-align: center;       /* center the number */
+  }
+
+  
+
 /* =========================
    Info Box
    ========================= */
   #infoText {
       white-space: pre-line;
+      font-size: 14px;
   }
 
   #infoBox {
-    background-color: #f9f9f9; /* light background */
-    border: 1px solid #333;    /* square outline around the box */
+    background-color: #fafafa; /* light background */
+    border: 2px solid #cecece;    /* square outline around the box */
     border-radius: 4px;         /* slightly rounded corners */
     padding: 10px;              /* inner spacing */
-    width: 400px;           /* optional: constrain width */
-    height: 170px;
+    width: 94%;           /* optional: constrain width */
+    height: 34%;
     margin-top: 0; /* remove space above the box */
     overflow-y: auto;  /* Vertical scrollbar for overflow */
   }
