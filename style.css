@@ -1,168 +1,213 @@
-/* style.css */
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: #f0f0f0;
-}
+/* =========================
+   Reset & Global Styles
+   ========================= */
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f0f0f0;
+  }
 
-/* Prevent page scroll */
-html, body {
+  html, body {
     margin: 0;
     padding: 0;
-    overflow: hidden; /* hides scrollbars */
-    height: 100vh;    /* force viewport height */
-}
+    overflow: auto;
+    height: 102vh;    /* force viewport height */
 
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-weight: 100;
+    font-size: 14px;
+    color: #222; /* optional default text color */
+  }
 
-#infoText {
-    white-space: pre-line;
-}
+/* =========================
+  Header
+  ========================= */
+  .page-header {
+    position: fixed;
+    top: 5px;
+    left: 1%;
+    width: 98%;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.9);
+    z-index: 100;
+    padding: 5px 0 12px 0;
+    box-shadow: 0 0 8px 4px rgba(0,0,0,0.2);
+    border-radius: 5px;
+  }
 
+  .page-header h1 {
+    margin: 0 0 3px 0;
+    font-size: 1.7em;
+    font-family: 'Segoe UI', 'Arial Narrow', Arial, sans-serif;
+  }
 
-
-.grid-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  column-gap: 70px;;
-}
-
-canvas {
-  border: none;
-  image-rendering: crisp-edges; /* keeps rectangles crisp */
-}
-
-#henleCanvas {
-  width: 240px;   /* display size for loop */
-  height: 400px;
-}
-
-#colorBar {
-  width: 40px;    /* display size for color bar */
-  height: 400px;
-  margin-right: 0px; /* pushes the slider list further to the right */
-}
-
-#colorBarVasa {
-  width: 40px;    /* display size for color bar */
-  height: 400px;
-  margin-right: 20px; /* pushes the slider list further to the right */
-}
-
-#parameterList {
-  list-style: none;       /* remove bullets */
-  padding: 10px;
-  margin: 20px 0;
-  margin-top: 90px;    /* List vertical alignment */
-  width: 300px;
-}
-
-#parameterList li {
-  margin-bottom: 15px;
-}
-
-#parameterList label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-#parameterList input[type="range"] {
-  width: 100%;
-}
-
-.canvas-wrapper {
-  position: relative;       /* create positioning context */
-  width: 240px;             /* match your canvas */
-  height: 400px;
-  padding-right: 10px;
-  margin-top: 70px;
-}
-
-#henleCanvas {
-  position: absolute;
-  top: 129px;
-  left: -20px;
-  width: 125px;
-  height: 220px;
-  display: block;
-}
-
-
-#vasaCanvas {
-  position: absolute;
-  top: 129px;
-  left: 114px;
-  width: 132px;
-  height: 220px;
-  display: block;
-}
-
-#overlaySvg {
-  position: absolute;
-  top: -180px;
-  left: -100px;
-  width: 400px;              /* match canvas dimensions */
-  height: 800px;
-  pointer-events: none;     /* allow mouse input to reach the canvas */
-}
-
-#interstitiumCanvas {
-  position: absolute;
-  left:100px;       
-  width: 450px;             /* displayed width on screen */
-  height: 220px;            /* displayed height on screen */
-  z-index: 0;               /* behind other canvases */
-  box-sizing: border-box;
-}
-
-#slidersGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* two columns of equal width */
-  gap: 0px; /* space between items */
-  list-style: none;
-  width: 450px;
-  padding: 0;
-  padding-bottom: 10px;
-}
-
-#slidersGrid li {
-  display: flex;
-  flex-direction: column;
-}
+  .page-header h2 {
+    margin: 0;
+    font-size: 0.8em;
+    color: #000;
+    font-family: 'Segoe UI', 'Arial Narrow', Arial, sans-serif;
+    font-weight: 100;
+  }
 
 
 
-#parameterList li:has(input[type="range"]) {
-  margin-bottom: 0px; /* Adjust vertical spacing between sliders */
-}
+/* =========================
+   Grid & Layout Containers
+   ========================= */  
+  .grid-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 70px;;
+  }
 
-/* Slider width */
-#parameterList input[type="range"] {
-  width: 130px; /* Adjust as needed */
-}
+/* Wrapper for individual canvases */
+  .canvas-wrapper {
+    position: relative;       /* create positioning context */
+    width: 240px;             /* match your canvas */
+    height: 400px;
+    padding-right: 10px;
+    margin-top: 70px;
+  }
+
+/* =========================
+   Individual Canvases
+   ========================= */
+/* Henle canvas */
+  #henleCanvas {
+    position: absolute;
+    top: 129px;
+    left: -20px;
+    width: 125px;
+    height: 220px;
+    display: block;
+  }
+/* Vasa canvas */
+  #vasaCanvas {
+    position: absolute;
+    top: 129px;
+    left: 114px;
+    width: 132px;
+    height: 220px;
+    display: block;
+  }
+
+/* Interstitium canvas */
+  #interstitiumCanvas {
+    position: absolute;
+    left:100px;       
+    width: 450px;             /* displayed width on screen */
+    height: 220px;            /* displayed height on screen */
+    z-index: 0;               /* behind other canvases */
+    box-sizing: border-box;
+  }
 
 
-#infoBox {
-  background-color: #f9f9f9; /* light background */
-  border: 1px solid #333;    /* square outline around the box */
-  border-radius: 4px;         /* slightly rounded corners */
-  padding: 10px;              /* inner spacing */
-  width: 400px;           /* optional: constrain width */
-  height: 170px;
-  margin-top: 0; /* remove space above the box */
-  overflow-y: auto;  /* Vertical scrollbar for overflow */
-}
+/* =========================
+   Overlay Elements
+   ========================= */
+  #overlaySvg {
+    position: absolute;
+    top: -180px;
+    left: -100px;
+    width: 400px;              /* match canvas dimensions */
+    height: 800px;
+    pointer-events: none;     /* allow mouse input to reach the canvas */
+  }
 
-#infoBox h3 {
-  margin: 0 0 5px 0;          /* remove top margin, small bottom margin */
-  font-size: 1.2em;           /* slightly larger title */
-}
+/* =========================
+   Color Bars
+   ========================= */
+  #colorBar {
+    width: 40px;    /* display size for color bar */
+    height: 400px;
+    margin-right: 0px; /* pushes the slider list further to the right */
+  }
 
-#infoBox p {
-  margin: 0;                  /* remove default paragraph margin */
-  line-height: 1.4;           /* improves readability */
-}
+  #colorBarVasa {
+    width: 40px;    /* display size for color bar */
+    height: 400px;
+    margin-right: 20px; /* pushes the slider list further to the right */
+  }
+
+/* =========================
+   Parameter List & Sliders
+   ========================= */
+  #parameterList {
+    list-style: none;       /* remove bullets */
+    padding: 10px;
+    margin: 20px 0;
+    margin-top: 90px;    /* List vertical alignment */
+    width: 400px;
+  }
+
+  #parameterList li {
+    margin-bottom: 15px;
+  }
+
+  #parameterList label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 400;
+  }
+
+  #parameterList input[type="range"] {
+    width: 70%;
+  
+  }
+
+  /* Sliders */
+  #slidersGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* two columns of equal width */
+    gap: 0px; /* space between items */
+    list-style: none;
+    width: 450px;
+    padding: 0;
+    padding-bottom: 0px;
+  }
+
+  #slidersGrid li {
+    display: flex;
+    flex-direction: column;
+  }
+
+/* =========================
+   Info Box
+   ========================= */
+  #infoText {
+      white-space: pre-line;
+  }
+
+  #infoBox {
+    background-color: #f9f9f9; /* light background */
+    border: 1px solid #333;    /* square outline around the box */
+    border-radius: 4px;         /* slightly rounded corners */
+    padding: 10px;              /* inner spacing */
+    width: 400px;           /* optional: constrain width */
+    height: 170px;
+    margin-top: 0; /* remove space above the box */
+    overflow-y: auto;  /* Vertical scrollbar for overflow */
+  }
+
+  #infoBox h3 {
+    margin: 0 0 5px 0;          /* remove top margin, small bottom margin */
+    font-size: 1.2em;           /* slightly larger title */
+    font-weight: 600
+  }
+
+  #infoBox p {
+    margin: 0;                  /* remove default paragraph margin */
+    line-height: 1.4;           /* improves readability */
+  }
+
+/* =========================
+   Misc / Utility
+   ========================= */
+
+
+
+
+
 

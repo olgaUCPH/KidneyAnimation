@@ -1,14 +1,14 @@
 // ==================== main.js ====================
 
 
-import { params } from "./config.js";
-import { createSegmentState, createVasaState } from "./state.js";
-import { eulerStep, vasaEulerStep } from "./model.js";
-import { drawHenle, drawVasa, drawArrows, drawVasaArrows, drawColorBar } from "./draw.js";
-import { initUI } from "./ui.js";
-import { createFilledArray } from "./utils.js";
-import { initSvg, updateSvgColors } from "./svg.js";
-import { concentrationToColor } from "./draw.js";
+    import { params } from "./config.js";
+    import { createSegmentState, createVasaState } from "./state.js";
+    import { eulerStep, vasaEulerStep } from "./model.js";
+    import { drawHenle, drawVasa, drawArrows, drawVasaArrows, drawColorBar } from "./draw.js";
+    import { initUI } from "./ui.js";
+    import { createFilledArray } from "./utils.js";
+    import { initSvg, updateSvgColors } from "./svg.js";
+    import { concentrationToColor } from "./draw.js";
 
 
 // ---- Canvas contexts ----
