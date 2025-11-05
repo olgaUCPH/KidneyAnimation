@@ -79,6 +79,7 @@ function showQuestion(index) {
   // Submit button
   const button = document.createElement('button');
   button.textContent = 'Submit';
+  button.id = 'submitMCQ'; 
   mcqContainer.appendChild(button);
 
   // Feedback paragraph
