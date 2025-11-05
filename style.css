@@ -3,7 +3,7 @@
    ========================= */
   body {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     background: #f0f0f0;
   }
@@ -70,6 +70,15 @@
     padding-right: 10px;
     margin-top: 70px;
   }
+
+  .top-row {
+  display: flex;              /* align canvas + parameter list side by side */
+  justify-content: center;    /* center horizontally */
+  align-items: flex-start;    /* align tops of children */
+  column-gap: 70px;           /* space between canvas and parameter list */
+  margin-top: 30px;           /* space below the header */
+}
+
 
 /* =========================
    Individual Canvases
@@ -138,11 +147,11 @@
     list-style: none;       /* remove bullets */
     padding: 10px;
     margin: 20px 0;
-    margin-top: 90px;    /* List vertical alignment */
+    margin-top: 70px;    /* List vertical alignment */
     width: 400px;
-    height: 390px;
+    height: 395px;
 
-    margin-left: 10px;
+    margin-left: 0px;
     background-color: #fdfdfd; /* light box background */
     border: 0px solid #333;    /* outline */
     border-radius: 6px;         /* rounded corners */
@@ -224,9 +233,71 @@
     line-height: 1.4;           /* improves readability */
   }
 
+  /* =========================
+   MCQ
+   ========================= */
+   .mcq-module {
+  background-color: #fafafa;
+  border: 2px solid #cecece;
+  border-radius: 6px;
+  padding: 15px;
+  margin-top: 10px;
+  width: 94%;  /* matches your info box */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.mcq-module h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.2em;
+}
+
+.mcq-question {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.mcq-options {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+.mcq-options li {
+  margin-bottom: 8px;
+}
+
+.mcq-options label {
+  cursor: pointer;
+}
+
+#submitMCQ {
+  padding: 6px 12px;
+  font-size: 14px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+#submitMCQ:hover {
+  background-color: #e6e6e6;
+}
+
+#mcqFeedback {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+
 /* =========================
    Misc / Utility
    ========================= */
+   .block-break {
+    display:block;
+    width: 100%;    /* Full width of the parent container */
+    height: 0px;   /* Height of the space you want */
+}
+
 
 
 
