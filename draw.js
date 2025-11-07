@@ -102,13 +102,20 @@ export function drawArrowOn(ctx, x1, y1, x2, y2, color) {
     ctx.fillStyle = color;
     ctx.lineWidth = 2;
 
+    const angle = Math.atan2(y2 - y1, x2 - x1);
+    const headLength = 6; // length of the triangle head
+
+    // Shorten the main line to end at base of arrowhead
+    const xEnd = x2 - headLength/2 * Math.cos(angle);
+    const yEnd = y2 - headLength/2 * Math.sin(angle);
+
+    // Draw main line
     ctx.beginPath();
     ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
+    ctx.lineTo(xEnd, yEnd);
     ctx.stroke();
 
-    const angle = Math.atan2(y2 - y1, x2 - x1);
-    const headLength = 6;
+    // Draw arrowhead
     ctx.beginPath();
     ctx.moveTo(x2, y2);
     ctx.lineTo(x2 - headLength * Math.cos(angle - Math.PI / 6),
@@ -128,9 +135,9 @@ export function drawArrows(ctx, R, RNa) {
         const magnitude = Math.abs(R[i]) * params.waterArrowScale;
 
         if (R[i] > 0) {
-            drawArrowOn(ctx, params.descWidth, y, params.descWidth + magnitude, y, "black");
+            drawArrowOn(ctx, params.descWidth, y, params.descWidth + magnitude, y, "red");
         } else if (R[i] < 0) {
-            drawArrowOn(ctx, params.descWidth, y, params.descWidth - magnitude, y, "black");
+            drawArrowOn(ctx, params.descWidth, y, params.descWidth - magnitude, y, "red");
         }
     }
 
@@ -140,7 +147,7 @@ export function drawArrows(ctx, R, RNa) {
         const y = revIndex * params.segmentHeight + params.segmentHeight / 2;
         const magnitude = Math.abs(RNa[j]) * params.saltArrowScale;
         if (RNa[j] > 0) {
-            drawArrowOn(ctx, ascX, y, ascX - magnitude, y, "red");
+            drawArrowOn(ctx, ascX, y, ascX - magnitude, y, "black");
         }
     }
 }
@@ -159,15 +166,15 @@ export function drawVasaArrows(vasaCtx, R, RNa) {
         const magWaterDesc = R[j] * params.waterArrowScale * params.vasaArrowScale;
         const magNaDesc = RNa[j] * params.saltArrowScale * params.vasaArrowScale * params.vasaSaltArrowScale;
 
-        drawArrowOn(vasaCtx, xDesc + params.descWidthVasa, y, xDesc + params.descWidthVasa - magWaterDesc, y, "red");
-        drawArrowOn(vasaCtx, xDesc + params.descWidthVasa, y, xDesc + params.descWidthVasa + magNaDesc, y, "black");
+        drawArrowOn(vasaCtx, xDesc + params.descWidthVasa, y, xDesc + params.descWidthVasa + magWaterDesc, y, "red");
+        drawArrowOn(vasaCtx, xDesc + params.descWidthVasa, y, xDesc + params.descWidthVasa - magNaDesc, y, "black");
 
         // Ascending vasa
         const magWaterAsc = R[j] * params.waterArrowScale * params.vasaArrowScale;
         const magNaAsc = RNa[j] * params.saltArrowScale * params.vasaArrowScale * params.vasaSaltArrowScale;
 
-        drawArrowOn(vasaCtx, xAsc, y, xAsc - magWaterAsc, y, "red");
-        drawArrowOn(vasaCtx, xAsc, y, xAsc + magNaAsc, y, "black");
+        drawArrowOn(vasaCtx, xAsc, y, xAsc + magWaterAsc, y, "red");
+        drawArrowOn(vasaCtx, xAsc, y, xAsc - magNaAsc, y, "black");
     }
 }
 
