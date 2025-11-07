@@ -8,7 +8,7 @@
     import { initUI } from "./ui.js";
     import { createFilledArray } from "./utils.js";
     import { initSvg, updateSvgColors } from "./svg.js";
-    import { concentrationToColor } from "./draw.js";
+    import { concentrationToColor, drawLegend } from "./draw.js";
 
 
 // ---- Canvas contexts ----
@@ -111,6 +111,8 @@ function drawInterstitiumGradient(segmentState) {
     const color = concentrationToColor(bottomInt);
     bottomCtx.fillStyle = color;
     bottomCtx.fillRect(0, 0, bottomCanvas.width, bottomCanvas.height);    
+    drawLegend(bottomCtx)   
+
 }
 
 

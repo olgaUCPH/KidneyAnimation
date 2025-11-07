@@ -159,15 +159,15 @@ export function drawVasaArrows(vasaCtx, R, RNa) {
         const magWaterDesc = R[j] * params.waterArrowScale * params.vasaArrowScale;
         const magNaDesc = RNa[j] * params.saltArrowScale * params.vasaArrowScale * params.vasaSaltArrowScale;
 
-        drawArrowOn(vasaCtx, xDesc + params.descWidthVasa, y, xDesc + params.descWidthVasa + magWaterDesc, y, "red");
-        drawArrowOn(vasaCtx, xDesc + params.descWidthVasa, y, xDesc + params.descWidthVasa - magNaDesc, y, "black");
+        drawArrowOn(vasaCtx, xDesc + params.descWidthVasa, y, xDesc + params.descWidthVasa - magWaterDesc, y, "red");
+        drawArrowOn(vasaCtx, xDesc + params.descWidthVasa, y, xDesc + params.descWidthVasa + magNaDesc, y, "black");
 
         // Ascending vasa
         const magWaterAsc = R[j] * params.waterArrowScale * params.vasaArrowScale;
         const magNaAsc = RNa[j] * params.saltArrowScale * params.vasaArrowScale * params.vasaSaltArrowScale;
 
-        drawArrowOn(vasaCtx, xAsc, y, xAsc + magWaterAsc, y, "red");
-        drawArrowOn(vasaCtx, xAsc, y, xAsc - magNaAsc, y, "black");
+        drawArrowOn(vasaCtx, xAsc, y, xAsc - magWaterAsc, y, "red");
+        drawArrowOn(vasaCtx, xAsc, y, xAsc + magNaAsc, y, "black");
     }
 }
 
@@ -233,3 +233,23 @@ export function drawColorBar(ctxBar, mode) {
 }
 
 
+export function drawLegend(ctx, scale = 0.7) {
+  ctx.save();                  // save current state
+  ctx.scale(scale, scale);     // scale everything
+
+  ctx.font = "14px Arial";   
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+
+  // NaCl flux (black)
+  ctx.fillStyle = "black";
+  ctx.fillText("NaCl flux", 10 / scale, 20 / scale);
+  drawArrowOn(ctx, 60 / scale, 20 / scale, 80 / scale, 20 / scale, "black");
+
+  // Water flux (red)
+  ctx.fillStyle = "red";
+  ctx.fillText("Water flux", 10 / scale, 40 / scale);
+  drawArrowOn(ctx, 60 / scale, 40 / scale, 80 / scale, 40 / scale, "red");
+
+  ctx.restore();               // restore original state
+}
