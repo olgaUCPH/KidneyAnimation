@@ -38,13 +38,13 @@
 
   .page-header h1 {
     margin: 0 0 3px 0;
-    font-size: 1.7em;
+    font-size: 2em;
     font-family: 'Segoe UI', 'Arial Narrow', Arial, sans-serif;
   }
 
   .page-header h2 {
     margin: 0;
-    font-size: 0.8em;
+    font-size: 1em;
     color: #000;
     font-family: 'Segoe UI', 'Arial Narrow', Arial, sans-serif;
     font-weight: 100;
@@ -76,7 +76,8 @@
   justify-content: center;    /* center horizontally */
   align-items: flex-start;    /* align tops of children */
   column-gap: 70px;           /* space between canvas and parameter list */
-  margin-top: 30px;           /* space below the header */
+  /*margin-left: 100px;*/
+  margin-top: 45px;           /* space below the header */
 }
 
 
@@ -149,7 +150,7 @@
     margin: 20px 0;
     margin-top: 70px;    /* List vertical alignment */
     width: 400px;
-    height: 395px;
+    height: 375px;
 
     margin-left: 0px;
     background-color: #fdfdfd; /* light box background */
@@ -217,7 +218,7 @@
     border-radius: 4px;         /* slightly rounded corners */
     padding: 10px;              /* inner spacing */
     width: 94%;           /* optional: constrain width */
-    height: 34%;
+    height: 32%;
     margin-top: 0; /* remove space above the box */
     overflow-y: auto;  /* Vertical scrollbar for overflow */
   }

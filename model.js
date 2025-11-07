@@ -119,15 +119,16 @@ export function vasaEulerStep(segmentState, vasaState, dt = params.dt, modelVars
 
     // ---- INTERSTITIUM COUPLING ----
     for (let i = 0; i < nVasa; i++) {
-        // combine descending & ascending Na fluxes
-        const Rna = dNa.desc[i] + dNa.asc[nVasa - 1 - i];
-        const RH2O = Rdvr[i] + Ravr[nVasa - 1 - i];
+        // Combine Na and water fluxes from descending & ascending vasa recta
+        const RNa_total = dNa.desc[i] + dNa.asc[nVasa - 1 - i];
+        const RH2O_total = Rdvr[i] + Ravr[nVasa - 1 - i];
 
-        dNa.ints[i] = (3000 + Rna) / (10 + RH2O) - 300;
+        // Compute the change in interstitial Na concentration (osmolarity)
+        const deltaOsm = ((3000 + RNa_total) / (10 + RH2O_total)) - 300;
 
-         // update interstitium (or vasa) with coupling
-        //segmentState.ints[i] += (Rna) * dt;    // Na flux
-        //segmentState.ints[i] += (RH2O) * dt;   // water flux
+        // Update the interstitial osmolarity
+        const scaling_factor = 5;
+        segmentState.ints[i] += deltaOsm * dt * scaling_factor;
     }
 
     // ---- UPDATE VASA STATE ----
