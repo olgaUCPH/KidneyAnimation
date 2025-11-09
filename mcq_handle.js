@@ -5,36 +5,72 @@ const mcqContainer = document.getElementById('MCQ');
 const questions = [
     // Question 1
     {
-        question: "Which of the following are correct?",
+        question: "Why is the descending limb of the loop of Henle important for concentrating urine?",
         options: [
-        { text: "False", correct: false },
-        { text: "False", correct: false },
-        { text: "True", correct: true },
-        { text: "False", correct: false }
+        { text: "It actively pumps sodium and chloride into the medulla", correct: false },
+        { text: "It is impermeable to water but permeable to solutes", correct: false },
+        { text: "It is permeable to water but not to solutes", correct: true },
+        { text: "It secretes sodium and chloride into the tubular fluid", correct: false }
         ]
     },
 
     // Question 2
     {
-        question: "Which these ones are correct?",
+        question: "The countercurrent multiplier system depends on which key feature of the loop of Henle?",
         options: [
-        { text: "True", correct: true },
-        { text: "False", correct: false },
-        { text: "False", correct: false },
-        { text: "False", correct: false }
+        { text: "Equal permeability of both limbs to water and solutes", correct: false },
+        { text: "Active transport of solutes in the ascending limb and passive water movement in the descending limb", correct: true },
+        { text: "Active sodium and chloride reabsorption in both limbs", correct: false },
+        { text: "Passive sodium transport in the proximal tubule", correct: false }
         ]
     },
   
     // Question 3
     {
-        question: "What about these?",
+        question: "Which of the following best explains how the thick ascending limb of the loop of Henle contributes to the corticomedullary osmotic gradient?",
         options: [
-        { text: "False", correct: false },
-        { text: "False", correct: false },
-        { text: "False", correct: false },
-        { text: "True", correct: true }
+        { text: "It passively reabsorbs sodium and chloride, allowing equilibration with the interstitium.", correct: false },
+        { text: "It actively reabsorbs Na⁺, K⁺, and Cl⁻ via the NKCC2 cotransporter, while being impermeable to water.", correct: true },
+        { text: "It reabsorbs water through aquaporin-1 channels.", correct: false },
+        { text: "It actively secretes urea into the tubular lumen.", correct: false }
         ]
     },
+
+      
+    // Question 4
+    {
+        question: "Which of the following changes would most likely reduce the kidney’s ability to produce concentrated urine?",
+        options: [
+        { text: "Increased medullary blood flow through the vasa recta", correct: true },
+        { text: "Increased ADH secretion", correct: false },
+        { text: "Increased water permeability in descending limb", correct: false },
+        { text: "Increased NaCl reabsorption in the thick ascending limb", correct: false }
+        ]
+    },
+
+      
+    // Question 5
+    {
+        question: "What is the primary role of the vasa recta in the countercurrent exchange system?",
+        options: [
+        { text: "Actively pump solutes into the interstitium to maintain hypertonicity", correct: false },
+        { text: "Maintain medullary osmotic gradient by minimizing solute washout through passive exchange", correct: true },
+        { text: "Remove water from the medulla by active transport", correct: false },
+        { text: "Concentrate urea in the renal cortex", correct: false }
+        ]
+    },
+
+    // Question 6
+    {
+        question: "A 52-year-old man is treated with furosemide for congestive heart failure. Which of the following best describes how this drug affects his kidney’s ability to concentrate urine?",
+        options: [
+        { text: "It enhances urea recycling in the medulla", correct: false },
+        { text: "It increases medullary hypertonicity by promoting Na⁺ reabsorption", correct: false },
+        { text: "It blocks Na⁺/K⁺/2Cl⁻ transport in the thick ascending limb, reducing the corticomedullary osmotic gradient", correct: true },
+        { text: "It increases ADH release from the posterior pituitary", correct: false }
+        ]
+    },
+    // Explanation: Loop diuretics inhibit the NKCC2 transporter, disrupting the countercurrent multiplier mechanism and impairing urine concentration
 
     // More questions go here
 ];
