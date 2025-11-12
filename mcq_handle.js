@@ -144,7 +144,7 @@ function showQuestion(index) {
         } else {
           mcqContainer.innerHTML = '<h3>All questions completed! 🎉</h3>';
         }
-      }, 600);
+      }, 900);
     } else {
       feedback.textContent = 'Incorrect. ❌ Try again!';
       feedback.style.color = 'red';
