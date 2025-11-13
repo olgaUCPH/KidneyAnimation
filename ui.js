@@ -35,7 +35,7 @@ export function initUI(modelVars, onReset, onReplay) {
     FvasaValueDisplay.textContent = parseFloat(FvasaSlider.value * F0VR_MULT).toFixed(0)
 
     // ---- Sliders ----
-    kSlider.addEventListener("input", (e) => {
+    kSlider.addEventListener("mouseover", (e) => {
         const val = parseFloat(e.target.value);
         modelVars.k = val;  // keep real small value for model
         kValueDisplay.textContent = (val * K_MULT).toFixed(0); // show friendly number
@@ -43,14 +43,14 @@ export function initUI(modelVars, onReset, onReplay) {
         infoText.textContent = `Water permeability determines how much water is reabsorbed in the descending limb of the loop of Henle. A permeability of 100% corresponds to the normal value.`;
     });
 
-    maxRNaSlider.addEventListener("input", (e) => {
+    maxRNaSlider.addEventListener("mouseover", (e) => {
         modelVars.maxRNa = parseFloat(e.target.value);
         maxRNaValueDisplay.textContent = e.target.value;
 
         infoText.textContent = `Maximum NaCl reabsorption rate controls how much NaCl the ascending limb actively pumps into the interstitium. A maximum NaCl reabsorption rate of 100% corresponds to the normal value.`;
     });
 
-    F0Slider.addEventListener("input", (e) => {
+    F0Slider.addEventListener("mouseover", (e) => {
         const val = parseFloat(e.target.value);
         modelVars.F0 = val;  // keep real small value for model
         F0ValueDisplay.textContent = (val * F0_MULT).toFixed(0); // show friendly number
@@ -58,7 +58,7 @@ export function initUI(modelVars, onReset, onReplay) {
         infoText.textContent = `Inflow rate sets the flow of isotonic fluid entering the descending limb of the loop of Henle. An inflow rate of 100% corresponds to the normal value.`;
     });
 
-    FvasaSlider.addEventListener("input", (e) => {
+    FvasaSlider.addEventListener("mouseover", (e) => {
         const val = parseFloat(e.target.value);
         modelVars.F0vr = val;  // keep real small value for model
         const displayVal = Math.round(val * F0VR_MULT / 5) * 5;
@@ -68,14 +68,14 @@ export function initUI(modelVars, onReset, onReplay) {
     });
 
 
-    showHenle.addEventListener("change", () => {
+    showHenle.addEventListener("mouseover", () => {
         infoText.textContent = `Countercurrent multiplication occurs in the loop of Henle.
             - The ascending limb increases the medullary osmolarity by actively pumping sodium and chloride into the medullary interstitium.
             - The descending limb is permeable to water but not to solutes, so water leaves into the increasingly salty medulla.
             - This interaction “multiplies” small differences in solute concentration along the loop, creating a steep osmotic gradient in the medulla.`;
     });
 
-    showVasa.addEventListener("change", () => {
+    showVasa.addEventListener("mouseover", () => {
         infoText.textContent = `Countercurrent exchange happens in the vasa recta.
             - Descending limb blood loses water and gains sodium chloride.
             - Ascending limb blood gains water and loses sodium chloride.
