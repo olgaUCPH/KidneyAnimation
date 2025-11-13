@@ -55,7 +55,7 @@ export function initUI(modelVars, onReset, onReplay) {
     });
 
     F0Slider.addEventListener("mouseover", (e) => {
-        infoText.textContent = `Loop of Henle flow sets the flow of isotonic fluid entering the descending limb of the loop of Henle. An flow of 100% corresponds to the normal value for the inflow isotonic fluid to the descending limb.`;
+        infoText.textContent = `Loop of Henle flow sets the flow of isotonic fluid entering the descending limb of the loop of Henle. An flow of 100% corresponds to the normal value for the inflow of isotonic fluid to the descending limb.`;
     });
 
     F0Slider.addEventListener("change", (e) => {
