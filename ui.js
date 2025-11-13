@@ -40,14 +40,14 @@ export function initUI(modelVars, onReset, onReplay) {
         modelVars.k = val;  // keep real small value for model
         kValueDisplay.textContent = (val * K_MULT).toFixed(0); // show friendly number
         
-        infoText.textContent = `Water permeability (k) controls how easily water can leave the descending limb of the loop of Henle.`;
+        infoText.textContent = `Water permeability determines how much water is reabsorbed in the descending limb of the loop of Henle. A permeability of 100% corresponds to the normal value.`;
     });
 
     maxRNaSlider.addEventListener("input", (e) => {
         modelVars.maxRNa = parseFloat(e.target.value);
         maxRNaValueDisplay.textContent = e.target.value;
 
-        infoText.textContent = `Maximum NaCl reabsorption rate (maxRNa) controls how much sodium chloride the ascending limb can actively pump out into the interstitium.`;
+        infoText.textContent = `Maximum NaCl reabsorption rate controls how much NaCl the ascending limb actively pumps into the interstitium. A maximum NaCl reabsorption rate of 100% corresponds to the normal value.`;
     });
 
     F0Slider.addEventListener("input", (e) => {
@@ -55,7 +55,7 @@ export function initUI(modelVars, onReset, onReplay) {
         modelVars.F0 = val;  // keep real small value for model
         F0ValueDisplay.textContent = (val * F0_MULT).toFixed(0); // show friendly number
 
-        infoText.textContent = `Inflow rate (F0) sets the initial flow of isotonic fluid entering the descending limb of the loop of Henle.`;
+        infoText.textContent = `Inflow rate sets the flow of isotonic fluid entering the descending limb of the loop of Henle. An inflow rate of 100% corresponds to the normal value.`;
     });
 
     FvasaSlider.addEventListener("input", (e) => {
@@ -64,7 +64,7 @@ export function initUI(modelVars, onReset, onReplay) {
         const displayVal = Math.round(val * F0VR_MULT / 5) * 5;
         FvasaValueDisplay.textContent = displayVal;
 
-        infoText.textContent = `Vasa recta inflow rate (F0vr) sets the initial flow of blood entering the descending vasa recta.`;
+        infoText.textContent = `Vasa recta inflow rate sets the blood flow entering the descending vasa recta. A vasa recta inflow rate of 100% corresponds to the normal value.`;
     });
 
 
