@@ -53,12 +53,20 @@ export function initUI(modelVars, onReset, onReplay) {
         infoText.textContent = `NaCl reabsorption controls how much NaCl the ascending limb actively pumps into the interstitium. A NaCl reabsorption of 100% corresponds to the normal value for the reabsorption rate.`;
     });
 
-        maxRNaSlider.addEventListener("change", (e) => {
+    maxRNaSlider.addEventListener("touchstart", (e) => {
+        infoText.textContent = `NaCl reabsorption controls how much NaCl the ascending limb actively pumps into the interstitium. A NaCl reabsorption of 100% corresponds to the normal value for the reabsorption rate.`;
+    });
+
+    maxRNaSlider.addEventListener("change", (e) => {
         modelVars.maxRNa = parseFloat(e.target.value);
         maxRNaValueDisplay.textContent = e.target.value;
     });
 
     F0Slider.addEventListener("mouseover", (e) => {
+        infoText.textContent = `Loop of Henle flow sets the flow of isotonic fluid entering the descending limb of the loop of Henle. An flow of 100% corresponds to the normal value for the inflow of isotonic fluid to the descending limb.`;
+    });
+
+    F0Slider.addEventListener("touchstart", (e) => {
         infoText.textContent = `Loop of Henle flow sets the flow of isotonic fluid entering the descending limb of the loop of Henle. An flow of 100% corresponds to the normal value for the inflow of isotonic fluid to the descending limb.`;
     });
 
@@ -69,11 +77,14 @@ export function initUI(modelVars, onReset, onReplay) {
     });
 
     FvasaSlider.addEventListener("mouseover", (e) => {
-
         infoText.textContent = `Vasa recta flow sets the blood flow entering the descending vasa recta. A vasa recta inflow of 100% corresponds to the normal value for the inflow of blood.`;
     });
 
-        FvasaSlider.addEventListener("change", (e) => {
+    FvasaSlider.addEventListener("touchstart", (e) => {
+        infoText.textContent = `Vasa recta flow sets the blood flow entering the descending vasa recta. A vasa recta inflow of 100% corresponds to the normal value for the inflow of blood.`;
+    });   
+
+    FvasaSlider.addEventListener("change", (e) => {
         const val = parseFloat(e.target.value);
         modelVars.F0vr = val;  // keep real small value for model
         const displayVal = Math.round(val * F0VR_MULT / 5) * 5;
@@ -87,6 +98,21 @@ export function initUI(modelVars, onReset, onReplay) {
             - The ascending limb increases the medullary osmolarity by actively pumping sodium and chloride into the medullary interstitium.
             - The descending limb is permeable to water but not to solutes, so water leaves into the increasingly salty medulla.
             - This interaction “multiplies” small differences in solute concentration along the loop, creating a steep osmotic gradient in the medulla.`;
+    });
+
+    showHenle.addEventListener("toudhstart", () => {
+        infoText.textContent = `Countercurrent multiplication occurs in the loop of Henle.
+            - The ascending limb increases the medullary osmolarity by actively pumping sodium and chloride into the medullary interstitium.
+            - The descending limb is permeable to water but not to solutes, so water leaves into the increasingly salty medulla.
+            - This interaction “multiplies” small differences in solute concentration along the loop, creating a steep osmotic gradient in the medulla.`;
+    });
+
+    showVasa.addEventListener("touchstart", () => {
+        infoText.textContent = `Countercurrent exchange happens in the vasa recta.
+            - Descending limb blood loses water and gains sodium chloride.
+            - Ascending limb blood gains water and loses sodium chloride.
+            - This helps maintain the medullary gradient while allowing nutrient and gas exchange.`;
+    
     });
 
     showVasa.addEventListener("mouseover", () => {
