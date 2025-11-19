@@ -39,6 +39,10 @@ export function initUI(modelVars, onReset, onReplay) {
         infoText.textContent = `Water permeability determines how much water is reabsorbed in the descending limb of the loop of Henle. A permeability of 100% corresponds to the normal value for the water reabsorption rate.`;
     });
 
+    kSlider.addEventListener("touchstart", (e) => {
+        infoText.textContent = `Water permeability determines how much water is reabsorbed in the descending limb of the loop of Henle. A permeability of 100% corresponds to the normal value for the water reabsorption rate.`;
+    });
+
    kSlider.addEventListener("change", (e) => {
         const val = parseFloat(e.target.value);
         modelVars.k = val;  // keep real small value for model
