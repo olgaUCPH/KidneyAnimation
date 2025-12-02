@@ -6,6 +6,7 @@
     flex-direction: column;
     align-items: center;
     background: #f0f0f0;
+    min-width: 1200px; /* adjust to include the leftmost content */
   }
 
   html, body {
