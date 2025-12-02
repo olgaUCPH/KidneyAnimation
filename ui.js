@@ -43,7 +43,7 @@ export function initUI(modelVars, onReset, onReplay) {
         infoText.textContent = `Water permeability determines how much water is reabsorbed in the descending limb of the loop of Henle. A permeability of 100% corresponds to the normal value for the water reabsorption rate.`;
     });
 
-   kSlider.addEventListener("change", (e) => {
+   kSlider.addEventListener("input", (e) => {
         const val = parseFloat(e.target.value);
         modelVars.k = val;  // keep real small value for model
         kValueDisplay.textContent = (val * K_MULT).toFixed(0); // show friendly number
@@ -57,7 +57,7 @@ export function initUI(modelVars, onReset, onReplay) {
         infoText.textContent = `NaCl reabsorption controls how much NaCl the ascending limb actively pumps into the interstitium. A NaCl reabsorption of 100% corresponds to the normal value for the reabsorption rate.`;
     });
 
-    maxRNaSlider.addEventListener("change", (e) => {
+    maxRNaSlider.addEventListener("input", (e) => {
         modelVars.maxRNa = parseFloat(e.target.value);
         maxRNaValueDisplay.textContent = e.target.value;
     });
@@ -70,7 +70,7 @@ export function initUI(modelVars, onReset, onReplay) {
         infoText.textContent = `Loop of Henle flow sets the flow of isotonic fluid entering the descending limb of the loop of Henle. An flow of 100% corresponds to the normal value for the inflow of isotonic fluid to the descending limb.`;
     });
 
-    F0Slider.addEventListener("change", (e) => {
+    F0Slider.addEventListener("input", (e) => {
         const val = parseFloat(e.target.value);
         modelVars.F0 = val;  // keep real small value for model
         F0ValueDisplay.textContent = (val * F0_MULT).toFixed(0); // show friendly number
@@ -84,7 +84,7 @@ export function initUI(modelVars, onReset, onReplay) {
         infoText.textContent = `Vasa recta flow sets the blood flow entering the descending vasa recta. A vasa recta inflow of 100% corresponds to the normal value for the inflow of blood.`;
     });   
 
-    FvasaSlider.addEventListener("change", (e) => {
+    FvasaSlider.addEventListener("input", (e) => {
         const val = parseFloat(e.target.value);
         modelVars.F0vr = val;  // keep real small value for model
         const displayVal = Math.round(val * F0VR_MULT / 5) * 5;

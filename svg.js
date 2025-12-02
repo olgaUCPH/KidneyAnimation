@@ -44,6 +44,12 @@ export function initSvg(segment, vasa) {
         showHenleCheckbox = document.getElementById("showHenle");
         showVasaCheckbox = document.getElementById("showVasa");
         
+        // Get tooltip overlays
+        const henleDescTooltip = svgDoc.getElementById("HenleDescTooltip");
+        const henleAscTooltip = svgDoc.getElementById("HenleAscTooltip");
+        const vasaDescTooltip  = svgDoc.getElementById("VasaDescTooltip");
+        const vasaAscTooltip   = svgDoc.getElementById("VasaAscTooltip");
+
     });
 }
 
