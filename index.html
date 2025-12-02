@@ -36,7 +36,7 @@
         margin-left: 10px;
       ">
         <!-- Henle color bar -->
-        <div class="colorbar-wrapper" style="text-align: left; margin-top: 63px;">
+        <div class="colorbar-wrapper henle" style="text-align: left; margin-top: 63px;">
           <div class="colorbar-title" style="font-family: Arial; font-size: 12px; margin-bottom: 8px;">
             mOsm/L
           </div>
@@ -44,7 +44,7 @@
         </div>
 
         <!-- Vasa color bar -->
-        <div class="colorbar-wrapper" style="text-align: left; margin-top: 63px;">
+        <div class="colorbar-wrapper vasa" style="text-align: left; margin-top: 63px;">
           <div class="colorbar-title" style="font-family: Arial; font-size: 12px; margin-bottom: 8px;">
             mOsm/L
           </div>
@@ -65,7 +65,7 @@
       </li>
       <li>
         <label for="maxRNaSlider" title = 'Change NaCl reabsorption of the ascending limb in the loop of Henle by dragging the slider'>NaCl reabsorption: <span id="maxRNaValue">100</span>%</label>
-        <input type="range" id="maxRNaSlider" min="50" max="200" step="1" value="100">
+        <input type="range" id="maxRNaSlider" min="50" max="200" step="5" value="100">
       </li>
       <li>
         <label for="F0Slider" title = 'Change the flow rate through the loop of Henle by dragging the slider'>Loop of Henle flow: <span id="F0Value">100</span>%</label>

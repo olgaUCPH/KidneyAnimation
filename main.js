@@ -74,18 +74,37 @@ function drawAll(
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     vasaCtx.clearRect(0, 0, vasaCanvas.width, vasaCanvas.height);
 
+    // Henle colorbar wrapper (title + canvas)
+    const henleColorbarWrapper = document.querySelector(".colorbar-wrapper.henle");
+    // Vasa colorbar wrapper (title + canvas)
+    const vasaColorbarWrapper = document.querySelector(".colorbar-wrapper.vasa");
+    
+    // Henle
     if (showHenle) {
         drawHenle(ctx, segmentState);
         drawArrows(ctx, fluxes.R, fluxes.RNa);
+        drawColorBar(ctxBar, 'henle');
+
+        if (henleColorbarWrapper) henleColorbarWrapper.style.visibility = "visible";
+    } else {
+        ctxBar.clearRect(0, 0, ctxBar.canvas.width, ctxBar.canvas.height);
+        if (henleColorbarWrapper) henleColorbarWrapper.style.visibility = "hidden";
     }
 
+    // Vasa
     if (showVasa) {
         drawVasa(vasaCtx, vasaState, segmentState);
         drawVasaArrows(vasaCtx, vasaFluxes.R, vasaFluxes.RNa);
+        drawColorBar(ctxBarVasa, 'vasa');
+
+        if (vasaColorbarWrapper) vasaColorbarWrapper.style.visibility = "visible";
+    } else {
+        ctxBarVasa.clearRect(0, 0, ctxBarVasa.canvas.width, ctxBarVasa.canvas.height);
+        if (vasaColorbarWrapper) vasaColorbarWrapper.style.visibility = "hidden";
     }
 
-    drawColorBar(ctxBar, 'henle');
-    drawColorBar(ctxBarVasa, 'vasa');
+
+    
 }
 
 // ---- Draw interstitium gradient ----
