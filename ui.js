@@ -33,6 +33,8 @@ export function initUI(modelVars, onReset, onReplay) {
     maxRNaValueDisplay.textContent = parseFloat(maxRNaSlider.value).toFixed(0); 
     F0ValueDisplay.textContent = (parseFloat(F0Slider.value) * F0_MULT).toFixed(0);
     FvasaValueDisplay.textContent = parseFloat(FvasaSlider.value * F0VR_MULT).toFixed(0)
+    const henleColorBar = document.getElementById("colorBar");
+    const vasaColorBar = document.getElementById("colorBarVasa");
 
     // ---- Sliders ----
     kSlider.addEventListener("mouseover", (e) => {
@@ -123,6 +125,24 @@ export function initUI(modelVars, onReset, onReplay) {
     
     });
 
+    // Color bars
+    // Henle color bar hover
+    henleColorBar.addEventListener("mouseover", () => {
+        infoText.textContent = "This color bar shows the osmolarity (mOsm/L) along the loop of Henle.";
+    });
+
+    henleColorBar.addEventListener("mouseout", () => {
+        infoText.textContent = "The concentration gradient in the kidney is created and maintained by two closely related processes: Countercurrent multiplication and Countercurrent exchange.";
+    });
+
+    // Vasa color bar hover
+    vasaColorBar.addEventListener("mouseover", () => {
+        infoText.textContent = "This color bar shows the osmolarity (mOsm/L) along the vasa recta.";
+    });
+
+    vasaColorBar.addEventListener("mouseout", () => {
+        infoText.textContent = "The concentration gradient in the kidney is created and maintained by two closely related processes: Countercurrent multiplication and Countercurrent exchange.";
+    });
 
     // ---- Reset button ----
     const resetButton = document.getElementById("resetButton");
