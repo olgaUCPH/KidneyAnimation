@@ -102,7 +102,7 @@ export function initUI(modelVars, onReset, onReplay) {
             - This interaction “multiplies” small differences in solute concentration along the loop, creating a steep osmotic gradient in the medulla.`;
     });
 
-    showHenle.addEventListener("toudhstart", () => {
+    showHenle.addEventListener("touchstart", () => {
         infoText.textContent = `Countercurrent multiplication occurs in the loop of Henle.
             - The ascending limb increases the medullary osmolarity by actively pumping sodium and chloride into the medullary interstitium.
             - The descending limb is permeable to water but not to solutes, so water leaves into the increasingly salty medulla.
@@ -126,8 +126,12 @@ export function initUI(modelVars, onReset, onReplay) {
     });
 
     // Color bars
-    // Henle color bar hover
+    // Henle color bar
     henleColorBar.addEventListener("mouseover", () => {
+        infoText.textContent = "This color bar shows the osmolarity (mOsm/L) along the loop of Henle.";
+    });
+
+    henleColorBar.addEventListener("touchstart", () => {
         infoText.textContent = "This color bar shows the osmolarity (mOsm/L) along the loop of Henle.";
     });
 
@@ -135,10 +139,16 @@ export function initUI(modelVars, onReset, onReplay) {
         infoText.textContent = "The concentration gradient in the kidney is created and maintained by two closely related processes: Countercurrent multiplication and Countercurrent exchange.";
     });
 
-    // Vasa color bar hover
+
+    // Vasa color bar
     vasaColorBar.addEventListener("mouseover", () => {
         infoText.textContent = "This color bar shows the osmolarity (mOsm/L) along the vasa recta.";
     });
+
+    vasaColorBar.addEventListener("touchstart", () => {
+        infoText.textContent = "This color bar shows the osmolarity (mOsm/L) along the vasa recta.";
+    });
+
 
     vasaColorBar.addEventListener("mouseout", () => {
         infoText.textContent = "The concentration gradient in the kidney is created and maintained by two closely related processes: Countercurrent multiplication and Countercurrent exchange.";
