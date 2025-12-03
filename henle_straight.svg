@@ -24,16 +24,16 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="3.6404904"
-     inkscape:cx="201.62119"
-     inkscape:cy="121.41221"
+     inkscape:zoom="2.5742154"
+     inkscape:cx="119.45387"
+     inkscape:cy="356.22504"
      inkscape:window-width="1920"
      inkscape:window-height="974"
      inkscape:window-x="-11"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
-     inkscape:snap-global="false"
+     inkscape:snap-global="true"
      inkscape:snap-smooth-nodes="true"
      inkscape:object-paths="true"
      showguides="true"
@@ -68,7 +68,7 @@
        orientation="0,-1"
        id="guide10589" />
     <sodipodi:guide
-       position="74.03199,9.0284507"
+       position="48.667935,10.419933"
        orientation="0,-1"
        id="guide1098" />
     <sodipodi:guide
@@ -292,27 +292,15 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:3.34309px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0835777"
-       x="421.93234"
-       y="101.82898"
-       id="text4166"
-       transform="scale(1.0243935,0.97618737)"><tspan
-         sodipodi:role="line"
-         id="tspan4164"
-         style="stroke-width:0.0835777"
-         x="421.93234"
-         y="101.82898">Loop of Henle</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:3.34309px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0835777"
-       x="481.52808"
-       y="101.68008"
+       x="481.27722"
+       y="204.82809"
        id="text4502"
        transform="scale(1.0243935,0.97618737)"><tspan
          sodipodi:role="line"
          id="tspan4500"
          style="stroke-width:0.0835777"
-         x="481.52808"
-         y="101.68008">Vasa recta</tspan></text>
+         x="481.27722"
+         y="204.82809">Vasa recta</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.07454px;line-height:1.25;font-family:sans-serif;text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0518637"
@@ -429,5 +417,17 @@
          x="441.03"
          y="129.98923"
          id="tspan21313">Desc</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:3.34309px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0835777"
+       x="443.45108"
+       y="204.82809"
+       id="text921"
+       transform="scale(1.0243935,0.97618737)"><tspan
+         sodipodi:role="line"
+         id="tspan919"
+         style="stroke-width:0.0835777"
+         x="443.45108"
+         y="204.82809">Loop of Henle</tspan></text>
   </g>
 </svg>
