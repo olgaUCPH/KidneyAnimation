@@ -128,11 +128,11 @@ export function initUI(modelVars, onReset, onReplay) {
     // Color bars
     // Henle color bar
     henleColorBar.addEventListener("mouseover", () => {
-        infoText.textContent = "This color bar shows the osmolarity (mOsm/L) along the loop of Henle.";
+        infoText.textContent = "The color bar shows the osmolarity (mOsm/L) in the medullary intestitium and in loop of Henle.";
     });
 
     henleColorBar.addEventListener("touchstart", () => {
-        infoText.textContent = "This color bar shows the osmolarity (mOsm/L) along the loop of Henle.";
+        infoText.textContent = "The color bar shows the osmolarity (mOsm/L) in the medullary intestitium and in loop of Henle";
     });
 
     henleColorBar.addEventListener("mouseout", () => {
@@ -142,11 +142,11 @@ export function initUI(modelVars, onReset, onReplay) {
 
     // Vasa color bar
     vasaColorBar.addEventListener("mouseover", () => {
-        infoText.textContent = "This color bar shows the osmolarity (mOsm/L) along the vasa recta.";
+        infoText.textContent = "The color bar shows the osmolarity (mOsm/L) in the vasa recta.";
     });
 
     vasaColorBar.addEventListener("touchstart", () => {
-        infoText.textContent = "This color bar shows the osmolarity (mOsm/L) along the vasa recta.";
+        infoText.textContent = "This color bar shows the osmolarity (mOsm/L) in the vasa recta.";
     });
 
 
