@@ -3,8 +3,9 @@ import { concentrationToColor, concentrationToColorVasa } from "./draw.js";
 
 // svg.js
 let henleLoopBottom, henleOutline;
+let henleDescText, henleAscText, henleText;
 let vasaLoopBottom, vasaOutline, vasaOutline2;
-let vasaDesc, vasaAsc;
+let vasaDesc, vasaAsc, vasaDescText, vasaAscText, vasaText;
 let bowmanCap, collectingDuct;
 
 let segmentState, vasaState;  // store references
@@ -27,6 +28,9 @@ export function initSvg(segment, vasa) {
         henleLoopBottom = svgDoc.getElementById("HenleLoop");
         //henleIntBottom = svgDoc.getElementById("HenleInt");
         henleOutline = svgDoc.getElementById("HenleOutline");
+        henleDescText = svgDoc.getElementById("DescHenleText");
+        henleAscText = svgDoc.getElementById("AscHenleText");
+        henleText = svgDoc.getElementById("HenleText");
 
         // Vasa
         vasaLoopBottom = svgDoc.getElementById("VasaLoop");
@@ -35,6 +39,9 @@ export function initSvg(segment, vasa) {
         vasaOutline2 = svgDoc.getElementById("vasaOutline");
         vasaDesc = svgDoc.getElementById("VasaDesc");
         vasaAsc = svgDoc.getElementById("VasaAsc");
+        vasaDescText = svgDoc.getElementById("DescVasaText");
+        vasaAscText = svgDoc.getElementById("AscVasaText");
+        vasaText = svgDoc.getElementById("VasaText");
 
         // Other structures
         bowmanCap = svgDoc.getElementById("BowmanCapsule");
@@ -63,7 +70,7 @@ export function updateSvgColors() {
     const showHenle = showHenleCheckbox?.checked ?? true;
     const henleDisplay = showHenle ? "inline" : "none";
 
-    [henleLoopBottom, henleOutline, bowmanCap, collectingDuct].forEach(el => {
+    [henleLoopBottom, henleOutline, bowmanCap, collectingDuct, henleDescText, henleAscText, henleText].forEach(el => {
         if (el) el.style.display = henleDisplay;
     });
 
@@ -80,7 +87,7 @@ export function updateSvgColors() {
     const showVasa = showVasaCheckbox?.checked ?? true;
     const vasaDisplay = showVasa ? "inline" : "none";
 
-    [vasaLoopBottom, vasaOutline, vasaOutline2, vasaDesc, vasaAsc].forEach(el => {
+    [vasaLoopBottom, vasaOutline, vasaOutline2, vasaDesc, vasaAsc, vasaDescText, vasaAscText, vasaText].forEach(el => {
         if (el) el.style.display = vasaDisplay;
     });
 
