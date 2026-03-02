@@ -11,6 +11,9 @@ export const params = {
     k: 0.0005,         // Water permeability of descending limb
     maxRNa: 100,       // Maximum rate of NaCl reabsorption
     F0: 2,             // Flow of isotonic fluid into the descending limb
+    // Filtration & interstitium
+    k2: 0.1,           // Filtration coefficient (interstitium volume coupling)
+    vol: 100,          // Segmental interstitium volume
 
     // -- 1.3 Vasa recta parameters --
     // DIFFERENT VALUES TO MATLAB

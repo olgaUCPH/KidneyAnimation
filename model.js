@@ -124,18 +124,39 @@ export function vasaEulerStep(segmentState, vasaState, dt = params.dt, modelVars
     }
 
     // ---- INTERSTITIUM COUPLING ----
+    // Recompute descending limb water flux (R) locally so we can compute interstitial water balance
+    const henleR = new Array(nVasa).fill(0);
     for (let i = 0; i < nVasa; i++) {
-        // Combine Na and water fluxes from descending & ascending vasa recta
-        const RNa_total = dNa.desc[i] + dNa.asc[nVasa - 1 - i];
-        const RH2O_total = Rdvr[i] + Ravr[nVasa - 1 - i];
+        // use available segment values (if lengths differ, we clamp)
+        const segDesc = segmentState.desc[i] ?? segmentState.desc[segmentState.desc.length - 1];
+        const segInt = segmentState.ints[i] ?? segmentState.ints[segmentState.ints.length - 1];
+        henleR[i] = params.k * (segInt - segDesc);
+    }
 
-        // Compute the change in interstitial Na concentration (osmolarity)
-        const denom = Math.max(10 + RH2O_total, 1e-6); // avoid division-by-zero or negative denominator
-        const deltaOsm = ((3000 + RNa_total) / denom) - 300;
+    for (let i = 0; i < nVasa; i++) {
+        const rev = nVasa - 1 - i;
 
-        // Update the interstitial osmolarity
-        const scaling_factor = 5;
-        segmentState.ints[i] += deltaOsm * dt * scaling_factor;
+        // Filtration term (interstitium volume coupling)
+        const dFilt = -2 * params.k2 * (params.vol - params.vol); // placeholder when interstital volume not tracked
+
+        // Water fluxes affecting the interstitium
+        const dH2OF = Rdvr[i] + Ravr[rev];
+        const dH2O = henleR[i] + dH2OF + dFilt;
+
+        // Local ascending limb Na reabsorption (approximate, same form as Henle step)
+        const delNa = segmentState.ints[rev] - segmentState.asc[i];
+        const RNa_local = Math.max(params.maxRNa - (params.maxRNa / params.maxGrad) * delNa, 0);
+
+        // Change in interstitial Na from transports and vasa exchanges
+        const dRNa = -RNa_local
+                     + params.knadvr * (vasaState.desc[i] - segmentState.ints[i])
+                     + params.knaavr * (vasaState.asc[rev] - segmentState.ints[i])
+                     - params.k1 * ( (Ravr[rev] * (segmentState.ints[i] + vasaState.asc[rev]) / 2) + (Rdvr[i] * (segmentState.ints[i] + vasaState.desc[i]) / 2) );
+
+        // Update interstitium concentration using interstitium volume
+        const vol = Math.max(params.vol, 1e-6);
+        const deltaNa = ((-segmentState.ints[i] * dH2O) - dRNa) / vol;
+        segmentState.ints[i] += deltaNa * dt;
     }
 
     // ---- UPDATE VASA STATE ----

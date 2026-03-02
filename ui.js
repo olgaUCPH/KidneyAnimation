@@ -184,5 +184,27 @@ export function initUI(modelVars, onReset, onReplay) {
         if (onReplay) onReplay();
     });
 
+    // ---- Export CSV controls ----
+    const exportButton = document.getElementById("exportButton");
+    const exportTend = document.getElementById("exportTend");
+    const exportSampleSec = document.getElementById("exportSampleSec");
+
+    if (exportButton) {
+        exportButton.addEventListener("click", async () => {
+            exportButton.disabled = true;
+            const tEnd = parseFloat(exportTend.value) || 20000;
+            const sampleSec = parseFloat(exportSampleSec.value) || 1;
+            try {
+                if (window.exportSimulationCSV) {
+                    await window.exportSimulationCSV(0, tEnd, sampleSec, null);
+                } else {
+                    console.warn('exportSimulationCSV not available');
+                }
+            } finally {
+                exportButton.disabled = false;
+            }
+        });
+    }
+
 ;
 }

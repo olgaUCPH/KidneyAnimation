@@ -167,3 +167,100 @@ setInterval(() => {
 
 // ---- Initial draw ----
 drawAll();
+
+
+// ---- Headless simulation exporter (CSV) ----
+/**
+ * Run a headless simulation and export CSV files for Henle and Vasa time series.
+ * Defaults: tEnd=200, sampleEvery=1 (samples every simulation step)
+ * Usage in browser console: exportSimulationCSV(200, 10)
+ */
+export async function exportSimulationCSV(tStart = 0, tEnd = 2000, sampleEverySeconds = 1, modelVarsOverride = null) {
+    const dt = params.dt;
+    const totalT = Math.max(0, tEnd - tStart);
+    const steps = Math.max(1, Math.round(totalT / dt));
+    const sampleEverySteps = Math.max(1, Math.round(sampleEverySeconds / dt));
+
+    // copy initial state
+    const seg = {
+        desc: createFilledArray(params.nSegments, params.Na0),
+        asc: createFilledArray(params.nSegments, params.Na0),
+        ints: createFilledArray(params.nSegments, params.Na0)
+    };
+    const vasa = {
+        desc: createFilledArray(params.nVasa, params.Na0),
+        asc: createFilledArray(params.nVasa, params.Na0)
+    };
+
+    const vars = modelVarsOverride ? Object.assign({}, modelVars, modelVarsOverride) : Object.assign({}, modelVars);
+
+    // Prepare CSV arrays (rows)
+    const henleRows = [];
+    const vasaRows = [];
+
+    // headers
+    const henleHeader = ['time'];
+    for (let i = 0; i < params.nSegments; i++) henleHeader.push(`desc_${i}`);
+    for (let i = 0; i < params.nSegments; i++) henleHeader.push(`asc_${i}`);
+    for (let i = 0; i < params.nSegments; i++) henleHeader.push(`ints_${i}`);
+    henleRows.push(henleHeader);
+
+    const vasaHeader = ['time'];
+    for (let i = 0; i < params.nVasa; i++) vasaHeader.push(`v_desc_${i}`);
+    for (let i = 0; i < params.nVasa; i++) vasaHeader.push(`v_asc_${i}`);
+    vasaRows.push(vasaHeader);
+
+    // sample initial
+    function pushSample(t) {
+        const h = [t];
+        for (let i = 0; i < params.nSegments; i++) h.push(seg.desc[i]);
+        for (let i = 0; i < params.nSegments; i++) h.push(seg.asc[i]);
+        for (let i = 0; i < params.nSegments; i++) h.push(seg.ints[i]);
+        henleRows.push(h);
+
+        const v = [t];
+        for (let i = 0; i < params.nVasa; i++) v.push(vasa.desc[i]);
+        for (let i = 0; i < params.nVasa; i++) v.push(vasa.asc[i]);
+        vasaRows.push(v);
+    }
+
+    pushSample(tStart);
+
+    // Run simulation
+    for (let step = 1; step <= steps; step++) {
+        eulerStep(seg, dt, vars);
+        vasaEulerStep(seg, vasa, dt, vars);
+
+        if (step % sampleEverySteps === 0) {
+            pushSample(tStart + step * dt);
+        }
+    }
+
+    // convert to CSV and trigger downloads
+    const henleCSV = arrayToCSV(henleRows);
+    const vasaCSV = arrayToCSV(vasaRows);
+
+    downloadCSV(henleCSV, `henle_timeseries_t${tEnd}.csv`);
+    downloadCSV(vasaCSV, `vasa_timeseries_t${tEnd}.csv`);
+
+    return { henleRowsCount: henleRows.length, vasaRowsCount: vasaRows.length };
+}
+
+function arrayToCSV(rows) {
+    return rows.map(r => r.map(v => (v === null || v === undefined) ? '' : String(v)).join(',')).join('\n');
+}
+
+function downloadCSV(text, filename) {
+    const blob = new Blob([text], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+}
+
+// expose helper to window for convenience
+window.exportSimulationCSV = exportSimulationCSV;
