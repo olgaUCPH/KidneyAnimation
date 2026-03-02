@@ -25,16 +25,18 @@ export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.
         if (i === 0) {
             waterFluxDesc[i] = k * (segmentState.ints[i] - segmentState.desc[i]);
             flowRateDesc[i] = F0 - waterFluxDesc[i];
+            flowRateDesc[i] = Math.max(flowRateDesc[i], 0); // prevent negative flow
             dNa.desc[i] = F0 * params.Na0 - flowRateDesc[i] * segmentState.desc[i];
         } else {
             waterFluxDesc[i] = k * (segmentState.ints[i] - segmentState.desc[i]);
             flowRateDesc[i] = flowRateDesc[i - 1] - waterFluxDesc[i];
+            flowRateDesc[i] = Math.max(flowRateDesc[i], 0); // prevent negative flow
             dNa.desc[i] = flowRateDesc[i - 1] * segmentState.desc[i - 1] - flowRateDesc[i] * segmentState.desc[i];
         }
     }
 
     // Ascending limb
-    const Fa = flowRateDesc[nSegments - 1];
+    const Fa = Math.max(flowRateDesc[nSegments - 1], 0); // ensure non-negative
     for (let j = 0; j < nSegments; j++) {
         const revIndex = nSegments - 1 - j;
         const delNa = segmentState.ints[revIndex] - segmentState.asc[j];
@@ -85,11 +87,13 @@ export function vasaEulerStep(segmentState, vasaState, dt = params.dt, modelVars
 
         if (i === 0) {
             Fdvr[i] = F0vr - Rdvr[i];
+            Fdvr[i] = Math.max(Fdvr[i], 0); // prevent negative flow
             dNa.desc[i] = F0vr * params.Na0
                         - Fdvr[i] * vasaState.desc[i]
                         - params.knadvr * (vasaState.desc[i] - segmentState.ints[i]);
         } else {
             Fdvr[i] = Fdvr[i - 1] - Rdvr[i];
+            Fdvr[i] = Math.max(Fdvr[i], 0); // prevent negative flow
             dNa.desc[i] = Fdvr[i - 1] * vasaState.desc[i - 1]
                         - Fdvr[i] * vasaState.desc[i]
                         - params.knadvr * (vasaState.desc[i] - segmentState.ints[i]);
@@ -106,10 +110,12 @@ export function vasaEulerStep(segmentState, vasaState, dt = params.dt, modelVars
 
         if (i === 0) {
             Favr[i] = F0avr - Ravr[i];
+            Favr[i] = Math.max(Favr[i], 0); // prevent negative flow
             dNa.asc[i] = F0avr * vasaState.asc[i] - Favr[i] * vasaState.asc[i]
                        - params.knaavr * (vasaState.asc[i] - segmentState.ints[revIndex]);
         } else {
             Favr[i] = Favr[i - 1] - Ravr[i];
+            Favr[i] = Math.max(Favr[i], 0); // prevent negative flow
             dNa.asc[i] = Favr[i - 1] * vasaState.asc[i - 1] - Favr[i] * vasaState.asc[i]
                        - params.knaavr * (vasaState.asc[i] - segmentState.ints[revIndex]);
         }
@@ -124,7 +130,8 @@ export function vasaEulerStep(segmentState, vasaState, dt = params.dt, modelVars
         const RH2O_total = Rdvr[i] + Ravr[nVasa - 1 - i];
 
         // Compute the change in interstitial Na concentration (osmolarity)
-        const deltaOsm = ((3000 + RNa_total) / (10 + RH2O_total)) - 300;
+        const denom = Math.max(10 + RH2O_total, 1e-6); // avoid division-by-zero or negative denominator
+        const deltaOsm = ((3000 + RNa_total) / denom) - 300;
 
         // Update the interstitial osmolarity
         const scaling_factor = 5;
