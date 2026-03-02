@@ -247,7 +247,20 @@ export async function exportSimulationCSV(tStart = 0, tEnd = 2000, sampleEverySe
 }
 
 function arrayToCSV(rows) {
-    return rows.map(r => r.map(v => (v === null || v === undefined) ? '' : String(v)).join(',')).join('\n');
+    // choose separator: use semicolon for locales that use comma as decimal separator (Excel-friendly)
+    const sep = (1.1).toLocaleString().includes(',') ? ';' : ',';
+    return rows.map(r => r.map(v => {
+        if (v === null || v === undefined) return '';
+        // If using semicolon delimiter, convert decimal dot to comma for numeric values
+        if (sep === ';') {
+            const num = Number(v);
+            if (Number.isFinite(num)) {
+                // use plain string form (no thousands sep) and replace dot
+                return String(num).replace('.', ',');
+            }
+        }
+        return String(v);
+    }).join(sep)).join('\n');
 }
 
 function downloadCSV(text, filename) {
