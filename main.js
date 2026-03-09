@@ -4,7 +4,7 @@
     import { params } from "./config.js";
     import { createSegmentState, createVasaState } from "./state.js";
     import { eulerStep, vasaEulerStep } from "./model.js";
-    import { drawHenle, drawVasa, drawArrows, drawVasaArrows, drawColorBar, drawDistal } from "./draw.js";
+    import { drawHenle, drawVasa, drawArrows, drawVasaArrows, drawColorBar, drawDistal, drawCollecting } from "./draw.js";
     import { initUI } from "./ui.js";
     import { createFilledArray } from "./utils.js";
     import { initSvg, updateSvgColors } from "./svg.js";
@@ -30,6 +30,11 @@ const ctxBarVasa = colorBarVasaCanvas.getContext("2d");
 const distalCanvas = document.getElementById("distalCanvas");
 const distalCtx = distalCanvas.getContext("2d");
 distalCtx.scale(4, 4);
+
+// ---- Collecting duct canvas context ----
+const collectingCanvas = document.getElementById("collectingCanvas");
+const collectingCtx = collectingCanvas.getContext("2d");
+collectingCtx.scale(4, 4);
 
 
 // ---- Model state ----
@@ -79,6 +84,7 @@ function drawAll(
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     vasaCtx.clearRect(0, 0, vasaCanvas.width, vasaCanvas.height);
     distalCtx.clearRect(0, 0, distalCanvas.width, distalCanvas.height);
+    collectingCtx.clearRect(0, 0, collectingCanvas.width, collectingCanvas.height);
 
     // Henle colorbar wrapper (title + canvas)
     const henleColorbarWrapper = document.querySelector(".colorbar-wrapper.henle");
@@ -111,6 +117,9 @@ function drawAll(
 
     // Draw distal canvas unconditionally (use distal values if available)
     drawDistal(distalCtx, fluxes?.distal);
+
+    // Draw collecting duct placeholder (solid magenta)
+    drawCollecting(collectingCtx);
 
 
     

@@ -114,7 +114,7 @@
     box-sizing: border-box;
   }
 
-/* Distal canvas (position & sizing controlled here) */
+/* Distal Tubule canvas */
   #distalCanvas {
     position: absolute;
     top: 97px;
@@ -122,6 +122,17 @@
     z-index: 0;
     width: 147px;    /* display width */
     height: 33px;   /* display height */
+    display: block;
+  }
+
+/* Collecting duct canvas */
+  #collectingCanvas {
+    position: absolute;
+    top: 97px;
+    left: 255px;
+    z-index: 0;
+    width: 38px;
+    height: 298px;
     display: block;
   }
 
