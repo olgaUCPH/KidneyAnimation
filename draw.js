@@ -260,3 +260,13 @@ export function drawLegend(ctx, scale = 0.7) {
 
   ctx.restore();               // restore original state
 }
+
+
+/**
+ * Draw a solid magenta canvas (fills entire canvas)
+ */
+export function drawMagenta(ctx) {
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.fillStyle = "magenta";
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+}

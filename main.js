@@ -4,7 +4,7 @@
     import { params } from "./config.js";
     import { createSegmentState, createVasaState } from "./state.js";
     import { eulerStep, vasaEulerStep } from "./model.js";
-    import { drawHenle, drawVasa, drawArrows, drawVasaArrows, drawColorBar } from "./draw.js";
+    import { drawHenle, drawVasa, drawArrows, drawVasaArrows, drawColorBar, drawMagenta } from "./draw.js";
     import { initUI } from "./ui.js";
     import { createFilledArray } from "./utils.js";
     import { initSvg, updateSvgColors } from "./svg.js";
@@ -25,6 +25,11 @@ const ctxBar = colorBarCanvas.getContext("2d");
 
 const colorBarVasaCanvas = document.getElementById("colorBarVasa");
 const ctxBarVasa = colorBarVasaCanvas.getContext("2d");
+
+// ---- Magenta canvas context ----
+const magentaCanvas = document.getElementById("magentaCanvas");
+const magentaCtx = magentaCanvas.getContext("2d");
+magentaCtx.scale(4, 4);
 
 
 // ---- Model state ----
@@ -73,6 +78,7 @@ function drawAll(
     // Clear canvases first
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     vasaCtx.clearRect(0, 0, vasaCanvas.width, vasaCanvas.height);
+    magentaCtx.clearRect(0, 0, magentaCanvas.width, magentaCanvas.height);
 
     // Henle colorbar wrapper (title + canvas)
     const henleColorbarWrapper = document.querySelector(".colorbar-wrapper.henle");
@@ -102,6 +108,9 @@ function drawAll(
         ctxBarVasa.clearRect(0, 0, ctxBarVasa.canvas.width, ctxBarVasa.canvas.height);
         if (vasaColorbarWrapper) vasaColorbarWrapper.style.visibility = "hidden";
     }
+
+    // Draw magenta canvas unconditionally
+    drawMagenta(magentaCtx);
 
 
     

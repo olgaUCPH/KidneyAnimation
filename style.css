@@ -114,6 +114,17 @@
     box-sizing: border-box;
   }
 
+/* Magenta canvas (position & sizing controlled here) */
+  #magentaCanvas {
+    position: absolute;
+    top: 97px;
+    left: 108px;
+    z-index: 0;
+    width: 147px;    /* display width */
+    height: 33px;   /* display height */
+    display: block;
+  }
+
 
 /* =========================
    Overlay Elements
