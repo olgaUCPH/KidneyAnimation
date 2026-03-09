@@ -114,8 +114,8 @@
     box-sizing: border-box;
   }
 
-/* Magenta canvas (position & sizing controlled here) */
-  #magentaCanvas {
+/* Distal canvas (position & sizing controlled here) */
+  #distalCanvas {
     position: absolute;
     top: 97px;
     left: 108px;

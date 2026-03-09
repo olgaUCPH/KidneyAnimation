@@ -58,7 +58,21 @@ export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.
         segmentState.ints[i] += dNa.ints[i] * dt;
     }
 
-    return { R: waterFluxDesc, RNa: saltFluxAsc };
+    // ----- Distal tubule (simple model with 10 segments) -----
+    // The first distal segment is based on the end of the ascending limb,
+    // then each subsequent distal segment takes the previous segment value * 0.95
+    // TODO make n based on same as drawing (instead of defining twice)
+    const nDistal = 10;
+    const distal = new Array(nDistal).fill(0);
+    const ascEnd = segmentState.asc[nSegments - 1];
+    if (ascEnd !== undefined) {
+        distal[0] = ascEnd * 0.95;
+        for (let d = 1; d < nDistal; d++) {
+            distal[d] = distal[d - 1] * 0.95;
+        }
+    }
+
+    return { R: waterFluxDesc, RNa: saltFluxAsc, distal };
 }
 
 /**
