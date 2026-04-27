@@ -24,9 +24,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="20.593724"
-     inkscape:cx="219.55718"
-     inkscape:cy="136.61929"
+     inkscape:zoom="7.280981"
+     inkscape:cx="269.40051"
+     inkscape:cy="112.55351"
      inkscape:window-width="1920"
      inkscape:window-height="991"
      inkscape:window-x="-9"
@@ -328,12 +328,12 @@
        x="527.3233"
        y="93.204895" />
     <path
-       id="rect7"
+       id="VasaShadow2"
        style="fill:url(#radialGradient13);fill-opacity:1;stroke:none;stroke-width:0.401623;stroke-linecap:round;stroke-dasharray:none"
        d="m 513.22792,117.40488 v 8.92762 h 10.67996 v -8.92762 z"
        sodipodi:nodetypes="ccccc" />
     <path
-       id="rect8"
+       id="VasaShadow1"
        style="fill:url(#radialGradient12);fill-opacity:1;stroke:none;stroke-width:0.401623;stroke-linecap:round;stroke-dasharray:none"
        d="m 485.39965,117.39558 v 8.92711 h 10.67996 v -8.92711 z"
        sodipodi:nodetypes="ccccc" />

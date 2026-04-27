@@ -6,6 +6,7 @@ let henleLoopBottom, henleOutline;
 let henleDescText, henleAscText, henleText;
 let vasaLoopBottom, vasaOutline, vasaOutline2;
 let vasaDesc, vasaAsc, vasaDescText, vasaAscText, vasaText;
+let vasaShadow1, vasaShadow2;
 let bowmanCap, collectingDuct, aboveCollectingDuct;
 
 let segmentState, vasaState;  // store references
@@ -42,6 +43,8 @@ export function initSvg(segment, vasa) {
         vasaDescText = svgDoc.getElementById("DescVasaText");
         vasaAscText = svgDoc.getElementById("AscVasaText");
         vasaText = svgDoc.getElementById("VasaText");
+        vasaShadow1 = svgDoc.getElementById("VasaShadow1");
+        vasaShadow2 = svgDoc.getElementById("VasaShadow2");
 
         // Other structures
         bowmanCap = svgDoc.getElementById("BowmanCapsule");
@@ -95,7 +98,7 @@ export function updateSvgColors() {
     const showVasa = showVasaCheckbox?.checked ?? true;
     const vasaDisplay = showVasa ? "inline" : "none";
 
-    [vasaLoopBottom, vasaOutline, vasaOutline2, vasaDesc, vasaAsc, vasaDescText, vasaAscText, vasaText].forEach(el => {
+    [vasaLoopBottom, vasaOutline, vasaOutline2, vasaDesc, vasaAsc, vasaDescText, vasaAscText, vasaText, vasaShadow1, vasaShadow2].forEach(el => {
         if (el) el.style.display = vasaDisplay;
     });
 
