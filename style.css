@@ -111,7 +111,7 @@ body {
 #vasaCanvas {
   position: absolute;
   top: 129px;
-  left: 114px;
+  left: 124px;
   width: 132px;
   height: 220px;
   display: block;
@@ -134,9 +134,9 @@ body {
 #distalCanvas {
   position: absolute;
   top: 97px;
-  left: 108px;
+  left: 111px;
   z-index: 0;
-  width: 147px;
+  width: 167px;
   /* display width */
   height: 33px;
   /* display height */
@@ -147,7 +147,7 @@ body {
 #collectingCanvas {
   position: absolute;
   top: 129px;
-  left: 255px;
+  left: 275px;
   z-index: 0;
   width: 38px;
   height: 220px;
@@ -162,7 +162,7 @@ body {
   position: absolute;
   top: -180px;
   left: -100px;
-  width: 400px;
+  width: 440px; 
   /* match canvas dimensions */
   height: 800px;
   pointer-events: none;
