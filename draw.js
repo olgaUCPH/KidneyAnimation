@@ -66,6 +66,33 @@ export function drawHenle(ctx, segmentState) {
     }
 }
 
+
+// Distal Tubule
+export function drawDistal(ctx, distal = null) {
+    // Use the canvas pixel dimensions so bands fill the actual buffer
+    // `distal` should be an array of segment values; if null, fall back to hue bands
+    ctx.save();
+    ctx.setTransform(1, 0, 0, 1, 0, 0); // reset any scaling/transform
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+    const sections = Array.isArray(distal) && distal.length > 0 ? distal.length : 10;
+    const sectionWidth = ctx.canvas.width / sections;
+
+    for (let i = 0; i < sections; i++) {
+        let fillColor;
+        if (Array.isArray(distal) && distal[i] !== undefined && distal[i] !== null) {
+            fillColor = concentrationToColor(distal[i]);
+        } else {
+            fillColor = 'white';
+        }
+
+        ctx.fillStyle = fillColor;
+        ctx.fillRect(i * sectionWidth, 0, sectionWidth, ctx.canvas.height);
+    }
+
+    ctx.restore();
+}
+
 /**
  * Draw Vasa Recta
  */
@@ -260,3 +287,4 @@ export function drawLegend(ctx, scale = 0.7) {
 
   ctx.restore();               // restore original state
 }
+

@@ -4,7 +4,7 @@
     import { params } from "./config.js";
     import { createSegmentState, createVasaState } from "./state.js";
     import { eulerStep, vasaEulerStep } from "./model.js";
-    import { drawHenle, drawVasa, drawArrows, drawVasaArrows, drawColorBar } from "./draw.js";
+    import { drawHenle, drawVasa, drawArrows, drawVasaArrows, drawColorBar, drawDistal } from "./draw.js";
     import { initUI } from "./ui.js";
     import { createFilledArray } from "./utils.js";
     import { initSvg, updateSvgColors } from "./svg.js";
@@ -25,6 +25,10 @@ const ctxBar = colorBarCanvas.getContext("2d");
 
 const colorBarVasaCanvas = document.getElementById("colorBarVasa");
 const ctxBarVasa = colorBarVasaCanvas.getContext("2d");
+
+// Distal canvas
+const distalCanvas = document.getElementById("distalCanvas");
+const distalCtx = distalCanvas ? distalCanvas.getContext("2d") : null;
 
 
 // ---- Model state ----
@@ -82,6 +86,8 @@ function drawAll(
     // Henle
     if (showHenle) {
         drawHenle(ctx, segmentState);
+        // Draw distal tubule / collecting duct band above the henle canvas
+        if (distalCtx) drawDistal(distalCtx, segmentState.dist);
         drawArrows(ctx, fluxes.R, fluxes.RNa);
         drawColorBar(ctxBar, 'henle');
 
