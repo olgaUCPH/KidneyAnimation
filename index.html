@@ -1,34 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Dynamic Henle Loop Simulation</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Dynamic Henle Loop Simulation</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<div class="page-header">
-  <h1>Medullary concentration gradient</h1>
-  <h2>Created by Katrine Ohms and Sabrina Granberg under the supervision of Olga Sosnovtseva and Niels-Henrik Holstein-Rathlou</h2>
-</div>
+  <div class="page-header">
+    <h1>Medullary concentration gradient</h1>
+    <h2>Created by Katrine Ohms and Sabrina Granberg under the supervision of Olga Sosnovtseva and Niels-Henrik
+      Holstein-Rathlou</h2>
+  </div>
 
-<div class = 'top-row' style = "display: flex; gap: 20px;">
-  <div class="grid-container" style="display:flex; align-items:flex-start;">
-    <!-- Wrap the main canvas and SVG together -->
-    <div class="canvas-wrapper" >
-      <!-- Interstitium gradient canvas -->
-      <canvas id="interstitiumCanvas" width="960" height="1600" style="position:absolute; top:129px; left:-130px; z-index:0;"></canvas>
-      <canvas id="bottomCanvas" width="450" height="50" style="position:absolute; top:345px; left:-130px; z-index:0;"></canvas>
-      <canvas id="distalCanvas" width="600" height="80" style="position:absolute; top:410px; left:-130px; z-index:0;"></canvas>
+  <div class='top-row' style="display: flex; gap: 20px;">
+    <div class="grid-container" style="display:flex; align-items:flex-start;">
+      <!-- Wrap the main canvas and SVG together -->
+      <div class="canvas-wrapper">
+        <!-- Interstitium gradient canvas -->
+        <canvas id="interstitiumCanvas" width="960" height="1600"
+          style="position:absolute; top:129px; left:-130px; z-index:0;"></canvas>
+        <canvas id="bottomCanvas" width="450" height="50"
+          style="position:absolute; top:345px; left:-130px; z-index:0;"></canvas>
+        <canvas id="distalCanvas" width="600" height="80"></canvas>
 
-      <canvas id="henleCanvas" width="960" height="1600"></canvas>
+        <canvas id="henleCanvas" width="960" height="1600"></canvas>
 
-      <canvas id="vasaCanvas" width="900" height="1200"></canvas>
+        <canvas id="vasaCanvas" width="900" height="1200"></canvas>
 
-      <!-- SVG overlay -->
-      <object id="overlaySvg" type="image/svg+xml" data="henle_straight.svg"></object>
-    </div>
+        <!-- Collecting duct placeholder -->
+        <canvas id="collectingCanvas" width="300" height="100"></canvas>
 
-    <!-- Color bars beside each other -->
+        <!-- SVG overlay -->
+        <object id="overlaySvg" type="image/svg+xml" data="henle_straight.svg"></object>
+      </div>
+
+      <!-- Color bars beside each other -->
       <div class="colorbars" style="
         display: flex;
         flex-direction: row;
@@ -52,82 +60,87 @@
           <canvas id="colorBarVasa" width="160" height="1600" style="width:40px; height:380px;"></canvas>
         </div>
       </div>
-  </div>
-
-
-
-  <!-- Sliders -->
-  <div id="parameterList">
-    <div id="slidersGrid">
-      <!-- Can change water permeability and nacl reabsorption to 0, but creates issues when going from 0->200 -->
-      <li>
-        <label for="kSlider" title = 'Change water permeability of the descending limb in the loop of Henle by dragging the slider'>Water permeability: <span id="kValue"> 100</span>%</label>
-        <input type="range" id="kSlider" min="0" max="0.001" step="0.000025" value="0.0005">
-      </li>
-      <li>
-        <label for="maxRNaSlider" title = 'Change NaCl reabsorption of the ascending limb in the loop of Henle by dragging the slider'>NaCl reabsorption: <span id="maxRNaValue">100</span>%</label>
-        <input type="range" id="maxRNaSlider" min="0" max="200" step="5" value="100">
-      </li>
-      <li>
-        <label for="F0Slider" title = 'Change the flow rate through the loop of Henle by dragging the slider'>Loop of Henle flow: <span id="F0Value">100</span>%</label>
-        <input type="range" id="F0Slider" min="0" max="4" step="0.1" value="2">
-      </li>
-      <li>
-        <label for="FvasaSlider" title = 'Change the flow rate through the vasa recta by dragging the slider'>Vasa recta flow: <span id="FvasaValue">100</span>%</label>
-        <input type="range" id="FvasaSlider" min="0" max="2.6" step="0.065" value="1.3">
-      </li>
     </div>
 
 
-    <li>
-      <button id="resetButton">Reset</button>
-      <button id="replayButton">Replay</button>
-    </li>
 
-    
-    <li id="viewOptions" style="display: flex; align-items: flex-start; gap: 20px;">
-      <!-- Stack checkboxes vertically -->
-      <div style="display: flex; flex-direction: column; gap: 5px; width: 700px">
-        <label title = 'Hide or show the loop of Henle'><input type="checkbox" id="showHenle" checked> Loop of Henle (Multiplication)</label>
-        <label title = 'Hide or show the vasa recta'><input type="checkbox" id="showVasa" checked> Vasa Recta (Exchange)</label>
+    <!-- Sliders -->
+    <div id="parameterList">
+      <div id="slidersGrid">
+        <!-- Can change water permeability and nacl reabsorption to 0, but creates issues when going from 0->200 -->
+        <li>
+          <label for="kSlider"
+            title='Change water permeability of the descending limb in the loop of Henle by dragging the slider'>Water
+            permeability: <span id="kValue"> 100</span>%</label>
+          <input type="range" id="kSlider" min="0" max="0.001" step="0.000025" value="0.0005">
+        </li>
+        <li>
+          <label for="maxRNaSlider"
+            title='Change NaCl reabsorption of the ascending limb in the loop of Henle by dragging the slider'>NaCl
+            reabsorption: <span id="maxRNaValue">100</span>%</label>
+          <input type="range" id="maxRNaSlider" min="0" max="200" step="5" value="100">
+        </li>
+        <li>
+          <label for="F0Slider" title='Change the flow rate through the loop of Henle by dragging the slider'>Loop of
+            Henle flow: <span id="F0Value">100</span>%</label>
+          <input type="range" id="F0Slider" min="0" max="4" step="0.1" value="2">
+        </li>
+        <li>
+          <label for="FvasaSlider" title='Change the flow rate through the vasa recta by dragging the slider'>Vasa recta
+            flow: <span id="FvasaValue">100</span>%</label>
+          <input type="range" id="FvasaSlider" min="0" max="2.6" step="0.065" value="1.3">
+        </li>
       </div>
 
-      <!-- Spin box next to the stacked checkboxes -->
-      <div style = 'width:500px'>
-        <label for="speedInput">Simulation speed: </label>
-        <input 
-          id="speedInput" 
-          type="number" 
-          value="1" 
-          step="0.1" 
-          min="0.1" 
-          max="5"
-          style="width: 60px;"
-        >
-      </div>
-    </li>
+
+      <li>
+        <button id="resetButton">Reset</button>
+        <button id="replayButton">Replay</button>
+      </li>
+
+
+      <li id="viewOptions" style="display: flex; align-items: flex-start; gap: 20px;">
+        <!-- Stack checkboxes vertically -->
+        <div style="display: flex; flex-direction: column; gap: 5px; width: 700px">
+          <label title='Hide or show the loop of Henle'><input type="checkbox" id="showHenle" checked> Loop of Henle
+            (Multiplication)</label>
+          <label title='Hide or show the vasa recta'><input type="checkbox" id="showVasa" checked> Vasa Recta
+            (Exchange)</label>
+        </div>
+
+        <!-- Spin box next to the stacked checkboxes -->
+        <div style='width:500px'>
+          <label for="speedInput">Simulation speed: </label>
+          <input id="speedInput" type="number" value="1" step="0.1" min="0.1" max="5" style="width: 60px;">
+        </div>
+      </li>
 
 
 
-    <li id="infoBox">
-      <h3>Information</h3>
-      <p id="infoText"> The concentration gradient in the kidney is created and maintained by two closely related processes: <br> <strong>Countercurrent multiplication</strong> and <strong>Countercurrent exchange</strong>.
-      </p>
-    </li>
+      <li id="infoBox">
+        <h3>Information</h3>
+        <p id="infoText"> The concentration gradient in the kidney is created and maintained by two closely related
+          processes: <br> <strong>Countercurrent multiplication</strong> and <strong>Countercurrent exchange</strong>.
+        </p>
+      </li>
+    </div>
   </div>
-</div>
 
 
-<div id="MCQ" class="mcq-module"></div>
+  <div id="MCQ" class="mcq-module"></div>
 
-<div id="Link">
-  <p id="linkText"> Please consider taking our
-  <a href="https://docs.google.com/forms/d/e/1FAIpQLSeuHgzH-81An6WE7pkto9LHVy_Ncz-IhPdwrY_bIDLe6-qeGA/viewform?usp=dialog"> survey</a>
-  to help us improve. </p>
-</div>
+  <div id="Link">
+    <p id="linkText"> Please consider taking our
+      <a
+        href="https://docs.google.com/forms/d/e/1FAIpQLSeuHgzH-81An6WE7pkto9LHVy_Ncz-IhPdwrY_bIDLe6-qeGA/viewform?usp=dialog">
+        survey</a>
+      to help us improve.
+    </p>
+  </div>
 
-<!-- index.html -->
-<script type="module" src="main.js"></script>
-<script type="module" src="mcq_handle.js"></script>
+  <!-- index.html -->
+  <script type="module" src="main.js"></script>
+  <script type="module" src="mcq_handle.js"></script>
 </body>
+
 </html>

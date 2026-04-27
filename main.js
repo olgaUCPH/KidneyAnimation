@@ -1,14 +1,12 @@
 // ==================== main.js ====================
-
-
-    import { params } from "./config.js";
-    import { createSegmentState, createVasaState } from "./state.js";
-    import { eulerStep, vasaEulerStep } from "./model.js";
-    import { drawHenle, drawVasa, drawArrows, drawVasaArrows, drawColorBar, drawDistal } from "./draw.js";
-    import { initUI } from "./ui.js";
-    import { createFilledArray } from "./utils.js";
-    import { initSvg, updateSvgColors } from "./svg.js";
-    import { concentrationToColor, drawLegend } from "./draw.js";
+import { params } from "./config.js";
+import { createSegmentState, createVasaState } from "./state.js";
+import { eulerStep, vasaEulerStep } from "./model.js";
+import { drawHenle, drawVasa, drawArrows, drawVasaArrows, drawColorBar, drawDistal } from "./draw.js";
+import { initUI } from "./ui.js";
+import { createFilledArray } from "./utils.js";
+import { initSvg, updateSvgColors } from "./svg.js";
+import { concentrationToColor, drawLegend } from "./draw.js";
 
 
 // ---- Canvas contexts ----
@@ -26,9 +24,21 @@ const ctxBar = colorBarCanvas.getContext("2d");
 const colorBarVasaCanvas = document.getElementById("colorBarVasa");
 const ctxBarVasa = colorBarVasaCanvas.getContext("2d");
 
-// Distal canvas
+// ---- Distal canvas context ----
 const distalCanvas = document.getElementById("distalCanvas");
-const distalCtx = distalCanvas ? distalCanvas.getContext("2d") : null;
+let distalCtx = null;
+if (distalCanvas) {
+    distalCtx = distalCanvas.getContext("2d");
+    distalCtx.scale(4, 4);
+}
+
+// ---- Collecting duct canvas context ----
+const collectingCanvas = document.getElementById("collectingCanvas");
+let collectingCtx = null;
+if (collectingCanvas) {
+    collectingCtx = collectingCanvas.getContext("2d");
+    collectingCtx.scale(4, 4);
+}
 
 
 // ---- Model state ----
@@ -82,7 +92,7 @@ function drawAll(
     const henleColorbarWrapper = document.querySelector(".colorbar-wrapper.henle");
     // Vasa colorbar wrapper (title + canvas)
     const vasaColorbarWrapper = document.querySelector(".colorbar-wrapper.vasa");
-    
+
     // Henle
     if (showHenle) {
         drawHenle(ctx, segmentState);
@@ -110,7 +120,7 @@ function drawAll(
     }
 
 
-    
+
 }
 
 // ---- Draw interstitium gradient ----
@@ -135,8 +145,8 @@ function drawInterstitiumGradient(segmentState) {
     const bottomInt = segmentState.ints[segmentState.ints.length - 1];
     const color = concentrationToColor(bottomInt);
     bottomCtx.fillStyle = color;
-    bottomCtx.fillRect(0, 0, bottomCanvas.width, bottomCanvas.height);    
-    drawLegend(bottomCtx)   
+    bottomCtx.fillRect(0, 0, bottomCanvas.width, bottomCanvas.height);
+    drawLegend(bottomCtx)
 
 }
 
