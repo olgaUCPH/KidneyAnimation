@@ -95,19 +95,17 @@ export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.
 
     if (nCD > 0) {
         const cdState = segmentState.cd || new Array(nCD).fill(params.Na0);
-        const inletConcCd = (segmentState.dist && segmentState.dist.length > 0)
-            ? segmentState.dist[ (params.nDist || 1) - 1 ]
-            : (segmentState.asc[nSegments - 1] || params.Na0);
+const inletConcCd = segmentState.dist[segmentState.dist.length - 1];        
         const F0cd = (Fdist.length > 0) ? Fdist[Fdist.length - 1] : 0;
 
         for (let i = 0; i < nCD; i++) {
             if (i === 0) {
                 Rcd[i] = params.kcd * (segmentState.ints[i] - cdState[i]);
-                Fcd[i] = Math.max(F0cd - Rcd[i], 0);
+                Fcd[i] = F0cd - Rcd[i];
                 dNaCd[i] = F0cd * inletConcCd - Fcd[i] * cdState[i] - params.knacd * cdState[i];
             } else {
                 Rcd[i] = params.kcd * (segmentState.ints[i] - cdState[i]);
-                Fcd[i] = Math.max(Fcd[i - 1] - Rcd[i], 0);
+                Fcd[i] = Fcd[i - 1] - Rcd[i];
                 dNaCd[i] = Fcd[i - 1] * cdState[i - 1] - Fcd[i] * cdState[i] - params.knacd * cdState[i];
             }
         }

@@ -2,7 +2,7 @@
 import { params } from "./config.js";
 import { createSegmentState, createVasaState } from "./state.js";
 import { eulerStep, vasaEulerStep } from "./model.js";
-import { drawHenle, drawVasa, drawArrows, drawVasaArrows, drawColorBar, drawDistal } from "./draw.js";
+import { drawHenle, drawVasa, drawArrows, drawVasaArrows, drawColorBar, drawDistal, drawCollecting } from "./draw.js";
 import { initUI } from "./ui.js";
 import { createFilledArray } from "./utils.js";
 import { initSvg, updateSvgColors } from "./svg.js";
@@ -61,6 +61,10 @@ function resetSimulation() {
     segmentState.asc = createFilledArray(params.nSegments, params.Na0);
     segmentState.ints = createFilledArray(params.nSegments, params.Na0);
 
+    // Reset distal and collecting duct states
+    segmentState.dist = createFilledArray(params.nDist, params.Na0);
+    segmentState.cd = createFilledArray(params.nCD, params.Na0);
+
     vasaState.desc = createFilledArray(params.nVasa, params.Na0);
     vasaState.asc = createFilledArray(params.nVasa, params.Na0);
 }
@@ -96,8 +100,10 @@ function drawAll(
     // Henle
     if (showHenle) {
         drawHenle(ctx, segmentState);
-        // Draw distal tubule / collecting duct band above the henle canvas
+        // Draw distal tubule band
         if (distalCtx) drawDistal(distalCtx, segmentState.dist);
+        // Draw collecting duct using model values
+        if (collectingCtx) drawCollecting(collectingCtx, segmentState.cd);
         drawArrows(ctx, fluxes.R, fluxes.RNa);
         drawColorBar(ctxBar, 'henle');
 

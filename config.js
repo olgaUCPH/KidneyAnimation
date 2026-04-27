@@ -28,7 +28,7 @@ export const params = {
     // -- 1.5 Collecting duct parameters --
     kcd: 1.0E-3,    // Water permeability in collecting duct (ADH sensitive) %NEW
     knacd: 1.E-2,   // Transport coefficient for Na in medullary collecting duct %NEW
-    nCD: 10,        // Number of segments in medullary collecting duct
+    nCD: 20,        // Number of segments in medullary collecting duct
 
     // -- 1.6 Henle graph --    
     nSegments: 20,

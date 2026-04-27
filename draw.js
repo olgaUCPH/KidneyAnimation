@@ -288,3 +288,25 @@ export function drawLegend(ctx, scale = 0.7) {
   ctx.restore();               // restore original state
 }
 
+/**
+ * Draw collecting duct placeholder as solid magenta
+ */
+export function drawCollecting(ctx, cd = null) {
+    // Draw collecting duct segments vertically using concentration colors
+    ctx.save();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+    const sections = Array.isArray(cd) && cd.length > 0 ? cd.length : params.nCD || 10;
+    const sectionHeight = ctx.canvas.height / sections;
+    const width = ctx.canvas.width;
+
+    for (let i = 0; i < sections; i++) {
+        const value = Array.isArray(cd) ? cd[i] : null;
+        const fillColor = (value !== undefined && value !== null) ? concentrationToColor(value) : 'magenta';
+        ctx.fillStyle = fillColor;
+        ctx.fillRect(0, i * sectionHeight, width, sectionHeight);
+    }
+
+    ctx.restore();
+}

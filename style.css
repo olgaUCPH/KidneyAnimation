@@ -146,11 +146,11 @@ body {
 /* Collecting duct canvas */
 #collectingCanvas {
   position: absolute;
-  top: 97px;
+  top: 129px;
   left: 255px;
   z-index: 0;
   width: 38px;
-  height: 298px;
+  height: 220px;
   display: block;
 }
 
