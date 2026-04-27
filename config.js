@@ -20,11 +20,22 @@ export const params = {
     knaavr: 0.0005,     // Na permeability, ascending
     F0vr: 1.7,         // Flow into descending vasa recta
 
-    // -- 1.4 Henle graph --    
+    // -- 1.4 Distal tubule parameters --
+    kdt: 1.0E-3,    // Water permeability in distal tubule and cortical collecting duct   %NEW
+    knadt: 5.E-3,   // Transport coefficient for Na in distal tubule and cortical collecting duct %NEW
+    nDist: 10,      // Number of segments in distal tubule + cortical collecting duct
+    
+    // -- 1.5 Collecting duct parameters --
+    kcd: 1.0E-3,    // Water permeability in collecting duct (ADH sensitive) %NEW
+    knacd: 1.E-2,   // Transport coefficient for Na in medullary collecting duct %NEW
+    nCD: 10,        // Number of segments in medullary collecting duct
+
+    // -- 1.6 Henle graph --    
     nSegments: 20,
     totalHeight: 400,
     totalWidth: 240,
     interstitiumWidth: 109,  // width for interstitium
+
 
     // Derived widths & heights
     get limbWidth() { return (this.totalWidth - this.interstitiumWidth) / 2; },

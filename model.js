@@ -1,7 +1,7 @@
 import { params } from "./config.js";
 /**
  * One Euler step for Henle loop
- * @param {Object} segmentState - { desc: [], asc: [], ints: [] }
+ * @param {Object} segmentState - { desc: [], asc: [], ints: [], dist?: [], cd?: [] }
  * @param {number} dt - time step
  * @param {Object} modelVars - { k, maxRNa, F0 }
  * @returns {Object} fluxes { R: waterFluxDesc, RNa: saltFluxAsc }
@@ -58,7 +58,67 @@ export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.
         segmentState.ints[i] += dNa.ints[i] * dt;
     }
 
-    return { R: waterFluxDesc, RNa: saltFluxAsc };
+    // ----- Distal tubule + cortical collecting duct (simplified) -----
+    const nDist = params.nDist || 0;
+    const Rdist = new Array(nDist).fill(0);
+    const Fdist = new Array(nDist).fill(0);
+    const dNaDist = new Array(nDist).fill(0);
+
+    if (nDist > 0) {
+        const distState = segmentState.dist || new Array(nDist).fill(params.Na0);
+        const inletConcDist = segmentState.asc[nSegments - 1];
+        const F0dt = Fa;
+
+        for (let i = 0; i < nDist; i++) {
+            if (i === 0) {
+                Rdist[i] = params.kdt * (params.Na0 - distState[i]);
+                Fdist[i] = Math.max(F0dt - Rdist[i], 0);
+                dNaDist[i] = F0dt * inletConcDist - Fdist[i] * distState[i] - params.knadt * distState[i];
+            } else {
+                Rdist[i] = params.kdt * (params.Na0 - distState[i]);
+                Fdist[i] = Math.max(Fdist[i - 1] - Rdist[i], 0);
+                dNaDist[i] = Fdist[i - 1] * distState[i - 1] - Fdist[i] * distState[i] - params.knadt * distState[i];
+            }
+        }
+
+        // update distal state
+        if (segmentState.dist) {
+            for (let i = 0; i < nDist; i++) segmentState.dist[i] += dNaDist[i] * dt;
+        }
+    }
+
+    // ----- Medullary collecting duct (simplified) -----
+    const nCD = params.nCD || 0;
+    const Rcd = new Array(nCD).fill(0);
+    const Fcd = new Array(nCD).fill(0);
+    const dNaCd = new Array(nCD).fill(0);
+
+    if (nCD > 0) {
+        const cdState = segmentState.cd || new Array(nCD).fill(params.Na0);
+        const inletConcCd = (segmentState.dist && segmentState.dist.length > 0)
+            ? segmentState.dist[ (params.nDist || 1) - 1 ]
+            : (segmentState.asc[nSegments - 1] || params.Na0);
+        const F0cd = (Fdist.length > 0) ? Fdist[Fdist.length - 1] : 0;
+
+        for (let i = 0; i < nCD; i++) {
+            if (i === 0) {
+                Rcd[i] = params.kcd * (segmentState.ints[i] - cdState[i]);
+                Fcd[i] = Math.max(F0cd - Rcd[i], 0);
+                dNaCd[i] = F0cd * inletConcCd - Fcd[i] * cdState[i] - params.knacd * cdState[i];
+            } else {
+                Rcd[i] = params.kcd * (segmentState.ints[i] - cdState[i]);
+                Fcd[i] = Math.max(Fcd[i - 1] - Rcd[i], 0);
+                dNaCd[i] = Fcd[i - 1] * cdState[i - 1] - Fcd[i] * cdState[i] - params.knacd * cdState[i];
+            }
+        }
+
+        // update collecting duct state
+        if (segmentState.cd) {
+            for (let i = 0; i < nCD; i++) segmentState.cd[i] += dNaCd[i] * dt;
+        }
+    }
+
+    return { R: waterFluxDesc, RNa: saltFluxAsc, Rdist, Fdist, Rcd, Fcd };
 }
 
 /**
