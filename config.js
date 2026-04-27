@@ -18,7 +18,7 @@ export const params = {
     kavr: 0.0005,        // Water permeability, ascending vasa recta
     knadvr: 0.0005,     // Na permeability, descending
     knaavr: 0.0005,     // Na permeability, ascending
-    F0vr: 1.7,         // Flow into descending vasa recta
+    F0vr: 1.3,         // Flow into descending vasa recta
 
     // -- 1.4 Distal tubule parameters --
     kdt: 1.0E-3,    // Water permeability in distal tubule and cortical collecting duct   %NEW
