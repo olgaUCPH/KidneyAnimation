@@ -7,7 +7,7 @@ let henleDescText, henleAscText, henleText;
 let vasaLoopBottom, vasaOutline, vasaOutline2;
 let vasaDesc, vasaAsc, vasaDescText, vasaAscText, vasaText;
 let vasaShadow1, vasaShadow2;
-let bowmanCap, collectingDuct, aboveCollectingDuct;
+let bowmanCap, collectingDuct, aboveCollectingDuct, belowCollectingDuct;
 
 let segmentState, vasaState;  // store references
 
@@ -50,6 +50,7 @@ export function initSvg(segment, vasa) {
         bowmanCap = svgDoc.getElementById("BowmanCapsule");
         collectingDuct = svgDoc.getElementById("CollectingDuct");
         aboveCollectingDuct = svgDoc.getElementById("AboveCollectingDuct");
+        belowCollectingDuct = svgDoc.getElementById("BelowCollectingDuct");
 
         // get checkboxes
         showHenleCheckbox = document.getElementById("showHenle");
@@ -86,6 +87,12 @@ export function updateSvgColors() {
         //henleIntBottom.style.fill = concentrationToColor(bottomInt);
         bowmanCap.style.fill = concentrationToColor(params.Na0);
         collectingDuct.style.fill = concentrationToColor(segmentState.asc[nSegments - 1]);
+        if (belowCollectingDuct) {
+            const bottomCdVal = (segmentState.cd && segmentState.cd.length > 0)
+                ? segmentState.cd[segmentState.cd.length - 1]
+                : segmentState.asc[nSegments - 1];
+            belowCollectingDuct.style.fill = concentrationToColor(bottomCdVal);
+        }
         if (aboveCollectingDuct) {
             const lastDist = (segmentState.dist && segmentState.dist.length > 0)
                 ? segmentState.dist[segmentState.dist.length - 1]
