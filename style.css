@@ -196,10 +196,10 @@ body {
   /* remove bullets */
   padding: 10px;
   margin: 20px 0;
-  margin-top: 70px;
+  margin-top: 50px;
   /* List vertical alignment */
   width: 400px;
-  height: 375px;
+  height: 420px;
 
   margin-left: 0px;
   background-color: #fdfdfd;
@@ -287,7 +287,7 @@ body {
   /* inner spacing */
   width: 94%;
   /* optional: constrain width */
-  height: 32%;
+  height: 25%;
   margin-top: 0;
   /* remove space above the box */
   overflow-y: auto;
