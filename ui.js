@@ -13,11 +13,13 @@ export function initUI(modelVars, onReset, onReplay) {
     const maxRNaSlider = document.getElementById("maxRNaSlider");
     const F0Slider = document.getElementById("F0Slider");
     const FvasaSlider = document.getElementById("FvasaSlider"); // NEW
+    const kcdSlider = document.getElementById("kcdSlider"); // NEW
 
     const kValueDisplay = document.getElementById("kValue");
     const maxRNaValueDisplay = document.getElementById("maxRNaValue");
     const F0ValueDisplay = document.getElementById("F0Value");
     const FvasaValueDisplay = document.getElementById("FvasaValue"); // NEW
+    const kcdValueDisplay = document.getElementById("kcdValue"); // NEW
 
     // Info box and related init
     const infoText = document.getElementById("infoText");
@@ -33,6 +35,7 @@ export function initUI(modelVars, onReset, onReplay) {
     maxRNaValueDisplay.textContent = parseFloat(maxRNaSlider.value).toFixed(0); 
     F0ValueDisplay.textContent = (parseFloat(F0Slider.value) * F0_MULT).toFixed(0);
     FvasaValueDisplay.textContent = parseFloat(FvasaSlider.value * F0VR_MULT).toFixed(0)
+    kcdValueDisplay.textContent = (parseFloat(kcdSlider.value) * K_MULT).toFixed(0);
     const henleColorBar = document.getElementById("colorBar");
     const vasaColorBar = document.getElementById("colorBarVasa");
 
@@ -49,6 +52,21 @@ export function initUI(modelVars, onReset, onReplay) {
         const val = parseFloat(e.target.value);
         modelVars.k = val;  // keep real small value for model
         kValueDisplay.textContent = (val * K_MULT).toFixed(0); // show friendly number
+    });
+
+   // Collecting duct slider (kcd)
+   kcdSlider.addEventListener("mouseover", (e) => {
+        infoText.textContent = `Collecting duct water permeability determines water reabsorption in the medullary collecting duct and is ADH-sensitive.`;
+    });
+
+    kcdSlider.addEventListener("touchstart", (e) => {
+        infoText.textContent = `Collecting duct water permeability determines water reabsorption in the medullary collecting duct and is ADH-sensitive.`;
+    });
+
+    kcdSlider.addEventListener("input", (e) => {
+        const val = parseFloat(e.target.value);
+        modelVars.kcd = val;  // keep real small value for model
+        kcdValueDisplay.textContent = (val * K_MULT).toFixed(0); // show friendly number
     });
 
     maxRNaSlider.addEventListener("mouseover", (e) => {
@@ -162,18 +180,21 @@ export function initUI(modelVars, onReset, onReplay) {
         modelVars.maxRNa = 100;
         modelVars.F0 = 2;
         modelVars.F0vr = 1.3;
+        modelVars.kcd = params.kcd;
 
         // Reset slider positions
         kSlider.value = modelVars.k;
         maxRNaSlider.value = modelVars.maxRNa;
         F0Slider.value = modelVars.F0;
         FvasaSlider.value = modelVars.F0vr;
+        kcdSlider.value = modelVars.kcd;
 
         // Update displayed values with multipliers
         kValueDisplay.textContent = (modelVars.k * K_MULT).toFixed(0);
         maxRNaValueDisplay.textContent = modelVars.maxRNa.toFixed(0); // no multiplier for maxRNa
         F0ValueDisplay.textContent = (modelVars.F0 * F0_MULT).toFixed(0);
         FvasaValueDisplay.textContent = Math.round(modelVars.F0vr * F0VR_MULT / 5) * 5; // rounds to nearest 5
+        kcdValueDisplay.textContent = (modelVars.kcd * K_MULT).toFixed(0);
 
     if (onReset) onReset();
     });

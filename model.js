@@ -6,8 +6,8 @@ import { params } from "./config.js";
  * @param {Object} modelVars - { k, maxRNa, F0 }
  * @returns {Object} fluxes { R: waterFluxDesc, RNa: saltFluxAsc }
  */
-export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.k, maxRNa: params.maxRNa, F0: params.F0 }) {
-    const { k, maxRNa, F0 } = modelVars; // extract slider-controlled params
+export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.k, maxRNa: params.maxRNa, F0: params.F0, kcd: params.kcd }) {
+    const { k, maxRNa, F0, kcd } = modelVars; // extract slider-controlled params
     const nSegments = params.nSegments;
 
     const dNa = {
@@ -99,12 +99,12 @@ const inletConcCd = segmentState.dist[segmentState.dist.length - 1];
         const F0cd = (Fdist.length > 0) ? Fdist[Fdist.length - 1] : 0;
 
         for (let i = 0; i < nCD; i++) {
-            if (i === 0) {
-                Rcd[i] = params.kcd * (segmentState.ints[i] - cdState[i]);
+                if (i === 0) {
+                    Rcd[i] = kcd * (segmentState.ints[i] - cdState[i]);
                 Fcd[i] = F0cd - Rcd[i];
                 dNaCd[i] = F0cd * inletConcCd - Fcd[i] * cdState[i] - params.knacd * cdState[i];
             } else {
-                Rcd[i] = params.kcd * (segmentState.ints[i] - cdState[i]);
+                    Rcd[i] = kcd * (segmentState.ints[i] - cdState[i]);
                 Fcd[i] = Fcd[i - 1] - Rcd[i];
                 dNaCd[i] = Fcd[i - 1] * cdState[i - 1] - Fcd[i] * cdState[i] - params.knacd * cdState[i];
             }
