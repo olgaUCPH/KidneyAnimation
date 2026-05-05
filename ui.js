@@ -27,7 +27,8 @@ export function initUI(modelVars, onReset, onReplay) {
     const showVasa = document.getElementById("showVasa");
 
     // ---- CONST ----
-    const K_MULT = 200000; // display multiplier    
+    const K_MULT = 200000; // display multiplier for `k`
+    const KCD_MULT = 100 / 0.0001; // 1,000,000 so kcd=0.0001 -> 100%
     const F0_MULT = 50;
     const F0VR_MULT = 76.92;
 
@@ -35,7 +36,7 @@ export function initUI(modelVars, onReset, onReplay) {
     maxRNaValueDisplay.textContent = parseFloat(maxRNaSlider.value).toFixed(0); 
     F0ValueDisplay.textContent = (parseFloat(F0Slider.value) * F0_MULT).toFixed(0);
     FvasaValueDisplay.textContent = parseFloat(FvasaSlider.value * F0VR_MULT).toFixed(0)
-    kcdValueDisplay.textContent = (parseFloat(kcdSlider.value) * K_MULT).toFixed(0);
+    kcdValueDisplay.textContent = (parseFloat(kcdSlider.value) * KCD_MULT).toFixed(0);
     const henleColorBar = document.getElementById("colorBar");
     const vasaColorBar = document.getElementById("colorBarVasa");
 
@@ -66,7 +67,7 @@ export function initUI(modelVars, onReset, onReplay) {
     kcdSlider.addEventListener("input", (e) => {
         const val = parseFloat(e.target.value);
         modelVars.kcd = val;  // keep real small value for model
-        kcdValueDisplay.textContent = (val * K_MULT).toFixed(0); // show friendly number
+        kcdValueDisplay.textContent = (val * KCD_MULT).toFixed(0); // show friendly number (0–200%)
     });
 
     maxRNaSlider.addEventListener("mouseover", (e) => {
@@ -194,7 +195,7 @@ export function initUI(modelVars, onReset, onReplay) {
         maxRNaValueDisplay.textContent = modelVars.maxRNa.toFixed(0); // no multiplier for maxRNa
         F0ValueDisplay.textContent = (modelVars.F0 * F0_MULT).toFixed(0);
         FvasaValueDisplay.textContent = Math.round(modelVars.F0vr * F0VR_MULT / 5) * 5; // rounds to nearest 5
-        kcdValueDisplay.textContent = (modelVars.kcd * K_MULT).toFixed(0);
+        kcdValueDisplay.textContent = (modelVars.kcd * KCD_MULT).toFixed(0);
 
     if (onReset) onReset();
     });
