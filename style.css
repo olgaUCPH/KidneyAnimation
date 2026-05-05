@@ -77,6 +77,8 @@ body {
   height: 400px;
   padding-right: 10px;
   margin-top: 70px;
+  /* shift the whole graphic (canvases + overlay SVG) left by 200px */
+  transform: translateX(-100px);
 }
 
 .top-row {
@@ -162,7 +164,7 @@ body {
   position: absolute;
   top: -180px;
   left: -100px;
-  width: 440px; 
+  width: 640px; 
   /* match canvas dimensions */
   height: 800px;
   pointer-events: none;
@@ -200,6 +202,9 @@ body {
   /* List vertical alignment */
   width: 400px;
   height: 420px;
+
+  /* shift the parameter/menu panel right by 100px */
+  transform: translateX(100px);
 
   margin-left: 0px;
   background-color: #fdfdfd;
@@ -394,4 +399,10 @@ body {
   width: 94%;
   /* matches your info box */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Shift the colorbars container right by 100px to align with canvases
+   after moving the graphic left. */
+.colorbars {
+  transform: translateX(100px);
 }
