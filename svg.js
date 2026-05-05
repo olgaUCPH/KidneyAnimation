@@ -8,6 +8,8 @@ let vasaLoopBottom, vasaOutline, vasaOutline2;
 let vasaDesc, vasaAsc, vasaDescText, vasaAscText, vasaText;
 let vasaShadow1, vasaShadow2;
 let bowmanCap, collectingDuct, aboveCollectingDuct, belowCollectingDuct;
+let urineSampleBottom, urineSampleTop, urineSampleHighlight;
+
 
 let segmentState, vasaState;  // store references
 
@@ -51,6 +53,11 @@ export function initSvg(segment, vasa) {
         collectingDuct = svgDoc.getElementById("CollectingDuct");
         aboveCollectingDuct = svgDoc.getElementById("AboveCollectingDuct");
         belowCollectingDuct = svgDoc.getElementById("BelowCollectingDuct");
+
+        // Urine sample
+        urineSampleBottom = svgDoc.getElementById("UrineSampleBottom");
+        urineSampleTop = svgDoc.getElementById("UrineSampleTop");
+        urineSampleHighlight = svgDoc.getElementById("UrineSampleHighlight");
 
         // get checkboxes
         showHenleCheckbox = document.getElementById("showHenle");
@@ -98,6 +105,18 @@ export function updateSvgColors() {
                 ? segmentState.dist[segmentState.dist.length - 1]
                 : segmentState.asc[nSegments - 1];
             aboveCollectingDuct.style.fill = concentrationToColor(lastDist);
+        }
+        if (urineSampleBottom) {
+            const urineBottomVal = (segmentState.cd && segmentState.cd.length > 0)
+                ? segmentState.cd[segmentState.cd.length - 1]
+                : segmentState.asc[nSegments - 1];
+            urineSampleBottom.style.fill = concentrationToColor(urineBottomVal);
+        }
+        if (urineSampleTop) {
+            const urineTopVal = (segmentState.cd && segmentState.cd.length > 0)
+                ? segmentState.cd[segmentState.cd.length - 1]
+                : segmentState.asc[nSegments - 1];
+            urineSampleTop.style.fill = concentrationToColor(urineTopVal);
         }
     }
 
