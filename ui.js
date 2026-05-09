@@ -28,7 +28,7 @@ export function initUI(modelVars, onReset, onReplay) {
 
     // ---- CONST ----
     const K_MULT = 200000; // display multiplier for `k`
-    const KCD_MULT = 100 / 0.0001; // 1,000,000 so kcd=0.0001 -> 100%
+    const KCD_MULT = 100 / 0.00007; // 1,000,000 so kcd=0.0001 -> 100%
     const F0_MULT = 50;
     const F0VR_MULT = 76.92;
 
