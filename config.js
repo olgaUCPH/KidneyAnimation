@@ -26,7 +26,7 @@ export const params = {
     nDist: 10,      // Number of segments in distal tubule + cortical collecting duct
     
     // -- 1.5 Collecting duct parameters --
-    kcd: 0.0001,    // Water permeability in collecting duct (ADH sensitive) %NEW (default set to 100%)
+    kcd: 0.00007,    // Water permeability in collecting duct (ADH sensitive) %NEW (default set to 100%)
     knacd: 1.E-2,   // Transport coefficient for Na in medullary collecting duct %NEW
     nCD: 20,        // Number of segments in medullary collecting duct
 
