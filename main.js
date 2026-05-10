@@ -5,7 +5,7 @@ import { eulerStep, vasaEulerStep } from "./model.js";
 import { drawHenle, drawVasa, drawArrows, drawVasaArrows, drawColorBar, drawDistal, drawCollecting } from "./draw.js";
 import { initUI } from "./ui.js";
 import { createFilledArray } from "./utils.js";
-import { initSvg, updateSvgColors } from "./svg.js";
+import { initSvg, updateSvgColors, setUrineSampleOffset } from "./svg.js";
 import { concentrationToColor, drawLegend } from "./draw.js";
 
 
@@ -45,6 +45,17 @@ if (collectingCanvas) {
 const segmentState = createSegmentState();
 const vasaState = createVasaState();
 initSvg(segmentState, vasaState);
+
+// wire pixel slider to translate urine sample elements in the SVG
+const pixelSlider = document.getElementById('pixelSlider');
+if (pixelSlider) {
+    // initialize
+    setUrineSampleOffset(parseInt(pixelSlider.value, 10) || 0);
+    pixelSlider.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value, 10) || 0;
+        setUrineSampleOffset(val);
+    });
+}
 
 
 // ---- Model variables (can be changed by UI) ----

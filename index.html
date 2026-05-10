@@ -97,6 +97,10 @@
             water permeability: <span id="kcdValue">100</span>%</label>
           <input type="range" id="kcdSlider" min="0" max="0.00014" step="0.000005" value="0.00007">
         </li>
+             <li>
+          <label for="pixelSlider" title="Urine column height">Urine column height: <span id="pixelSliderValue">0 px</span></label>
+          <input type="range" id="pixelSlider" min="0" max="65" step="1" value="0" oninput="document.getElementById('pixelSliderValue').textContent = this.value + ' px'">
+        </li>
       </div>
 
 
@@ -114,6 +118,8 @@
           <label title='Hide or show the vasa recta'><input type="checkbox" id="showVasa" checked> Vasa Recta
             (Exchange)</label>
         </div>
+
+   
 
         <!-- Spin box next to the stacked checkboxes -->
         <div style='width:500px'>

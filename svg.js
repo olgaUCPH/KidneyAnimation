@@ -8,7 +8,8 @@ let vasaLoopBottom, vasaOutline, vasaOutline2;
 let vasaDesc, vasaAsc, vasaDescText, vasaAscText, vasaText;
 let vasaShadow1, vasaShadow2;
 let bowmanCap, collectingDuct, aboveCollectingDuct, belowCollectingDuct;
-let urineSampleBottom, urineSampleTop, urineSampleHighlight;
+let urineSampleBottom, urineSampleTop, urineSampleColumn, urineSampleHighlight;
+let urineSampleOffset = 0;
 
 
 let segmentState, vasaState;  // store references
@@ -57,7 +58,15 @@ export function initSvg(segment, vasa) {
         // Urine sample
         urineSampleBottom = svgDoc.getElementById("UrineSampleBottom");
         urineSampleTop = svgDoc.getElementById("UrineSampleTop");
+        urineSampleColumn = svgDoc.getElementById("UrineSampleColumn");
         urineSampleHighlight = svgDoc.getElementById("UrineSampleHighlight");
+
+        // apply pending offset if set before load
+        if (urineSampleOffset && urineSampleTop) {
+            const t = `translate(0,-${urineSampleOffset})`;
+            urineSampleTop.setAttribute('transform', t);
+            if (urineSampleHighlight) urineSampleHighlight.setAttribute('transform', t);
+        }
 
         // get checkboxes
         showHenleCheckbox = document.getElementById("showHenle");
@@ -71,6 +80,29 @@ export function initSvg(segment, vasa) {
         const vasaAscTooltip   = svgDoc.getElementById("VasaAscTooltip");
 
     });
+}
+
+// translate urine sample top and highlight by given pixels (positive moves up)
+export function setUrineSampleOffset(px) {
+    urineSampleOffset = px || 0;
+    const t = `translate(0,-${urineSampleOffset})`;
+    if (urineSampleTop) urineSampleTop.setAttribute('transform', t);
+    if (urineSampleHighlight) urineSampleHighlight.setAttribute('transform', t);
+    // stretch the column upwards by px by scaling about its bottom edge
+    if (urineSampleColumn && typeof urineSampleColumn.getBBox === 'function') {
+        try {
+            const bbox = urineSampleColumn.getBBox();
+            const origH = bbox.height || 1;
+            const newH = Math.max(0.1, origH + urineSampleOffset);
+            const scaleY = newH / origH;
+            const cx = bbox.x + bbox.width / 2;
+            const cy = bbox.y + bbox.height;
+            const colTransform = `translate(${cx},${cy}) scale(1,${scaleY}) translate(${-cx},${-cy})`;
+            urineSampleColumn.setAttribute('transform', colTransform);
+        } catch (err) {
+            // ignore if getBBox fails
+        }
+    }
 }
 
 export function updateSvgColors() {
@@ -106,18 +138,14 @@ export function updateSvgColors() {
                 : segmentState.asc[nSegments - 1];
             aboveCollectingDuct.style.fill = concentrationToColor(lastDist);
         }
-        if (urineSampleBottom) {
-            const urineBottomVal = (segmentState.cd && segmentState.cd.length > 0)
-                ? segmentState.cd[segmentState.cd.length - 1]
-                : segmentState.asc[nSegments - 1];
-            urineSampleBottom.style.fill = concentrationToColor(urineBottomVal);
-        }
-        if (urineSampleTop) {
-            const urineTopVal = (segmentState.cd && segmentState.cd.length > 0)
-                ? segmentState.cd[segmentState.cd.length - 1]
-                : segmentState.asc[nSegments - 1];
-            urineSampleTop.style.fill = concentrationToColor(urineTopVal);
-        }
+        // set urine sample fills (use same value for bottom, top, and column)
+        const urineVal = (segmentState.cd && segmentState.cd.length > 0)
+            ? segmentState.cd[segmentState.cd.length - 1]
+            : segmentState.asc[nSegments - 1];
+        const urineColor = concentrationToColor(urineVal);
+        if (urineSampleBottom) urineSampleBottom.style.fill = urineColor;
+        if (urineSampleTop) urineSampleTop.style.fill = urineColor;
+        if (urineSampleColumn) urineSampleColumn.style.fill = urineColor;
     }
 
     // ---- Vasa ----
