@@ -8,7 +8,7 @@ let vasaLoopBottom, vasaOutline, vasaOutline2;
 let vasaDesc, vasaAsc, vasaDescText, vasaAscText, vasaText;
 let vasaShadow1, vasaShadow2;
 let bowmanCap, collectingDuct, aboveCollectingDuct, belowCollectingDuct;
-let urineSampleBottom, urineSampleTop, urineSampleColumn, urineSampleHighlight;
+let urineSampleBottom, urineSampleTop, urineSampleColumn, urineSampleHighlight, mlMinText;
 let urineSampleOffset = 0;
 
 
@@ -60,12 +60,20 @@ export function initSvg(segment, vasa) {
         urineSampleTop = svgDoc.getElementById("UrineSampleTop");
         urineSampleColumn = svgDoc.getElementById("UrineSampleColumn");
         urineSampleHighlight = svgDoc.getElementById("UrineSampleHighlight");
-
+        mlMinText = svgDoc.getElementById("MlMinText");
         // apply pending offset if set before load
         if (urineSampleOffset && urineSampleTop) {
             const t = `translate(0,-${urineSampleOffset})`;
             urineSampleTop.setAttribute('transform', t);
             if (urineSampleHighlight) urineSampleHighlight.setAttribute('transform', t);
+        }
+        // if a pending offset exists, also update the ml/min label in the SVG
+        if (urineSampleOffset && mlMinText) {
+            try {
+                mlMinText.textContent = `${urineSampleOffset}`;
+            } catch (err) {
+                if (mlMinText.firstChild) mlMinText.firstChild.nodeValue = `${urineSampleOffset}`;
+            }
         }
 
         // get checkboxes
@@ -101,6 +109,15 @@ export function setUrineSampleOffset(px) {
             urineSampleColumn.setAttribute('transform', colTransform);
         } catch (err) {
             // ignore if getBBox fails
+        }
+    }
+    // update ml/min text to reflect pixel value
+    if (mlMinText) {
+        try {
+            mlMinText.textContent = `${urineSampleOffset}`;
+        } catch (err) {
+            // some SVG text nodes may require firstChild.nodeValue
+            if (mlMinText.firstChild) mlMinText.firstChild.nodeValue = `${urineSampleOffset} ml/min`;
         }
     }
 }
