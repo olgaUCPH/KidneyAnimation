@@ -1,4 +1,5 @@
 import { params } from "./config.js";
+import { setCdFlowText } from "./svg.js";
 /**
  * One Euler step for Henle loop
  * @param {Object} segmentState - { desc: [], asc: [], ints: [], dist?: [], cd?: [] }
@@ -95,25 +96,31 @@ export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.
 
     if (nCD > 0) {
         const cdState = segmentState.cd || new Array(nCD).fill(params.Na0);
-const inletConcCd = segmentState.dist[segmentState.dist.length - 1];        
+        const inletConcCd = segmentState.dist[segmentState.dist.length - 1];
         const F0cd = (Fdist.length > 0) ? Fdist[Fdist.length - 1] : 0;
 
         for (let i = 0; i < nCD; i++) {
-                if (i === 0) {
-                    Rcd[i] = kcd * (segmentState.ints[i] - cdState[i]);
+            if (i === 0) {
+                Rcd[i] = kcd * (segmentState.ints[i] - cdState[i]);
                 Fcd[i] = F0cd - Rcd[i];
                 dNaCd[i] = F0cd * inletConcCd - Fcd[i] * cdState[i] - params.knacd * cdState[i];
             } else {
-                    Rcd[i] = kcd * (segmentState.ints[i] - cdState[i]);
-                Fcd[i] = Fcd[i - 1] - Rcd[i];
+                Rcd[i] = kcd * (segmentState.ints[i] - cdState[i]);
+                Fcd[i] = Math.max(Fcd[i - 1] - Rcd[i], 0);
                 dNaCd[i] = Fcd[i - 1] * cdState[i - 1] - Fcd[i] * cdState[i] - params.knacd * cdState[i];
-            }
+            }        }
+        // update SVG text with collecting duct outlet flow (if available)
+        try {
+            if (typeof setCdFlowText === 'function') setCdFlowText(Fcd[nCD - 1]);
+        } catch (err) {
+            // ignore if SVG not loaded or function unavailable
         }
-        console.log(Fcd[nCD-1]);
-        
-        // update collecting duct state
+
+        // update collecting duct state (clamp concentrations to be non-negative)
         if (segmentState.cd) {
-            for (let i = 0; i < nCD; i++) segmentState.cd[i] += dNaCd[i] * dt;
+            for (let i = 0; i < nCD; i++) {
+                segmentState.cd[i] = Math.max(segmentState.cd[i] + dNaCd[i] * dt, 0);
+            }
         }
     }
 
@@ -148,14 +155,14 @@ export function vasaEulerStep(segmentState, vasaState, dt = params.dt, modelVars
             Fdvr[i] = F0vr - Rdvr[i];
             Fdvr[i] = Math.max(Fdvr[i], 0); // prevent negative flow
             dNa.desc[i] = F0vr * params.Na0
-                        - Fdvr[i] * vasaState.desc[i]
-                        - params.knadvr * (vasaState.desc[i] - segmentState.ints[i]);
+                - Fdvr[i] * vasaState.desc[i]
+                - params.knadvr * (vasaState.desc[i] - segmentState.ints[i]);
         } else {
             Fdvr[i] = Fdvr[i - 1] - Rdvr[i];
             Fdvr[i] = Math.max(Fdvr[i], 0); // prevent negative flow
             dNa.desc[i] = Fdvr[i - 1] * vasaState.desc[i - 1]
-                        - Fdvr[i] * vasaState.desc[i]
-                        - params.knadvr * (vasaState.desc[i] - segmentState.ints[i]);
+                - Fdvr[i] * vasaState.desc[i]
+                - params.knadvr * (vasaState.desc[i] - segmentState.ints[i]);
         }
 
         knadFluxDesc[i] = params.knadvr * (vasaState.desc[i] - segmentState.ints[i]);
@@ -171,12 +178,12 @@ export function vasaEulerStep(segmentState, vasaState, dt = params.dt, modelVars
             Favr[i] = F0avr - Ravr[i];
             Favr[i] = Math.max(Favr[i], 0); // prevent negative flow
             dNa.asc[i] = F0avr * vasaState.asc[i] - Favr[i] * vasaState.asc[i]
-                       - params.knaavr * (vasaState.asc[i] - segmentState.ints[revIndex]);
+                - params.knaavr * (vasaState.asc[i] - segmentState.ints[revIndex]);
         } else {
             Favr[i] = Favr[i - 1] - Ravr[i];
             Favr[i] = Math.max(Favr[i], 0); // prevent negative flow
             dNa.asc[i] = Favr[i - 1] * vasaState.asc[i - 1] - Favr[i] * vasaState.asc[i]
-                       - params.knaavr * (vasaState.asc[i] - segmentState.ints[revIndex]);
+                - params.knaavr * (vasaState.asc[i] - segmentState.ints[revIndex]);
         }
 
         knaFluxAsc[i] = params.knaavr * (vasaState.asc[i] - segmentState.ints[revIndex]);
@@ -208,5 +215,5 @@ export function vasaEulerStep(segmentState, vasaState, dt = params.dt, modelVars
         R: Rdvr,
         RNa: knaFluxAsc
     };
-    
+
 }

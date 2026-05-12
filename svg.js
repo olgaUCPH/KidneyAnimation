@@ -8,7 +8,8 @@ let vasaLoopBottom, vasaOutline, vasaOutline2;
 let vasaDesc, vasaAsc, vasaDescText, vasaAscText, vasaText;
 let vasaShadow1, vasaShadow2;
 let bowmanCap, collectingDuct, aboveCollectingDuct, belowCollectingDuct;
-let urineSampleBottom, urineSampleTop, urineSampleColumn, urineSampleHighlight, mlMinText;
+let urineSampleBottom, urineSampleTop, urineSampleColumn, urineSampleHighlight, mlMinText, urinaryOverflow;
+let cdFlowText;
 let urineSampleOffset = 0;
 
 
@@ -60,7 +61,9 @@ export function initSvg(segment, vasa) {
         urineSampleTop = svgDoc.getElementById("UrineSampleTop");
         urineSampleColumn = svgDoc.getElementById("UrineSampleColumn");
         urineSampleHighlight = svgDoc.getElementById("UrineSampleHighlight");
+        urinaryOverflow = svgDoc.getElementById("UrinaryOverflow");
         mlMinText = svgDoc.getElementById("MlMinText");
+        cdFlowText = svgDoc.getElementById("CdFlowText");
         // apply pending offset if set before load
         if (urineSampleOffset && urineSampleTop) {
             const t = `translate(0,-${urineSampleOffset})`;
@@ -90,9 +93,45 @@ export function initSvg(segment, vasa) {
     });
 }
 
+// set collecting duct flow text in the SVG (element id: CdFlowText). Falls back to `MlMinText`.
+export function setCdFlowText(value) {
+    const textEl = cdFlowText || mlMinText;
+    if (!textEl) return;
+    const num = Number(value);
+    const multiplier = 18;
+    if (Number.isFinite(num)) {
+        const scaled = num * multiplier;
+        const out = scaled.toFixed(2);
+        try {
+            textEl.textContent = out;
+        } catch (err) {
+            if (textEl.firstChild) textEl.firstChild.nodeValue = out;
+        }
+
+        // Adjust multiplier
+        const px = Math.max(0, scaled * 4);
+        try {
+            // pass false to avoid updating the ml/min text (so CD text stays unchanged)
+            setUrineSampleOffset(px, false);
+        } catch (err) {
+            // ignore if setter unavailable or SVG not loaded
+        }
+    } else {
+        const out = String(value);
+        try {
+            textEl.textContent = out;
+        } catch (err) {
+            if (textEl.firstChild) textEl.firstChild.nodeValue = out;
+        }
+    }
+}
+
 // translate urine sample top and highlight by given pixels (positive moves up)
-export function setUrineSampleOffset(px) {
-    urineSampleOffset = px || 0;
+export function setUrineSampleOffset(px, updateMlMin = true) {
+    // clamp pixel offset to range [0, 76] to ensure SVG height never exceeds 76px
+    const requested = (px || 0);
+    const clamped = Math.max(0, Math.min(requested, 74));
+    urineSampleOffset = clamped;
     const t = `translate(0,-${urineSampleOffset})`;
     if (urineSampleTop) urineSampleTop.setAttribute('transform', t);
     if (urineSampleHighlight) urineSampleHighlight.setAttribute('transform', t);
@@ -111,8 +150,8 @@ export function setUrineSampleOffset(px) {
             // ignore if getBBox fails
         }
     }
-    // update ml/min text to reflect pixel value
-    if (mlMinText) {
+    // update ml/min text to reflect pixel value (optional)
+    if (updateMlMin && mlMinText) {
         try {
             mlMinText.textContent = `${urineSampleOffset}`;
         } catch (err) {
