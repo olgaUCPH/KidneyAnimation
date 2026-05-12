@@ -109,7 +109,8 @@ const inletConcCd = segmentState.dist[segmentState.dist.length - 1];
                 dNaCd[i] = Fcd[i - 1] * cdState[i - 1] - Fcd[i] * cdState[i] - params.knacd * cdState[i];
             }
         }
-
+        console.log(Fcd[nCD-1]);
+        
         // update collecting duct state
         if (segmentState.cd) {
             for (let i = 0; i < nCD; i++) segmentState.cd[i] += dNaCd[i] * dt;
