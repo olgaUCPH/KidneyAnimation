@@ -12,6 +12,11 @@ let urineSampleBottom, urineSampleTop, urineSampleColumn, urineSampleHighlight, 
 let cdFlowText;
 let urineSampleOffset = 0;
 
+// display / clamp constants
+const URINE_MAX_PX = 76; // maximum visible urine column translation in px
+const CD_DISPLAY_MULTIPLIER = 18; // multiplier applied to CD value for display
+const URINE_HEIGHT_MULTIPLIER = 4; // multiplier applied to scaled value to compute pixel height
+
 
 let segmentState, vasaState;  // store references
 
@@ -98,18 +103,17 @@ export function setCdFlowText(value) {
     const textEl = cdFlowText || mlMinText;
     if (!textEl) return;
     const num = Number(value);
-    const multiplier = 18;
     if (Number.isFinite(num)) {
-        const scaled = num * multiplier;
+        const scaled = num * CD_DISPLAY_MULTIPLIER;
         const out = scaled.toFixed(2);
         try {
             textEl.textContent = out;
         } catch (err) {
             if (textEl.firstChild) textEl.firstChild.nodeValue = out;
         }
-
-        // Adjust multiplier
-        const px = Math.max(0, scaled * 4);
+        // compute pixel height from scaled value, clamp to URINE_MAX_PX
+        const rawPx = Math.max(0, scaled * URINE_HEIGHT_MULTIPLIER);
+        const px = Math.min(rawPx, URINE_MAX_PX);
         try {
             // pass false to avoid updating the ml/min text (so CD text stays unchanged)
             setUrineSampleOffset(px, false);
@@ -130,7 +134,7 @@ export function setCdFlowText(value) {
 export function setUrineSampleOffset(px, updateMlMin = true) {
     // clamp pixel offset to range [0, 76] to ensure SVG height never exceeds 76px
     const requested = (px || 0);
-    const clamped = Math.max(0, Math.min(requested, 74));
+    const clamped = Math.max(0, Math.min(requested, URINE_MAX_PX));
     urineSampleOffset = clamped;
     const t = `translate(0,-${urineSampleOffset})`;
     if (urineSampleTop) urineSampleTop.setAttribute('transform', t);
@@ -157,6 +161,17 @@ export function setUrineSampleOffset(px, updateMlMin = true) {
         } catch (err) {
             // some SVG text nodes may require firstChild.nodeValue
             if (mlMinText.firstChild) mlMinText.firstChild.nodeValue = `${urineSampleOffset} ml/min`;
+        }
+    }
+
+    // show urinary overflow when the column reaches the cap (match column color)
+    if (urinaryOverflow) {
+        if (urineSampleOffset >= URINE_MAX_PX) {
+            const colFill = (urineSampleColumn && (urineSampleColumn.style?.fill || urineSampleColumn.getAttribute?.('fill'))) || concentrationToColor(params.Na0);
+            urinaryOverflow.style.fill = colFill;
+            urinaryOverflow.style.display = 'inline';
+        } else {
+            urinaryOverflow.style.display = 'none';
         }
     }
 }
