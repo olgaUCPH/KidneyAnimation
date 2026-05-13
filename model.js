@@ -109,6 +109,7 @@ export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.
                 Fcd[i] = Math.max(Fcd[i - 1] - Rcd[i], 0);
                 dNaCd[i] = Fcd[i - 1] * cdState[i - 1] - Fcd[i] * cdState[i] - params.knacd * cdState[i];
             }        }
+            //console.log(segmentState.ints[nCD-1])
         // update SVG text with collecting duct outlet flow (if available)
         try {
             if (typeof setCdFlowText === 'function') setCdFlowText(Fcd[nCD - 1]);

@@ -14,8 +14,8 @@ let urineSampleOffset = 0;
 
 // display / clamp constants
 const URINE_MAX_PX = 76; // maximum visible urine column translation in px
-const CD_DISPLAY_MULTIPLIER = 18; // multiplier applied to CD value for display
-const URINE_HEIGHT_MULTIPLIER = 4; // multiplier applied to scaled value to compute pixel height
+const CD_DISPLAY_MULTIPLIER = 20; // multiplier applied to CD value for display
+const URINE_HEIGHT_MULTIPLIER = 12; // multiplier applied to scaled value to compute pixel height
 
 
 let segmentState, vasaState;  // store references
