@@ -64,7 +64,7 @@ export const params = {
     get ascWidthVasa() { return this.limbWidthVasa; },
 
     // -- 1.7 Color bar --
-    maxConcentration: 1600,
+    maxConcentration: 1400,
     colorbarTickStep: 200,
 
     // -- 1.8 Animation parameters --

@@ -217,12 +217,12 @@ export function drawColorBar(ctxBar, mode) {
 
     // Set range and color function depending on mode
     if (mode === 'vasa') {
-        cMin = 200;
-        cMax = params.maxConcentration - 300;
+        cMin = 0;
+        cMax = params.maxConcentration;
         colorFunc = concentrationToColorVasa;
     }
     else if (mode === 'henle') {
-        cMin = 200;
+        cMin = 0;
         cMax = params.maxConcentration;
         colorFunc = concentrationToColor;
     } else {
