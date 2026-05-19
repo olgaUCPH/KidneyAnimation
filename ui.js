@@ -3,7 +3,7 @@ import { params } from "./config.js";
 
 /**
  * Initialize sliders and buttons
- * @param {Object} modelVars - { k, maxRNa, F0 } (model variables)
+ * @param {Object} modelVars - { k, maxRNa, F0, F0vr, kcd, knacd} (model variables)
  * @param {Function} onReset - callback to reset the simulation
  * @param {Function} onReplay - callback to replay the simulation
  */
@@ -14,12 +14,14 @@ export function initUI(modelVars, onReset, onReplay) {
     const F0Slider = document.getElementById("F0Slider");
     const FvasaSlider = document.getElementById("FvasaSlider"); // NEW
     const kcdSlider = document.getElementById("kcdSlider"); // NEW
+    const knacdSlider = document.getElementById("knacdSlider");
 
     const kValueDisplay = document.getElementById("kValue");
     const maxRNaValueDisplay = document.getElementById("maxRNaValue");
     const F0ValueDisplay = document.getElementById("F0Value");
     const FvasaValueDisplay = document.getElementById("FvasaValue"); // NEW
     const kcdValueDisplay = document.getElementById("kcdValue"); // NEW
+    const knacdValueDisplay = document.getElementById("knacdValue");
 
     // Info box and related init
     const infoText = document.getElementById("infoText");
@@ -28,15 +30,17 @@ export function initUI(modelVars, onReset, onReplay) {
 
     // ---- CONST ----
     const K_MULT = 200000; // display multiplier for `k`
-    const KCD_MULT = 100 / 0.00007; // 1,000,000 so kcd=0.0001 -> 100%
+    const KCD_MULT = 100 / 0.00006; // 1,000,000 so kcd=0.0001 -> 100%
     const F0_MULT = 50;
-    const F0VR_MULT = 76.92;
+    const F0VR_MULT = 100;
+    const KNACD_MULT = 10000;
 
     kValueDisplay.textContent = (parseFloat(kSlider.value) * K_MULT).toFixed(0);
     maxRNaValueDisplay.textContent = parseFloat(maxRNaSlider.value).toFixed(0); 
     F0ValueDisplay.textContent = (parseFloat(F0Slider.value) * F0_MULT).toFixed(0);
     FvasaValueDisplay.textContent = parseFloat(FvasaSlider.value * F0VR_MULT).toFixed(0)
     kcdValueDisplay.textContent = (parseFloat(kcdSlider.value) * KCD_MULT).toFixed(0);
+    knacdValueDisplay.textContent = (parseFloat(knacdSlider.value) * KNACD_MULT).toFixed(0);
     const henleColorBar = document.getElementById("colorBar");
     const vasaColorBar = document.getElementById("colorBarVasa");
 
@@ -53,6 +57,21 @@ export function initUI(modelVars, onReset, onReplay) {
         const val = parseFloat(e.target.value);
         modelVars.k = val;  // keep real small value for model
         kValueDisplay.textContent = (val * K_MULT).toFixed(0); // show friendly number
+    });
+
+   // Na reab in distal tubule and collecting duct slider 
+    knacdSlider.addEventListener("mouseover", (e) => {
+        infoText.textContent = `The reabsorbtion of NaCl in the collecting duct is the main site for determining renal NaCl excretion. The reabsorption rate is regulated by aldosterone`;
+    });
+
+    knacdSlider.addEventListener("touchstart", (e) => {
+        infoText.textContent = `The reabsorbtion of NaCl in the collecting duct is the main site for determining renal NaCl excretion. The reabsorption rate is regulated by aldosterone`;
+    });
+
+    knacdSlider.addEventListener("input", (e) => {
+        const val = parseFloat(e.target.value);
+        modelVars.knacd = val;  // keep real small value for model
+        knacdValueDisplay.textContent = (val * KNACD_MULT).toFixed(0); // show friendly number (0–200%)
     });
 
    // Collecting duct slider (kcd)
@@ -180,8 +199,9 @@ export function initUI(modelVars, onReset, onReplay) {
         modelVars.k = 0.0005;
         modelVars.maxRNa = 100;
         modelVars.F0 = 2;
-        modelVars.F0vr = 1.3;
+        modelVars.F0vr = params.F0vr;
         modelVars.kcd = params.kcd;
+        modelVars.knacd = params.knacd;
 
         // Reset slider positions
         kSlider.value = modelVars.k;
@@ -189,6 +209,7 @@ export function initUI(modelVars, onReset, onReplay) {
         F0Slider.value = modelVars.F0;
         FvasaSlider.value = modelVars.F0vr;
         kcdSlider.value = modelVars.kcd;
+        knacdSlider.value = modelVars.knacd;
 
         // Update displayed values with multipliers
         kValueDisplay.textContent = (modelVars.k * K_MULT).toFixed(0);
@@ -196,6 +217,7 @@ export function initUI(modelVars, onReset, onReplay) {
         F0ValueDisplay.textContent = (modelVars.F0 * F0_MULT).toFixed(0);
         FvasaValueDisplay.textContent = Math.round(modelVars.F0vr * F0VR_MULT / 5) * 5; // rounds to nearest 5
         kcdValueDisplay.textContent = (modelVars.kcd * KCD_MULT).toFixed(0);
+        knacdValueDisplay.textContent = 100;
 
     if (onReset) onReset();
     });

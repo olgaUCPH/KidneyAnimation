@@ -4,11 +4,11 @@ import { setCdFlowText } from "./svg.js";
  * One Euler step for Henle loop
  * @param {Object} segmentState - { desc: [], asc: [], ints: [], dist?: [], cd?: [] }
  * @param {number} dt - time step
- * @param {Object} modelVars - { k, maxRNa, F0 }
+ * @param {Object} modelVars - { k, maxRNa, F0, F0vr, kcd, knacd}
  * @returns {Object} fluxes { R: waterFluxDesc, RNa: saltFluxAsc }
  */
-export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.k, maxRNa: params.maxRNa, F0: params.F0, kcd: params.kcd }) {
-    const { k, maxRNa, F0, kcd } = modelVars; // extract slider-controlled params
+export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.k, maxRNa: params.maxRNa, F0: params.F0, F0vr: params.F0vr, kcd: params.kcd, knacd: params.knacd }) {
+    const { k, maxRNa, F0, F0vr, kcd, knacd } = modelVars; // extract slider-controlled params
     const nSegments = params.nSegments;
 
     const dNa = {
@@ -99,15 +99,16 @@ export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.
         const inletConcCd = segmentState.dist[segmentState.dist.length - 1];
         const F0cd = (Fdist.length > 0) ? Fdist[Fdist.length - 1] : 0;
 
+        console.log(knacd);
         for (let i = 0; i < nCD; i++) {
             if (i === 0) {
                 Rcd[i] = kcd * (segmentState.ints[i] - cdState[i]);
                 Fcd[i] = F0cd - Rcd[i];
-                dNaCd[i] = F0cd * inletConcCd - Fcd[i] * cdState[i] - params.knacd * cdState[i];
+                dNaCd[i] = F0cd * inletConcCd - Fcd[i] * cdState[i] - knacd * cdState[i];
             } else {
                 Rcd[i] = kcd * (segmentState.ints[i] - cdState[i]);
                 Fcd[i] = Math.max(Fcd[i - 1] - Rcd[i], 0);
-                dNaCd[i] = Fcd[i - 1] * cdState[i - 1] - Fcd[i] * cdState[i] - params.knacd * cdState[i];
+                dNaCd[i] = Fcd[i - 1] * cdState[i - 1] - Fcd[i] * cdState[i] - knacd * cdState[i];
             }        }
             //console.log(segmentState.ints[nCD-1])
         // update SVG text with collecting duct outlet flow (if available)
