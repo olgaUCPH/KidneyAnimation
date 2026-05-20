@@ -99,7 +99,6 @@ export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.
         const inletConcCd = segmentState.dist[segmentState.dist.length - 1];
         const F0cd = (Fdist.length > 0) ? Fdist[Fdist.length - 1] : 0;
 
-        console.log(knacd);
         for (let i = 0; i < nCD; i++) {
             if (i === 0) {
                 Rcd[i] = kcd * (segmentState.ints[i] - cdState[i]);
@@ -110,7 +109,7 @@ export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.
                 Fcd[i] = Math.max(Fcd[i - 1] - Rcd[i], 0);
                 dNaCd[i] = Fcd[i - 1] * cdState[i - 1] - Fcd[i] * cdState[i] - knacd * cdState[i];
             }        }
-            //console.log(segmentState.ints[nCD-1])
+            //console.log(Fcd[nCD-1])
         // update SVG text with collecting duct outlet flow (if available)
         try {
             if (typeof setCdFlowText === 'function') setCdFlowText(Fcd[nCD - 1]);
