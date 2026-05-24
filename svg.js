@@ -8,7 +8,8 @@ let vasaLoopBottom, vasaOutline, vasaOutline2;
 let vasaDesc, vasaAsc, vasaDescText, vasaAscText, vasaText;
 let vasaShadow1, vasaShadow2;
 let bowmanCap, collectingDuct, aboveCollectingDuct, belowCollectingDuct;
-let urineSampleBottom, urineSampleTop, urineSampleColumn, urineSampleHighlight, mlMinText;
+let urineSampleBottom, urineSampleTop, urineSampleColumn, urineSampleHighlight;
+let mlMinText, lDayText;
 let cdFlowText;
 let urineSampleOffset = 0;
 
@@ -67,6 +68,7 @@ export function initSvg(segment, vasa) {
         urineSampleColumn = svgDoc.getElementById("UrineSampleColumn");
         urineSampleHighlight = svgDoc.getElementById("UrineSampleHighlight");
         mlMinText = svgDoc.getElementById("MlMinText");
+        lDayText = svgDoc.getElementById("LDayText");
         cdFlowText = svgDoc.getElementById("CdFlowText");
         // apply pending offset if set before load
         if (urineSampleOffset && urineSampleTop) {
@@ -80,6 +82,26 @@ export function initSvg(segment, vasa) {
                 mlMinText.textContent = `${urineSampleOffset}`;
             } catch (err) {
                 if (mlMinText.firstChild) mlMinText.firstChild.nodeValue = `${urineSampleOffset}`;
+            }
+        }
+
+        // try to update L/day text based on the ml/min text if possible
+        if (urineSampleOffset && lDayText) {
+            try {
+                // prefer numeric ml/min value from mlMinText if available
+                let mlMinVal = NaN;
+                if (mlMinText) {
+                    const txt = mlMinText.textContent || (mlMinText.firstChild && mlMinText.firstChild.nodeValue) || '';
+                    mlMinVal = Number(txt);
+                }
+                if (Number.isFinite(mlMinVal)) {
+                    const lDayVal = mlMinVal * 60 * 24 / 1000; // convert ml/min -> L/day
+                    lDayText.textContent = `${lDayVal.toFixed(2)}`;
+                } else {
+                    lDayText.textContent = `${urineSampleOffset}`;
+                }
+            } catch (err) {
+                if (lDayText.firstChild) lDayText.firstChild.nodeValue = `${urineSampleOffset}`;
             }
         }
 
@@ -109,6 +131,20 @@ export function setCdFlowText(value) {
             textEl.textContent = out;
         } catch (err) {
             if (textEl.firstChild) textEl.firstChild.nodeValue = out;
+        }
+        // update L/day text (convert ml/min -> L/day)
+        try {
+            if (lDayText) {
+                const lDayVal = scaled * 60 * 24 / 1000;
+                const outL = lDayVal.toFixed(2);
+                try {
+                    lDayText.textContent = outL;
+                } catch (err) {
+                    if (lDayText.firstChild) lDayText.firstChild.nodeValue = outL;
+                }
+            }
+        } catch (err) {
+            // ignore any errors updating L/day text
         }
         // compute pixel height from scaled value, clamp to URINE_MAX_PX
         const rawPx = Math.max(0, scaled * URINE_HEIGHT_MULTIPLIER);
@@ -173,6 +209,23 @@ export function setUrineSampleOffset(px, updateMlMin = true) {
         } catch (err) {
             // some SVG text nodes may require firstChild.nodeValue
             if (mlMinText.firstChild) mlMinText.firstChild.nodeValue = `${urineSampleOffset} ml/min`;
+        }
+        // also update L/day text if we can parse a numeric ml/min value
+        if (lDayText) {
+            try {
+                const txt = mlMinText.textContent || (mlMinText.firstChild && mlMinText.firstChild.nodeValue) || '';
+                const mlVal = Number(txt);
+                if (Number.isFinite(mlVal)) {
+                    const lDayVal = mlVal * 60 * 24 / 1000;
+                    try {
+                        lDayText.textContent = `${lDayVal.toFixed(2)}`;
+                    } catch (err) {
+                        if (lDayText.firstChild) lDayText.firstChild.nodeValue = `${lDayVal.toFixed(2)}`;
+                    }
+                }
+            } catch (err) {
+                // ignore
+            }
         }
     }
 }
