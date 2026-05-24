@@ -1,8 +1,8 @@
 // mcq_handle.js
 const mcqContainer = document.getElementById('MCQ');
 
-// Questions
-const questions = [
+// Knowledge Check questions (existing)
+const knowledgeQuestions = [
     // Question 1
     {
         question: "Why is the descending limb of the loop of Henle important for concentrating urine?",
@@ -71,31 +71,114 @@ const questions = [
         ]
     },
     // Explanation: Loop diuretics inhibit the NKCC2 transporter, disrupting the countercurrent multiplier mechanism and impairing urine concentration
-
-    // More questions go here
 ];
 
+// Interactive Lab module: one question per slider + scenario combination questions
+const interactiveQuestions = [
+  // Slider identification questions
+  {
+    question: "Which manipulation will increase water permeability of the descending limb (DL)?",
+    options: [
+      { text: "DL permeability (kSlider)", correct: true },
+      { text: "AL NaCl reabsorption (maxRNaSlider)", correct: false },
+      { text: "Loop flow (F0Slider)", correct: false },
+      { text: "CD water permeability (kcdSlider)", correct: false }
+    ]
+  },
+  {
+    question: "Which manipulation will increase active NaCl reabsorption in the ascending limb (AL)?",
+    options: [
+      { text: "AL NaCl reabsorption (maxRNaSlider)", correct: true },
+      { text: "Vasa recta flow (FvasaSlider)", correct: false },
+      { text: "DL permeability (kSlider)", correct: false },
+      { text: "Collecting duct permeability (kcdSlider)", correct: false }
+    ]
+  },
+  {
+    question: "Which manipulation will increase tubular flow through the Loop of Henle?",
+    options: [
+      { text: "Loop of Henle flow (F0Slider)", correct: true },
+      { text: "Vasa recta flow (FvasaSlider)", correct: false },
+      { text: "DL permeability (kSlider)", correct: false },
+      { text: "AL NaCl reabsorption (maxRNaSlider)", correct: false }
+    ]
+  },
+  {
+    question: "Which manipulation will increase collecting duct (CD) water permeability (ADH-sensitive)?",
+    options: [
+      { text: "CD water permeability (kcdSlider)", correct: true },
+      { text: "DL permeability (kSlider)", correct: false },
+      { text: "AL NaCl reabsorption (maxRNaSlider)", correct: false },
+      { text: "Loop flow (F0Slider)", correct: false }
+    ]
+  },
+  {
+    question: "Which manipulation will increase blood flow through the vasa recta?",
+    options: [
+      { text: "Vasa recta blood flow (FvasaSlider)", correct: true },
+      { text: "Loop flow (F0Slider)", correct: false },
+      { text: "CD permeability (kcdSlider)", correct: false },
+      { text: "AL reabsorption (maxRNaSlider)", correct: false }
+    ]
+  },
 
+  // Combination / scenario questions
+  {
+    question: "A person drinks water. Which parameter change best matches this situation and how will it affect urine osmolarity and diuresis?",
+    options: [
+      { text: "Decrease CD water permeability (kcd) — urine osmolarity decreases, diuresis increases", correct: true },
+      { text: "Increase AL NaCl reabsorption (maxRNa) — urine osmolarity increases, diuresis decreases", correct: false },
+      { text: "Increase vasa recta flow (Fvasa) — urine osmolarity increases, diuresis decreases", correct: false },
+      { text: "Increase DL permeability (k) — urine osmolarity increases, diuresis decreases", correct: false }
+    ]
+  },
+  {
+    question: "A person takes loop diuretics. Which parameter change best represents the drug effect and what is the expected influence on urine osmolarity and diuresis?",
+    options: [
+      { text: "Decrease AL NaCl reabsorption (maxRNa) — urine osmolarity decreases, diuresis increases", correct: true },
+      { text: "Increase CD water permeability (kcd) — urine osmolarity increases, diuresis decreases", correct: false },
+      { text: "Decrease vasa recta flow (Fvasa) — urine osmolarity increases, diuresis decreases", correct: false },
+      { text: "Increase DL permeability (k) — urine osmolarity decreases, diuresis decreases", correct: false }
+    ]
+  },
+  {
+    question: "A person receives ADH. Which parameter would you change and how will urine osmolarity and diuresis respond?",
+    options: [
+      { text: "Increase CD water permeability (kcd) — urine osmolarity increases, diuresis decreases", correct: true },
+      { text: "Decrease AL NaCl reabsorption (maxRNa) — urine osmolarity decreases, diuresis increases", correct: false },
+      { text: "Increase vasa recta flow (Fvasa) — urine osmolarity decreases, diuresis increases", correct: false },
+      { text: "Increase Loop flow (F0) — urine osmolarity increases, diuresis decreases", correct: false }
+    ]
+  },
+  {
+    question: "A person takes SGT1 inhibitors. Which parameter change best mimics the main effect and how will urine osmolarity and diuresis change?",
+    options: [
+      { text: "Increase Loop of Henle flow (F0) — urine osmolarity decreases, diuresis increases", correct: true },
+      { text: "Increase CD water permeability (kcd) — urine osmolarity increases, diuresis decreases", correct: false },
+      { text: "Increase AL NaCl reabsorption (maxRNa) — urine osmolarity increases, diuresis decreases", correct: false },
+      { text: "Decrease vasa recta flow (Fvasa) — urine osmolarity increases, diuresis decreases", correct: false }
+    ]
+  }
+];
 
+let currentQuestions = null;
 let currentQuestionIndex = 0;
 
 function showQuestion(index) {
+  if (!currentQuestions || index < 0 || index >= currentQuestions.length) return;
   mcqContainer.innerHTML = ''; // Clear previous content
 
-  const q = questions[index];
+  const q = currentQuestions[index];
 
-  // Question title
   const h3 = document.createElement('h3');
   h3.textContent = `Question ${index + 1}`;
   mcqContainer.appendChild(h3);
 
-  // Question text
   const p = document.createElement('p');
   p.className = 'mcq-question';
   p.textContent = q.question;
   mcqContainer.appendChild(p);
 
-  // Options
   const ul = document.createElement('ul');
   ul.className = 'mcq-options';
   q.options.forEach((option, i) => {
@@ -104,7 +187,7 @@ function showQuestion(index) {
     const input = document.createElement('input');
     input.type = 'radio';
     input.name = 'question';
-    input.value = i; // index of option
+    input.value = i;
     label.appendChild(input);
     label.appendChild(document.createTextNode(option.text));
     li.appendChild(label);
@@ -112,18 +195,15 @@ function showQuestion(index) {
   });
   mcqContainer.appendChild(ul);
 
-  // Submit button
   const button = document.createElement('button');
   button.textContent = 'Submit';
-  button.id = 'submitMCQ'; 
+  button.id = 'submitMCQ';
   mcqContainer.appendChild(button);
 
-  // Feedback paragraph
   const feedback = document.createElement('p');
   feedback.id = 'mcqFeedback';
   mcqContainer.appendChild(feedback);
 
-  // Submit click handler
   button.addEventListener('click', () => {
     const selected = document.querySelector('input[name="question"]:checked');
     if (!selected) {
@@ -136,10 +216,9 @@ function showQuestion(index) {
     if (answer.correct) {
       feedback.textContent = 'Correct! ✅';
       feedback.style.color = 'green';
-      // Move to next question after a short delay
       setTimeout(() => {
         currentQuestionIndex++;
-        if (currentQuestionIndex < questions.length) {
+        if (currentQuestionIndex < currentQuestions.length) {
           showQuestion(currentQuestionIndex);
         } else {
           mcqContainer.innerHTML = '<h3>All questions completed! 🎉</h3>';
@@ -149,6 +228,40 @@ function showQuestion(index) {
       feedback.textContent = 'Incorrect. ❌ Try again!';
       feedback.style.color = 'red';
     }
+  });
+}
+
+function loadModule(moduleName) {
+  // moduleName: 'knowledge' or 'interactive'
+  if (moduleName === 'knowledge') {
+    currentQuestions = knowledgeQuestions;
+  } else if (moduleName === 'interactive') {
+    currentQuestions = interactiveQuestions;
+  } else {
+    currentQuestions = null;
+  }
+  currentQuestionIndex = 0;
+  if (currentQuestions && currentQuestions.length > 0) {
+    showQuestion(0);
+  } else {
+    mcqContainer.innerHTML = '<p>Select a module to begin.</p>';
+  }
+}
+
+// Initial prompt
+mcqContainer.innerHTML = '<p>Select a module to begin.</p>';
+
+// Wire buttons
+const knowledgeBtn = document.getElementById('KnowledgeCheckButton');
+const interactiveBtn = document.getElementById('interactiveLabButton');
+if (knowledgeBtn) {
+  knowledgeBtn.addEventListener('click', () => {
+    loadModule('knowledge');
+  });
+}
+if (interactiveBtn) {
+  interactiveBtn.addEventListener('click', () => {
+    loadModule('interactive');
   });
 }
 
