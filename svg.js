@@ -8,7 +8,7 @@ let vasaLoopBottom, vasaOutline, vasaOutline2;
 let vasaDesc, vasaAsc, vasaDescText, vasaAscText, vasaText;
 let vasaShadow1, vasaShadow2;
 let bowmanCap, collectingDuct, aboveCollectingDuct, belowCollectingDuct;
-let urineSampleBottom, urineSampleTop, urineSampleColumn, urineSampleHighlight, mlMinText, urinaryOverflow;
+let urineSampleBottom, urineSampleTop, urineSampleColumn, urineSampleHighlight, mlMinText;
 let cdFlowText;
 let urineSampleOffset = 0;
 
@@ -66,7 +66,6 @@ export function initSvg(segment, vasa) {
         urineSampleTop = svgDoc.getElementById("UrineSampleTop");
         urineSampleColumn = svgDoc.getElementById("UrineSampleColumn");
         urineSampleHighlight = svgDoc.getElementById("UrineSampleHighlight");
-        urinaryOverflow = svgDoc.getElementById("UrinaryOverflow");
         mlMinText = svgDoc.getElementById("MlMinText");
         cdFlowText = svgDoc.getElementById("CdFlowText");
         // apply pending offset if set before load
@@ -120,6 +119,19 @@ export function setCdFlowText(value) {
         } catch (err) {
             // ignore if setter unavailable or SVG not loaded
         }
+        // hide urine sample elements when flow is exactly zero
+        try {
+            const visible = num !== 0;
+            const display = visible ? 'inline' : 'none';
+            if (urineSampleBottom) urineSampleBottom.style.display = display;
+            if (urineSampleTop) urineSampleTop.style.display = display;
+            if (urineSampleColumn) urineSampleColumn.style.display = display;
+            if (urineSampleHighlight) urineSampleHighlight.style.display = display;
+            // urinary overflow should never show when flow is zero
+        } catch (err) {
+            console.log('Could not update urine sample visibility:', err);
+            // ignore if elements not present or styling fails
+        }
     } else {
         const out = String(value);
         try {
@@ -161,17 +173,6 @@ export function setUrineSampleOffset(px, updateMlMin = true) {
         } catch (err) {
             // some SVG text nodes may require firstChild.nodeValue
             if (mlMinText.firstChild) mlMinText.firstChild.nodeValue = `${urineSampleOffset} ml/min`;
-        }
-    }
-
-    // show urinary overflow when the column reaches the cap (match column color)
-    if (urinaryOverflow) {
-        if (urineSampleOffset >= URINE_MAX_PX) {
-            const colFill = (urineSampleColumn && (urineSampleColumn.style?.fill || urineSampleColumn.getAttribute?.('fill'))) || concentrationToColor(params.Na0);
-            urinaryOverflow.style.fill = colFill;
-            urinaryOverflow.style.display = 'inline';
-        } else {
-            urinaryOverflow.style.display = 'none';
         }
     }
 }
