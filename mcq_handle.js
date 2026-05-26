@@ -35,20 +35,18 @@ const knowledgeQuestions = [
         { text: "It actively secretes urea into the tubular lumen.", correct: false }
         ]
     },
-
       
     // Question 4
     {
-        question: "Which of the following changes would most likely reduce the kidney’s ability to produce concentrated urine?",
+        question: "Which relationship between the countercurrent multiplier system and the countercurrent exchange is correct?",
         options: [
-        { text: "Increased medullary blood flow through the vasa recta", correct: true },
-        { text: "Increased ADH secretion", correct: false },
-        { text: "Increased water permeability in descending limb", correct: false },
-        { text: "Increased NaCl reabsorption in the thick ascending limb", correct: false }
+        { text: "The loop of Henle performs exchange; vasa recta perform multiplication", correct: false},
+        { text: "Both are performed exclusively by the collecting duct", correct: false},
+        { text: "The loop of Henle establishes the gradient; vasa recta preserve it", correct: true},
+        { text: "Both processes occur only in cortical nephrons", correct: false}
         ]
-    },
-
-      
+    }, 
+    
     // Question 5
     {
         question: "What is the primary role of the vasa recta in the countercurrent exchange system?",
@@ -61,6 +59,17 @@ const knowledgeQuestions = [
     },
 
     // Question 6
+    {
+        question: "The vasa recta preserve the medullary osmotic gradient while still supplying nutrients because they:",
+        options: [
+        { text: "Perform active transport of sodium", correct: false },
+        { text: "Have fenestrated capillaries for filtration", correct: false },
+        { text: "Function as countercurrent exchangers with slow blood flow", correct: true },
+        { text: "Produce antidiuretic hormone", correct: false }
+        ]
+    },
+
+    // Question 7
     {
         question: "A 52-year-old man is treated with furosemide for congestive heart failure. Which of the following best describes how this drug affects his kidney’s ability to concentrate urine?",
         options: [
@@ -75,90 +84,85 @@ const knowledgeQuestions = [
 
 // Interactive Lab module: one question per slider + scenario combination questions
 const interactiveQuestions = [
-  // Slider identification questions
-  {
-    question: "Which manipulation will increase water permeability of the descending limb (DL)?",
-    options: [
-      { text: "DL permeability (kSlider)", correct: true },
-      { text: "AL NaCl reabsorption (maxRNaSlider)", correct: false },
-      { text: "Loop flow (F0Slider)", correct: false },
-      { text: "CD water permeability (kcdSlider)", correct: false }
-    ]
-  },
-  {
-    question: "Which manipulation will increase active NaCl reabsorption in the ascending limb (AL)?",
-    options: [
-      { text: "AL NaCl reabsorption (maxRNaSlider)", correct: true },
-      { text: "Vasa recta flow (FvasaSlider)", correct: false },
-      { text: "DL permeability (kSlider)", correct: false },
-      { text: "Collecting duct permeability (kcdSlider)", correct: false }
-    ]
-  },
-  {
-    question: "Which manipulation will increase tubular flow through the Loop of Henle?",
-    options: [
-      { text: "Loop of Henle flow (F0Slider)", correct: true },
-      { text: "Vasa recta flow (FvasaSlider)", correct: false },
-      { text: "DL permeability (kSlider)", correct: false },
-      { text: "AL NaCl reabsorption (maxRNaSlider)", correct: false }
-    ]
-  },
-  {
-    question: "Which manipulation will increase collecting duct (CD) water permeability (ADH-sensitive)?",
-    options: [
-      { text: "CD water permeability (kcdSlider)", correct: true },
-      { text: "DL permeability (kSlider)", correct: false },
-      { text: "AL NaCl reabsorption (maxRNaSlider)", correct: false },
-      { text: "Loop flow (F0Slider)", correct: false }
-    ]
-  },
-  {
-    question: "Which manipulation will increase blood flow through the vasa recta?",
-    options: [
-      { text: "Vasa recta blood flow (FvasaSlider)", correct: true },
-      { text: "Loop flow (F0Slider)", correct: false },
-      { text: "CD permeability (kcdSlider)", correct: false },
-      { text: "AL reabsorption (maxRNaSlider)", correct: false }
-    ]
-  },
-
-  // Combination / scenario questions
-  {
+    {
     question: "A person drinks water. Which parameter change best matches this situation and how will it affect urine osmolarity and diuresis?",
     options: [
       { text: "Decrease CD water permeability (kcd) — urine osmolarity decreases, diuresis increases", correct: true },
       { text: "Increase AL NaCl reabsorption (maxRNa) — urine osmolarity increases, diuresis decreases", correct: false },
       { text: "Increase vasa recta flow (Fvasa) — urine osmolarity increases, diuresis decreases", correct: false },
       { text: "Increase DL permeability (k) — urine osmolarity increases, diuresis decreases", correct: false }
-    ]
-  },
-  {
+      ]
+    },
+    
+    {
     question: "A person takes loop diuretics. Which parameter change best represents the drug effect and what is the expected influence on urine osmolarity and diuresis?",
     options: [
-      { text: "Decrease AL NaCl reabsorption (maxRNa) — urine osmolarity decreases, diuresis increases", correct: true },
       { text: "Increase CD water permeability (kcd) — urine osmolarity increases, diuresis decreases", correct: false },
       { text: "Decrease vasa recta flow (Fvasa) — urine osmolarity increases, diuresis decreases", correct: false },
+      { text: "Decrease AL NaCl reabsorption (maxRNa) — urine osmolarity decreases, diuresis increases", correct: true },
       { text: "Increase DL permeability (k) — urine osmolarity decreases, diuresis decreases", correct: false }
-    ]
-  },
-  {
-    question: "A person receives ADH. Which parameter would you change and how will urine osmolarity and diuresis respond?",
+      ]
+    },
+
+    {  
+    question: "Use the sliders to determine which of the following changes reduces the kidney’s ability to produce concentrated urine?",
+        options: [
+        { text: "Increased medullary blood flow through the vasa recta", correct: true },
+        { text: "Increased ADH secretion", correct: false },
+        { text: "Increased water permeability in descending limb", correct: false },
+        { text: "Increased NaCl reabsorption in the thick ascending limb", correct: false }
+        ]
+    },
+    
+    {
+    question: "Use the sliders to compare the effect on water excretion of a loop diuretic and a diuretic (e.g. amiloride) that acts in the collecting duct. Assume that the drucgs reduce NaCl reabsorption by 50% in the respective segnments",
     options: [
-      { text: "Increase CD water permeability (kcd) — urine osmolarity increases, diuresis decreases", correct: true },
-      { text: "Decrease AL NaCl reabsorption (maxRNa) — urine osmolarity decreases, diuresis increases", correct: false },
-      { text: "Increase vasa recta flow (Fvasa) — urine osmolarity decreases, diuresis increases", correct: false },
-      { text: "Increase Loop flow (F0) — urine osmolarity increases, diuresis decreases", correct: false }
-    ]
-  },
-  {
-    question: "A person takes SGT1 inhibitors. Which parameter change best mimics the main effect and how will urine osmolarity and diuresis change?",
+      { text: "The drugs increase the urinary flow rate to the same extent", correct: false },
+      { text: "The drug acting in the collecting duct is twice as potent as the loop diuretic", correct: false },
+      { text: "The loop diuretic is approximately 2.5 time as potent as the drug acting in the collecting duct", correct: true },
+      { text: "The loop diuretic is less potent than the drug acting in the collecting duct", correct: false }
+      ]
+    },
+    
+    {
+    question: "Which of the 2 drugs reduce the kidneys ability to produce concentrated urine?",
+    options: [
+      { text: "The drug acting in the ascending limb of Henles loop", correct: true },
+      { text: "The drug acting in the collecting duct", correct: false },
+      { text: "None of the two", correct: false },
+      { text: "Both drugs", correct: false }
+      ]
+    },
+    
+    {
+    question: "A person takes SGLT2 inhibitors. Which parameter change best mimics the main effect and how will urine osmolarity and diuresis change?",
     options: [
       { text: "Increase Loop of Henle flow (F0) — urine osmolarity decreases, diuresis increases", correct: true },
       { text: "Increase CD water permeability (kcd) — urine osmolarity increases, diuresis decreases", correct: false },
       { text: "Increase AL NaCl reabsorption (maxRNa) — urine osmolarity increases, diuresis decreases", correct: false },
       { text: "Decrease vasa recta flow (Fvasa) — urine osmolarity increases, diuresis decreases", correct: false }
-    ]
-  }
+      ]
+    },
+
+    {
+    question: "How will a drug (e.g., an SGLT2 inhibitor) that increases the flow through the loop of Henle affect the kidneys ability to dilute the urine?",
+    options: [
+      { text: "No effect", correct: false },
+      { text: "Increase it", correct: false },
+      { text: "Decrease it", correct: true }
+      ]
+    },
+
+    {
+    question: "A person receives a vasopressin analogue. Which parameter will change and how will urine osmolarity and diuresis respond?",
+    options: [
+      { text: "Decrease AL NaCl reabsorption (maxRNa) — urine osmolarity decreases, diuresis increases", correct: false },
+      { text: "Increase CD water permeability (kcd) — urine osmolarity increases, diuresis decreases", correct: true },
+      { text: "Increase vasa recta flow (Fvasa) — urine osmolarity decreases, diuresis increases", correct: false },
+      { text: "Increase Loop flow (F0) — urine osmolarity increases, diuresis decreases", correct: false }
+      ]
+    },
+
 ];
 
 let currentQuestions = null;
