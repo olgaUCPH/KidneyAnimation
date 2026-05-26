@@ -85,22 +85,22 @@ const knowledgeQuestions = [
 // Interactive Lab module: one question per slider + scenario combination questions
 const interactiveQuestions = [
     {
-    question: "A person drinks water. Which parameter change best matches this situation and how will it affect urine osmolarity and diuresis?",
+    question: "A person drinks water. Which parameter change best matches this situation and how will it affect urine osmolarity and urinary flow rate?",
     options: [
-      { text: "Decrease CD water permeability (kcd) — urine osmolarity decreases, diuresis increases", correct: true },
-      { text: "Increase AL NaCl reabsorption (maxRNa) — urine osmolarity increases, diuresis decreases", correct: false },
-      { text: "Increase vasa recta flow (Fvasa) — urine osmolarity increases, diuresis decreases", correct: false },
-      { text: "Increase DL permeability (k) — urine osmolarity increases, diuresis decreases", correct: false }
+      { text: "Decrease CD water permeability — urine osmolarity decreases, urinary flow rate increases", correct: true },
+      { text: "Increase AL NaCl reabsorption — urine osmolarity increases, urinary flow rate decreases", correct: false },
+      { text: "Increase vasa recta flow — urine osmolarity increases, urinary flow rate decreases", correct: false },
+      { text: "Increase DL permeability — urine osmolarity increases, urinary flow rate decreases", correct: false }
       ]
     },
     
     {
-    question: "A person takes loop diuretics. Which parameter change best represents the drug effect and what is the expected influence on urine osmolarity and diuresis?",
+    question: "A person takes loop diuretics. Which parameter change best represents the drug effect and what is the expected influence on urine osmolarity and urinary flow rate?",
     options: [
-      { text: "Increase CD water permeability (kcd) — urine osmolarity increases, diuresis decreases", correct: false },
-      { text: "Decrease vasa recta flow (Fvasa) — urine osmolarity increases, diuresis decreases", correct: false },
-      { text: "Decrease AL NaCl reabsorption (maxRNa) — urine osmolarity decreases, diuresis increases", correct: true },
-      { text: "Increase DL permeability (k) — urine osmolarity decreases, diuresis decreases", correct: false }
+      { text: "Increase CD water permeability — urine osmolarity increases, urinary flow rate decreases", correct: false },
+      { text: "Decrease vasa recta flow — urine osmolarity increases, urinary flow rate decreases", correct: false },
+      { text: "Decrease AL NaCl reabsorption — urine osmolarity decreases, urinary flow rate increases", correct: true },
+      { text: "Increase DL permeability — urine osmolarity decreases, urinary flow rate decreases", correct: false }
       ]
     },
 
@@ -135,12 +135,12 @@ const interactiveQuestions = [
     },
     
     {
-    question: "A person takes SGLT2 inhibitors. Which parameter change best mimics the main effect and how will urine osmolarity and diuresis change?",
+    question: "A person takes SGLT2 inhibitors. Which parameter change best mimics the main effect and how will urine osmolarity and urinary flow rate change?",
     options: [
-      { text: "Increase CD water permeability (kcd) — urine osmolarity increases, diuresis decreases", correct: false },
-      { text: "Increase AL NaCl reabsorption (maxRNa) — urine osmolarity increases, diuresis decreases", correct: false },
-      { text: "Decrease vasa recta flow (Fvasa) — urine osmolarity increases, diuresis decreases", correct: false },
-      { text: "Increase Loop of Henle flow (F0) — urine osmolarity decreases, diuresis increases", correct: true }     
+      { text: "Increase CD water permeability — urine osmolarity increases, urinary flow rate decreases", correct: false },
+      { text: "Increase AL NaCl reabsorption — urine osmolarity increases, urinary flow rate decreases", correct: false },
+      { text: "Decrease vasa recta flow — urine osmolarity increases, urinary flow rate decreases", correct: false },
+      { text: "Increase Loop of Henle flow — urine osmolarity decreases, urinary flow rate increases", correct: true }     
     ]
     },
 
@@ -154,12 +154,12 @@ const interactiveQuestions = [
     },
 
     {
-    question: "A person receives a vasopressin analogue. Which parameter will change and how will urine osmolarity and diuresis respond?",
+    question: "A person receives a vasopressin analogue. Which parameter will change, and how will urine osmolarity and urinary flow rate respond?",
     options: [
-      { text: "Decrease AL NaCl reabsorption (maxRNa) — urine osmolarity decreases, diuresis increases", correct: false },
-      { text: "Increase CD water permeability (kcd) — urine osmolarity increases, diuresis decreases", correct: true },
-      { text: "Increase vasa recta flow (Fvasa) — urine osmolarity decreases, diuresis increases", correct: false },
-      { text: "Increase Loop flow (F0) — urine osmolarity increases, diuresis decreases", correct: false }
+      { text: "Decrease AL NaCl reabsorption — urine osmolarity decreases, urinary flow rate increases", correct: false },
+      { text: "Increase CD water permeability — urine osmolarity increases, urinary flow rate decreases", correct: true },
+      { text: "Increase vasa recta flow — urine osmolarity decreases, urinary flow rate increases", correct: false },
+      { text: "Increase Loop flow — urine osmolarity increases, urinary flow rate decreases", correct: false }
       ]
     },
 
