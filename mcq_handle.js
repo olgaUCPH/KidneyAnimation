@@ -137,11 +137,11 @@ const interactiveQuestions = [
     {
     question: "A person takes SGLT2 inhibitors. Which parameter change best mimics the main effect and how will urine osmolarity and diuresis change?",
     options: [
-      { text: "Increase Loop of Henle flow (F0) — urine osmolarity decreases, diuresis increases", correct: true },
       { text: "Increase CD water permeability (kcd) — urine osmolarity increases, diuresis decreases", correct: false },
       { text: "Increase AL NaCl reabsorption (maxRNa) — urine osmolarity increases, diuresis decreases", correct: false },
-      { text: "Decrease vasa recta flow (Fvasa) — urine osmolarity increases, diuresis decreases", correct: false }
-      ]
+      { text: "Decrease vasa recta flow (Fvasa) — urine osmolarity increases, diuresis decreases", correct: false },
+      { text: "Increase Loop of Henle flow (F0) — urine osmolarity decreases, diuresis increases", correct: true }     
+    ]
     },
 
     {
