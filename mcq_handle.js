@@ -226,6 +226,11 @@ function showQuestion(index) {
           showQuestion(currentQuestionIndex);
         } else {
           mcqContainer.innerHTML = '<h3>All questions completed! 🎉</h3>';
+          // restore both module buttons when finished
+          const kb = document.getElementById('KnowledgeCheckButton');
+          const ib = document.getElementById('interactiveLabButton');
+          if (kb) kb.style.display = '';
+          if (ib) ib.style.display = '';
         }
       }, 900);
     } else {
@@ -246,9 +251,24 @@ function loadModule(moduleName) {
   }
   currentQuestionIndex = 0;
   if (currentQuestions && currentQuestions.length > 0) {
+    // hide the other module button while this module is active
+    const kb = document.getElementById('KnowledgeCheckButton');
+    const ib = document.getElementById('interactiveLabButton');
+    if (moduleName === 'knowledge') {
+      if (ib) ib.style.display = 'none';
+      if (kb) kb.style.display = '';
+    } else if (moduleName === 'interactive') {
+      if (kb) kb.style.display = 'none';
+      if (ib) ib.style.display = '';
+    }
     showQuestion(0);
   } else {
     mcqContainer.innerHTML = '<p>Select a module to begin.</p>';
+    // ensure both buttons visible when no module is loaded
+    const kb = document.getElementById('KnowledgeCheckButton');
+    const ib = document.getElementById('interactiveLabButton');
+    if (kb) kb.style.display = '';
+    if (ib) ib.style.display = '';
   }
 }
 

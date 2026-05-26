@@ -381,6 +381,28 @@ body {
   font-weight: 600;
 }
 
+/* Buttons above MCQ: side-by-side row */
+.mcq-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start; /* left-align the buttons within the container */
+  align-items: center;
+  width: 94%; /* match the width of the MCQ box */
+  margin: 12px auto 6px auto; /* center the container, content left-aligned */
+}
+.mcq-buttons .interactiveLabButton,
+.mcq-buttons .KnowledgeCheckButton {
+  padding: 6px 10px;
+  font-size: 13px;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.mcq-buttons .interactiveLabButton:hover,
+.mcq-buttons .KnowledgeCheckButton:hover {
+  background-color: #e6e6e6;
+}
+
 
 /* =========================
    Misc / Utility
