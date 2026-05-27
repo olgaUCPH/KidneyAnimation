@@ -376,6 +376,20 @@ body {
   background-color: #e6e6e6;
 }
 
+#backMCQ {
+  padding: 6px 12px;
+  font-size: 14px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+#backMCQ:hover {
+  background-color: #e6e6e6;
+}
+
 #mcqFeedback {
   margin-top: 10px;
   font-weight: 600;
@@ -394,13 +408,14 @@ body {
 .mcq-buttons .KnowledgeCheckButton {
   padding: 6px 10px;
   font-size: 13px;
+  background-color: #e2e2e2;
   border: 1px solid #aaa;
   border-radius: 6px;
   cursor: pointer;
 }
 .mcq-buttons .interactiveLabButton:hover,
 .mcq-buttons .KnowledgeCheckButton:hover {
-  background-color: #e6e6e6;
+  background-color: #dbdbdb;
 }
 
 

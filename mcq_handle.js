@@ -199,6 +199,12 @@ function showQuestion(index) {
   });
   mcqContainer.appendChild(ul);
 
+  const backButton = document.createElement('button');
+  backButton.textContent = 'Back';
+  backButton.id = 'backMCQ';
+  backButton.style.marginRight = '8px';
+  mcqContainer.appendChild(backButton);
+
   const button = document.createElement('button');
   button.textContent = 'Submit';
   button.id = 'submitMCQ';
@@ -236,6 +242,23 @@ function showQuestion(index) {
     } else {
       feedback.textContent = 'Incorrect. ❌ Try again!';
       feedback.style.color = 'red';
+    }
+  });
+
+  backButton.addEventListener('click', () => {
+    // If we're on the first question, go back to module selection
+    if (currentQuestionIndex === 0) {
+      currentQuestions = null;
+      currentQuestionIndex = 0;
+      mcqContainer.innerHTML = '<p>Select a module to begin.</p>';
+      const kb = document.getElementById('KnowledgeCheckButton');
+      const ib = document.getElementById('interactiveLabButton');
+      if (kb) kb.style.display = '';
+      if (ib) ib.style.display = '';
+    } else {
+      // Otherwise go back one question
+      currentQuestionIndex--;
+      showQuestion(currentQuestionIndex);
     }
   });
 }
