@@ -46,12 +46,12 @@ const segmentState = createSegmentState();
 const vasaState = createVasaState();
 initSvg(segmentState, vasaState);
 
-// wire pixel slider to translate urine sample elements in the SVG
-const pixelSlider = document.getElementById('pixelSlider');
-if (pixelSlider) {
+// Translate urine sample elements in the SVG
+const urineHeight = document.getElementById('pixelSlider');
+if (urineHeight) {
     // initialize
-    setUrineSampleOffset(parseInt(pixelSlider.value, 10) || 0);
-    pixelSlider.addEventListener('input', (e) => {
+    setUrineSampleOffset(parseInt(urineHeight.value, 10) || 0);
+    urineHeight.addEventListener('input', (e) => {
         const val = parseInt(e.target.value, 10) || 0;
         setUrineSampleOffset(val);
     });
@@ -74,7 +74,6 @@ function resetSimulation() {
     segmentState.asc = createFilledArray(params.nSegments, params.Na0);
     segmentState.ints = createFilledArray(params.nSegments, params.Na0);
 
-    // Reset distal and collecting duct states
     segmentState.dist = createFilledArray(params.nDist, params.Na0);
     segmentState.cd = createFilledArray(params.nCD, params.Na0);
 
@@ -91,7 +90,7 @@ function replaySimulation() {
 initUI(modelVars, resetSimulation, replaySimulation);
 
 
-// ---- Draw everything ----
+// ---- Main drawing loop ----
 function drawAll(
     fluxes = { R: createFilledArray(params.nSegments, 0), RNa: createFilledArray(params.nSegments, 0) },
     vasaFluxes = { R: createFilledArray(params.nVasa, 0), RNa: createFilledArray(params.nVasa, 0) }
@@ -105,9 +104,8 @@ function drawAll(
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     vasaCtx.clearRect(0, 0, vasaCanvas.width, vasaCanvas.height);
 
-    // Henle colorbar wrapper (title + canvas)
+    // Colorbar wrappers (title + canvas)
     const henleColorbarWrapper = document.querySelector(".colorbar-wrapper.henle");
-    // Vasa colorbar wrapper (title + canvas)
     const vasaColorbarWrapper = document.querySelector(".colorbar-wrapper.vasa");
 
     // Henle
@@ -138,8 +136,6 @@ function drawAll(
         if (vasaColorbarWrapper) vasaColorbarWrapper.style.visibility = "hidden";
     }
 
-
-
 }
 
 // ---- Draw interstitium gradient ----
@@ -166,10 +162,7 @@ function drawInterstitiumGradient(segmentState) {
     bottomCtx.fillStyle = color;
     bottomCtx.fillRect(0, 0, bottomCanvas.width, bottomCanvas.height);
     drawLegend(bottomCtx)
-
 }
-
-
 
 // ---- Animation loop ----
 let stepsPerFrame = params.eulerStepsPerFrame; // can be changed by speed input
@@ -178,13 +171,12 @@ const speedInput = document.getElementById("speedInput"); // your spin box
 speedInput.addEventListener("input", (e) => {
     let multiplier = parseFloat(e.target.value);
 
-    // clamp to allowed range if you want
+    // Clamp to allowed range
     multiplier = Math.min(Math.max(multiplier, 0.25), 4);
 
     // update stepsPerFrame
     stepsPerFrame = Math.max(1, Math.round(params.eulerStepsPerFrame * multiplier));
 });
-
 
 setInterval(() => {
     let fluxes, vasaFluxes;

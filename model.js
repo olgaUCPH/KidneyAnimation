@@ -21,7 +21,7 @@ export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.
     const flowRateDesc = new Array(nSegments).fill(0);
     const saltFluxAsc = new Array(nSegments).fill(0);
 
-    // Descending limb
+    // Descending limb of Henle
     for (let i = 0; i < nSegments; i++) {
         if (i === 0) {
             waterFluxDesc[i] = k * (segmentState.ints[i] - segmentState.desc[i]);
@@ -36,7 +36,7 @@ export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.
         }
     }
 
-    // Ascending limb
+    // Ascending limb of Henle
     const Fa = Math.max(flowRateDesc[nSegments - 1], 0); // ensure non-negative
     for (let j = 0; j < nSegments; j++) {
         const revIndex = nSegments - 1 - j;
@@ -59,7 +59,7 @@ export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.
         segmentState.ints[i] += dNa.ints[i] * dt;
     }
 
-    // ----- Distal tubule + cortical collecting duct (simplified) -----
+    // ----- Distal tubule + cortical collecting duct -----
     const nDist = params.nDist || 0;
     const Rdist = new Array(nDist).fill(0);
     const Fdist = new Array(nDist).fill(0);
@@ -88,7 +88,7 @@ export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.
         }
     }
 
-    // ----- Medullary collecting duct (simplified) -----
+    // ----- Medullary collecting duct -----
     const nCD = params.nCD || 0;
     const Rcd = new Array(nCD).fill(0);
     const Fcd = new Array(nCD).fill(0);
@@ -108,16 +108,17 @@ export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.
                 Rcd[i] = kcd * (segmentState.ints[i] - cdState[i]);
                 Fcd[i] = Math.max(Fcd[i - 1] - Rcd[i], 0);
                 dNaCd[i] = Fcd[i - 1] * cdState[i - 1] - Fcd[i] * cdState[i] - knacd * cdState[i];
-            }        }
-            //console.log(Fcd[nCD-1])
-        // update SVG text with collecting duct outlet flow (if available)
+            }
+        }
+
+        // Update SVG text with collecting duct outlet flow 
         try {
             if (typeof setCdFlowText === 'function') setCdFlowText(Fcd[nCD - 1]);
         } catch (err) {
             // ignore if SVG not loaded or function unavailable
         }
 
-        // update collecting duct state (clamp concentrations to be non-negative)
+        // Update collecting duct state (clamp concentrations to be non-negative)
         if (segmentState.cd) {
             for (let i = 0; i < nCD; i++) {
                 segmentState.cd[i] = Math.max(segmentState.cd[i] + dNaCd[i] * dt, 0);
@@ -148,7 +149,7 @@ export function vasaEulerStep(segmentState, vasaState, dt = params.dt, modelVars
     const knadFluxDesc = new Array(nVasa).fill(0);
     const knaFluxAsc = new Array(nVasa).fill(0);
 
-    // ---- DESCENDING VASA ----
+    // ---- Descending limb vasa recta ----
     for (let i = 0; i < nVasa; i++) {
         Rdvr[i] = params.kdvr * (segmentState.ints[i] - vasaState.desc[i]);
 
@@ -169,7 +170,7 @@ export function vasaEulerStep(segmentState, vasaState, dt = params.dt, modelVars
         knadFluxDesc[i] = params.knadvr * (vasaState.desc[i] - segmentState.ints[i]);
     }
 
-    // ---- ASCENDING VASA ----
+    // ---- Ascending limb vasa recta ----
     const F0avr = Fdvr[nVasa - 1];
     for (let i = 0; i < nVasa; i++) {
         const revIndex = nVasa - 1 - i;
@@ -190,7 +191,7 @@ export function vasaEulerStep(segmentState, vasaState, dt = params.dt, modelVars
         knaFluxAsc[i] = params.knaavr * (vasaState.asc[i] - segmentState.ints[revIndex]);
     }
 
-    // ---- INTERSTITIUM COUPLING ----
+    // ---- Interstitial coupling ----
     for (let i = 0; i < nVasa; i++) {
         // Combine Na and water fluxes from descending & ascending vasa recta
         const RNa_total = dNa.desc[i] + dNa.asc[nVasa - 1 - i];
@@ -205,7 +206,7 @@ export function vasaEulerStep(segmentState, vasaState, dt = params.dt, modelVars
         segmentState.ints[i] += deltaOsm * dt * scaling_factor;
     }
 
-    // ---- UPDATE VASA STATE ----
+    // ---- Update vasa recta state ----
     for (let i = 0; i < nVasa; i++) {
         vasaState.desc[i] += dNa.desc[i] * dt;
         vasaState.asc[i] += dNa.asc[i] * dt;

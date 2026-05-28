@@ -9,6 +9,7 @@
 </head>
 
 <body>
+  <!-- Page header -->
   <div class="page-header">
     <h1>Renal Mechanisms of Urine Concentration and Dilution</h1>
     <h2>Created by Katrine Ohms under the supervision of Olga Sosnovtseva and Niels-Henrik
@@ -17,28 +18,32 @@
 
   <div class='top-row' style="display: flex; gap: 20px;">
     <div class="grid-container" style="display:flex; align-items:flex-start;">
-      <!-- Wrap the main canvas and SVG together -->
+      <!-- Canvas area: interstitium, henle, vasa, collecting, overlay -->
       <div class="canvas-wrapper">
         <!-- Interstitium gradient canvas -->
-
         <canvas id="interstitiumCanvas" width="960" height="1600"
           style="position:absolute; top:129px; left:-130px; z-index:0;"></canvas>
+
         <canvas id="bottomCanvas" width="450" height="50"
           style="position:absolute; top:345px; left:-130px; z-index:0;"></canvas>
+
+        <!-- Distal tubule canvas -->
         <canvas id="distalCanvas" width="600" height="80"></canvas>
 
+        <!-- Loop of Henle main canvas -->
         <canvas id="henleCanvas" width="960" height="1600"></canvas>
 
+        <!-- Vasa recta canvas -->
         <canvas id="vasaCanvas" width="900" height="1200"></canvas>
 
-        <!-- Collecting duct placeholder -->
+        <!-- Collecting duct -->
         <canvas id="collectingCanvas" width="300" height="100"></canvas>
 
         <!-- SVG overlay -->
         <object id="overlaySvg" type="image/svg+xml" data="henle_straight.svg"></object>
       </div>
 
-      <!-- Color bars beside each other -->
+      <!-- Colorbars container -->
       <div class="colorbars" style="
         display: flex;
         flex-direction: row;
@@ -68,11 +73,12 @@
 
     <!-- Sliders -->
     <div id="parameterList">
+      <!-- Sliders grid -->
       <div id="slidersGrid">
-        <!-- Can change water permeability and nacl reabsorption to 0, but creates issues when going from 0->200 -->
         <li>
           <label for="kSlider"
-            title='Change water permeability of the descending limb in the loop of Henle by dragging the slider'>DL water
+            title='Change water permeability of the descending limb in the loop of Henle by dragging the slider'>DL
+            water
             permeability: <span id="kValue"> 100</span>%</label>
           <input type="range" id="kSlider" min="0" max="0.001" step="0.000025" value="0.0005">
         </li>
@@ -93,24 +99,28 @@
           <input type="range" id="FvasaSlider" min="0" max="2" step="0.025" value="1.">
         </li>
         <li>
-          <label for="kcdSlider" title='Change water permeability of the collecting duct (ADH sensitive) by dragging the slider'>CD water permeability: <span id="kcdValue">100</span>%</label>
+          <label for="kcdSlider"
+            title='Change water permeability of the collecting duct (ADH sensitive) by dragging the slider'>CD water
+            permeability: <span id="kcdValue">100</span>%</label>
           <input type="range" id="kcdSlider" min="0" max="0.00012" step="0.000002" value="0.00006">
         </li>
-             <li>
-          <label for="knacdSlider" title="NaCl reabsorption in collecting duct">CD NaCl reabsorption: <span id="knacdValue">100</span>%</label>
+        <li>
+          <label for="knacdSlider" title="NaCl reabsorption in collecting duct">CD NaCl reabsorption: <span
+              id="knacdValue">100</span>%</label>
           <input type="range" id="knacdSlider" min="0" max="0.02" step="0.0005" value="0.01">
         </li>
       </div>
 
-
+      
+      <!-- Action buttons -->
       <li>
         <button id="resetButton">Reset</button>
         <button id="replayButton">Replay</button>
       </li>
 
 
+      <!-- View options: toggles and simulation speed -->
       <li id="viewOptions" style="display: flex; align-items: flex-start; gap: 20px;">
-        <!-- Stack checkboxes vertically -->
         <div style="display: flex; flex-direction: column; gap: 5px; width: 700px">
           <label title='Hide or show the loop of Henle'><input type="checkbox" id="showHenle" checked> Loop of Henle
             (Multiplication)</label>
@@ -118,9 +128,7 @@
             (Exchange)</label>
         </div>
 
-   
 
-        <!-- Spin box next to the stacked checkboxes -->
         <div style='width:500px'>
           <label for="speedInput">Simulation speed: </label>
           <input id="speedInput" type="number" value="1" step="0.1" min="0.1" max="5" style="width: 60px;">
@@ -129,6 +137,7 @@
 
 
 
+      <!-- Info box: explanatory text about the simulation -->
       <li id="infoBox">
         <h3>Information</h3>
         <p id="infoText"> The concentration gradient in the kidney is created and maintained by two closely related
@@ -139,15 +148,18 @@
   </div>
 
 
+  <!-- Multiple-choice question controls (Interactive Lab / Knowledge Check) -->
   <div class="mcq-buttons">
-    <button id="interactiveLabButton" class="interactiveLabButton" title="Interactive Lab questions">Interactive Lab</button>
-    <button id="KnowledgeCheckButton" class="KnowledgeCheckButton" title="Knowledge Check questions">Knowledge Check</button>
+    <button id="interactiveLabButton" class="interactiveLabButton" title="Interactive Lab questions">Interactive
+      Lab</button>
+    <button id="KnowledgeCheckButton" class="KnowledgeCheckButton" title="Knowledge Check questions">Knowledge
+      Check</button>
   </div>
 
+  <!-- MCQ module container (questions rendered here) -->
   <div id="MCQ" class="mcq-module"></div>
 
   
-  <!-- index.html -->
   <script type="module" src="main.js"></script>
   <script type="module" src="mcq_handle.js"></script>
 </body>

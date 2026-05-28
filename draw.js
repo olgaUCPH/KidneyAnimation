@@ -3,11 +3,8 @@ import { params } from "./config.js";
 import { data, evaluate_cmap } from './colormaps.js';
 
 /**
- * Map osmolarity to Henle loop color using a colormap
+ * Map osmolarity to color using a colormap
  */
-
-
-// Pick a colormap.
 const HenleColormap = (x) => evaluate_cmap(x, 'turbo', false);
 const VasaColormap = (x) => evaluate_cmap(x, 'coolwarm', true);
 
@@ -24,7 +21,6 @@ export function concentrationToColor(c) {
 
     return `rgb(${r}, ${g}, ${b})`;
 }
-
 
 export function concentrationToColorVasa(c) {
     // Clamp the concentration to [100, max-100]
@@ -66,8 +62,9 @@ export function drawHenle(ctx, segmentState) {
     }
 }
 
-
-// Distal Tubule
+/**
+ * Draw Distal Tubule
+ */
 export function drawDistal(ctx, distal = null) {
     // Use the canvas pixel dimensions so bands fill the actual buffer
     // `distal` should be an array of segment values; if null, fall back to hue bands

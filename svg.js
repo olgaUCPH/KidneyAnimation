@@ -30,22 +30,20 @@ export function initSvg(segment, vasa) {
 
     const overlay = document.getElementById("overlaySvg");
     console.log('Loading SVG overlay');
-    
+
     window.addEventListener("load", () => {
         console.log('SVG loaded');
         const svgDoc = overlay.contentDocument;
 
-        // Henle
+        // Loop of Henle
         henleLoopBottom = svgDoc.getElementById("HenleLoop");
-        //henleIntBottom = svgDoc.getElementById("HenleInt");
         henleOutline = svgDoc.getElementById("HenleOutline");
         henleDescText = svgDoc.getElementById("DescHenleText");
         henleAscText = svgDoc.getElementById("AscHenleText");
         henleText = svgDoc.getElementById("HenleText");
 
-        // Vasa
+        // Vasa Recta
         vasaLoopBottom = svgDoc.getElementById("VasaLoop");
-        //vasaIntBottom = svgDoc.getElementById("VasaInt");
         vasaOutline = svgDoc.getElementById("VasaOutline");
         vasaOutline2 = svgDoc.getElementById("vasaOutline");
         vasaDesc = svgDoc.getElementById("VasaDesc");
@@ -70,13 +68,13 @@ export function initSvg(segment, vasa) {
         mlMinText = svgDoc.getElementById("MlMinText");
         lDayText = svgDoc.getElementById("LDayText");
         cdFlowText = svgDoc.getElementById("CdFlowText");
-        // apply pending offset if set before load
+
         if (urineSampleOffset && urineSampleTop) {
             const t = `translate(0,-${urineSampleOffset})`;
             urineSampleTop.setAttribute('transform', t);
             if (urineSampleHighlight) urineSampleHighlight.setAttribute('transform', t);
         }
-        // if a pending offset exists, also update the ml/min label in the SVG
+        // Update the ml/min label in the SVG
         if (urineSampleOffset && mlMinText) {
             try {
                 mlMinText.textContent = `${urineSampleOffset}`;
@@ -85,7 +83,7 @@ export function initSvg(segment, vasa) {
             }
         }
 
-        // try to update L/day text based on the ml/min text if possible
+        // Update L/day text based on the ml/min text if possible
         if (urineSampleOffset && lDayText) {
             try {
                 // prefer numeric ml/min value from mlMinText if available
@@ -105,89 +103,75 @@ export function initSvg(segment, vasa) {
             }
         }
 
-        // get checkboxes
+        // Get checkboxes
         showHenleCheckbox = document.getElementById("showHenle");
         showVasaCheckbox = document.getElementById("showVasa");
-        
+
 
         // Get tooltip overlays
         const henleDescTooltip = svgDoc.getElementById("HenleDescTooltip");
         const henleAscTooltip = svgDoc.getElementById("HenleAscTooltip");
-        const vasaDescTooltip  = svgDoc.getElementById("VasaDescTooltip");
-        const vasaAscTooltip   = svgDoc.getElementById("VasaAscTooltip");
+        const vasaDescTooltip = svgDoc.getElementById("VasaDescTooltip");
+        const vasaAscTooltip = svgDoc.getElementById("VasaAscTooltip");
 
     });
 }
 
-// set collecting duct flow text in the SVG (element id: CdFlowText). Falls back to `MlMinText`.
+// Set collecting duct flow text in the SVG (element id: CdFlowText). Falls back to `MlMinText`.
 export function setCdFlowText(value) {
+    // Primary text element: prefer `CdFlowText`, fall back to `MlMinText`.
     const textEl = cdFlowText || mlMinText;
     if (!textEl) return;
+
     const num = Number(value);
     if (Number.isFinite(num)) {
+        // Display scaled numeric value (ml/min multiplied for presentation).
         const scaled = num * CD_DISPLAY_MULTIPLIER;
         const out = scaled.toFixed(2);
-        try {
-            textEl.textContent = out;
-        } catch (err) {
-            if (textEl.firstChild) textEl.firstChild.nodeValue = out;
-        }
-        // update L/day text (convert ml/min -> L/day)
-        try {
-            if (lDayText) {
-                const lDayVal = scaled * 60 * 24 / 1000;
+        try { textEl.textContent = out; } catch (err) { if (textEl.firstChild) textEl.firstChild.nodeValue = out; }
+
+        // Update L/day text if available (convert ml/min -> L/day).
+        if (lDayText) {
+            try {
+                const lDayVal = (scaled * 60 * 24) / 1000;
                 const outL = lDayVal.toFixed(2);
-                try {
-                    lDayText.textContent = outL;
-                } catch (err) {
-                    if (lDayText.firstChild) lDayText.firstChild.nodeValue = outL;
-                }
-            }
-        } catch (err) {
-            // ignore any errors updating L/day text
+                try { lDayText.textContent = outL; } catch (err) { if (lDayText.firstChild) lDayText.firstChild.nodeValue = outL; }
+            } catch (_) { /* ignore conversion errors */ }
         }
-        // compute pixel height from scaled value, clamp to URINE_MAX_PX
+
+        // Compute and clamp urine-sample pixel translation, then update SVG.
         const rawPx = Math.max(0, scaled * URINE_HEIGHT_MULTIPLIER);
         const px = Math.min(rawPx, URINE_MAX_PX);
+        try { setUrineSampleOffset(px, false); } catch (_) { /* ignore if unavailable */ }
+
+        // Show or hide urine-sample SVG parts when flow is zero.
         try {
-            // pass false to avoid updating the ml/min text (so CD text stays unchanged)
-            setUrineSampleOffset(px, false);
-        } catch (err) {
-            // ignore if setter unavailable or SVG not loaded
-        }
-        // hide urine sample elements when flow is exactly zero
-        try {
-            const visible = num !== 0;
-            const display = visible ? 'inline' : 'none';
+            const display = (num !== 0) ? 'inline' : 'none';
             if (urineSampleBottom) urineSampleBottom.style.display = display;
             if (urineSampleTop) urineSampleTop.style.display = display;
             if (urineSampleColumn) urineSampleColumn.style.display = display;
             if (urineSampleHighlight) urineSampleHighlight.style.display = display;
-            // urinary overflow should never show when flow is zero
         } catch (err) {
             console.log('Could not update urine sample visibility:', err);
-            // ignore if elements not present or styling fails
         }
     } else {
+        // Non-numeric: just write the raw value.
         const out = String(value);
-        try {
-            textEl.textContent = out;
-        } catch (err) {
-            if (textEl.firstChild) textEl.firstChild.nodeValue = out;
-        }
+        try { textEl.textContent = out; } catch (err) { if (textEl.firstChild) textEl.firstChild.nodeValue = out; }
     }
 }
 
-// translate urine sample top and highlight by given pixels (positive moves up)
+// Translate urine-sample SVG parts by `px` (positive moves up). Optionally update ml/min and L/day labels.
 export function setUrineSampleOffset(px, updateMlMin = true) {
-    // clamp pixel offset to range [0, 76] to ensure SVG height never exceeds 76px
-    const requested = (px || 0);
+    const requested = px || 0;
     const clamped = Math.max(0, Math.min(requested, URINE_MAX_PX));
     urineSampleOffset = clamped;
+
     const t = `translate(0,-${urineSampleOffset})`;
     if (urineSampleTop) urineSampleTop.setAttribute('transform', t);
     if (urineSampleHighlight) urineSampleHighlight.setAttribute('transform', t);
-    // stretch the column upwards by px by scaling about its bottom edge
+
+    // Stretch column by scaling about its bottom edge (best-effort; ignore failures).
     if (urineSampleColumn && typeof urineSampleColumn.getBBox === 'function') {
         try {
             const bbox = urineSampleColumn.getBBox();
@@ -198,72 +182,61 @@ export function setUrineSampleOffset(px, updateMlMin = true) {
             const cy = bbox.y + bbox.height;
             const colTransform = `translate(${cx},${cy}) scale(1,${scaleY}) translate(${-cx},${-cy})`;
             urineSampleColumn.setAttribute('transform', colTransform);
-        } catch (err) {
-            // ignore if getBBox fails
-        }
+        } catch (_) { /* ignore getBBox / transform errors */ }
     }
-    // update ml/min text to reflect pixel value (optional)
+
+    // Optionally update ml/min and L/day labels.
     if (updateMlMin && mlMinText) {
-        try {
-            mlMinText.textContent = `${urineSampleOffset}`;
-        } catch (err) {
-            // some SVG text nodes may require firstChild.nodeValue
-            if (mlMinText.firstChild) mlMinText.firstChild.nodeValue = `${urineSampleOffset} ml/min`;
-        }
-        // also update L/day text if we can parse a numeric ml/min value
+        try { mlMinText.textContent = `${urineSampleOffset}`; }
+        catch (_) { if (mlMinText.firstChild) mlMinText.firstChild.nodeValue = `${urineSampleOffset} ml/min`; }
+
         if (lDayText) {
             try {
                 const txt = mlMinText.textContent || (mlMinText.firstChild && mlMinText.firstChild.nodeValue) || '';
                 const mlVal = Number(txt);
                 if (Number.isFinite(mlVal)) {
-                    const lDayVal = mlVal * 60 * 24 / 1000;
-                    try {
-                        lDayText.textContent = `${lDayVal.toFixed(2)}`;
-                    } catch (err) {
-                        if (lDayText.firstChild) lDayText.firstChild.nodeValue = `${lDayVal.toFixed(2)}`;
-                    }
+                    const lDayVal = (mlVal * 60 * 24) / 1000; // ml/min -> L/day
+                    try { lDayText.textContent = `${lDayVal.toFixed(2)}`; }
+                    catch (_) { if (lDayText.firstChild) lDayText.firstChild.nodeValue = `${lDayVal.toFixed(2)}`; }
                 }
-            } catch (err) {
-                // ignore
-            }
+            } catch (_) { /* ignore parsing errors */ }
         }
     }
 }
 
 export function updateSvgColors() {
-    if (!henleLoopBottom) return; // wait until loaded
+    if (!henleLoopBottom) return; // SVG not loaded yet
 
     const nSegments = segmentState.desc.length;
     const nVasa = vasaState.desc.length;
 
-    // ---- Henle ----
+    // Henle: show/hide and color fills
     const showHenle = showHenleCheckbox?.checked ?? true;
     const henleDisplay = showHenle ? "inline" : "none";
-
-    [henleLoopBottom, henleOutline, bowmanCap, collectingDuct, henleDescText, henleAscText, henleText].forEach(el => {
-        if (el) el.style.display = henleDisplay;
-    });
+    [henleLoopBottom, henleOutline, bowmanCap, collectingDuct, henleDescText, henleAscText, henleText]
+        .forEach(el => { if (el) el.style.display = henleDisplay; });
 
     if (showHenle) {
         const avgHenleBottom = (segmentState.desc[nSegments - 1] + segmentState.asc[0]) / 2;
-
         henleLoopBottom.style.fill = concentrationToColor(avgHenleBottom);
-        //henleIntBottom.style.fill = concentrationToColor(bottomInt);
         bowmanCap.style.fill = concentrationToColor(params.Na0);
         collectingDuct.style.fill = concentrationToColor(segmentState.asc[nSegments - 1]);
+
         if (belowCollectingDuct) {
             const bottomCdVal = (segmentState.cd && segmentState.cd.length > 0)
                 ? segmentState.cd[segmentState.cd.length - 1]
                 : segmentState.asc[nSegments - 1];
             belowCollectingDuct.style.fill = concentrationToColor(bottomCdVal);
         }
+
         if (aboveCollectingDuct) {
             const lastDist = (segmentState.dist && segmentState.dist.length > 0)
                 ? segmentState.dist[segmentState.dist.length - 1]
                 : segmentState.asc[nSegments - 1];
             aboveCollectingDuct.style.fill = concentrationToColor(lastDist);
         }
-        // set urine sample fills (use same value for bottom, top, and column)
+
+        // Urine sample fills (bottom, top, column)
         const urineVal = (segmentState.cd && segmentState.cd.length > 0)
             ? segmentState.cd[segmentState.cd.length - 1]
             : segmentState.asc[nSegments - 1];
@@ -273,22 +246,18 @@ export function updateSvgColors() {
         if (urineSampleColumn) urineSampleColumn.style.fill = urineColor;
     }
 
-    // ---- Vasa ----
+    // Vasa: show/hide and color fills
     const showVasa = showVasaCheckbox?.checked ?? true;
     const vasaDisplay = showVasa ? "inline" : "none";
-
-    [vasaLoopBottom, vasaOutline, vasaOutline2, vasaDesc, vasaAsc, vasaDescText, vasaAscText, vasaText, vasaShadow1, vasaShadow2].forEach(el => {
-        if (el) el.style.display = vasaDisplay;
-    });
+    [vasaLoopBottom, vasaOutline, vasaOutline2, vasaDesc, vasaAsc, vasaDescText, vasaAscText, vasaText, vasaShadow1, vasaShadow2]
+        .forEach(el => { if (el) el.style.display = vasaDisplay; });
 
     if (showVasa) {
         const avgVasaBottom = (vasaState.desc[nVasa - 1] + vasaState.asc[0]) / 2;
         const topVasaDesc = vasaState.desc[0];
         const topVasaAsc = vasaState.asc[nVasa - 1];
 
-        //vasaIntBottom.style.fill = concentrationToColor(bottomInt);
         vasaLoopBottom.style.fill = concentrationToColorVasa(avgVasaBottom);
-
         vasaDesc.style.fill = concentrationToColorVasa(topVasaDesc);
         vasaAsc.style.fill = concentrationToColorVasa(topVasaAsc);
     }
