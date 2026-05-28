@@ -82,6 +82,8 @@ export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.
             }
         }
 
+        //console.log(distState[nDist - 1])
+
         // update distal state
         if (segmentState.dist) {
             for (let i = 0; i < nDist; i++) segmentState.dist[i] += dNaDist[i] * dt;
@@ -97,7 +99,7 @@ export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.
     if (nCD > 0) {
         const cdState = segmentState.cd || new Array(nCD).fill(params.Na0);
         const inletConcCd = segmentState.dist[segmentState.dist.length - 1];
-        const F0cd = (Fdist.length > 0) ? Fdist[Fdist.length - 1] : 0;
+        const F0cd = (Fdist.length > 0) ? 1.2 * Fdist[Fdist.length - 1] : 0;
 
         for (let i = 0; i < nCD; i++) {
             if (i === 0) {
@@ -110,6 +112,8 @@ export function eulerStep(segmentState, dt = params.dt, modelVars = { k: params.
                 dNaCd[i] = Fcd[i - 1] * cdState[i - 1] - Fcd[i] * cdState[i] - knacd * cdState[i];
             }
         }
+
+        //console.log(cdState[nCD-1])
 
         // Update SVG text with collecting duct outlet flow 
         try {

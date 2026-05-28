@@ -20,9 +20,9 @@ export const params = {
     F0vr: 1.,          // Flow into descending vasa recta
 
     // -- 1.4 Distal tubule parameters --
-    kdt: 0.1E-3,       // Water permeability in distal tubule and cortical collecting duct   %NEW
-    knadt: 5.E-3,      // Transport coefficient for Na in distal tubule and cortical collecting duct %NEW
-    nDist: 10,         // Number of segments in distal tubule + cortical collecting duct
+    kdt: 0.5E-3,       // Water permeability in distal tubule and cortical collecting duct   %NEW
+    knadt: 1.E-3,      // Transport coefficient for Na in distal tubule and cortical collecting duct %NEW
+    nDist: 15,         // Number of segments in distal tubule + cortical collecting duct
     
     // -- 1.5 Collecting duct parameters --
     kcd: 0.00006,      // Water permeability in collecting duct (ADH sensitive) %NEW (default set to 100%)
