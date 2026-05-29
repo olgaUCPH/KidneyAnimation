@@ -110,10 +110,10 @@ const interactiveQuestions = [
   {
     question: "Use the sliders to determine which of the following changes reduces the kidney’s ability to produce concentrated urine.",
     options: [
-      { text: "Increased medullary blood flow through the vasa recta", correct: true },
+      { text: "Decreased flow in the loop of Henle", correct: false },
       { text: "Increased ADH secretion", correct: false },
       { text: "Increased water permeability in descending limb", correct: false },
-      { text: "Increased NaCl reabsorption in the thick ascending limb", correct: false }
+      { text: "Decreased NaCl reabsorption in the thick ascending limb", correct: True }
     ]
   },
 
@@ -130,7 +130,18 @@ const interactiveQuestions = [
 
   // Question 5
   {
-    question: "Which of the 2 drugs reduce the kidneys ability to produce concentrated urine?",
+    question: "What is the effect of decreasing the blood flow through the vasa recta on the medullary gradient and the urinary flow rate?",
+    options: [
+      { text: "It has no effect", correct: false },
+      { text: "It increases the gradient and the urinary flow rate", correct: false },
+      { text: "It increases the gradient but decreases the urinary flow rate", correct: true },
+      { text: "It decreases the gradient and the urinary flow rate", correct: false }
+    ]
+  },
+
+  // Question 6
+  {
+    question: "Which of the 2 drugs reduces the kidneys ability to produce concentrated urine?",
     options: [
       { text: "The drug acting in the ascending limb of Henles loop", correct: true },
       { text: "The drug acting in the collecting duct", correct: false },
@@ -139,7 +150,7 @@ const interactiveQuestions = [
     ]
   },
 
-  // Question 6
+  // Question 7
   {
     question: "A person takes an SGLT2 inhibitor. Which parameter change best mimics the effect and how will urine osmolarity and urinary flow rate change?",
     options: [
@@ -150,7 +161,7 @@ const interactiveQuestions = [
     ]
   },
 
-  // Question 7
+  // Question 8
   {
     question: "How will a drug (e.g., an SGLT2 inhibitor) that increases the flow through the loop of Henle affect the kidneys ability to dilute the urine?",
     options: [
@@ -160,7 +171,7 @@ const interactiveQuestions = [
     ]
   },
 
-  // Question 8
+  // Question 9
   {
     question: "A person receives a vasopressin analogue. Which parameter will change, and how will urine osmolarity and urinary flow rate respond?",
     options: [

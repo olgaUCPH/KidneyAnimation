@@ -46,11 +46,11 @@ export function initUI(modelVars, onReset, onReplay) {
 
     // ---- Sliders ----
     kSlider.addEventListener("mouseover", (e) => {
-        infoText.textContent = `Water permeability in the descending loop of Henle (DLH) determines how much water is reabsorbed in the descending limb. A permeability of 100% corresponds to the normal value for the water reabsorption rate.`;
+        infoText.textContent = `Water permeability in the descending limb of the loop of Henle (DLH) determines water reabsorption in the descending limb.`;
     });
 
     kSlider.addEventListener("touchstart", (e) => {
-        infoText.textContent = `Water permeability in the descending loop of Henle (DLH) determines how much water is reabsorbed in the descending limb. A permeability of 100% corresponds to the normal value for the water reabsorption rate.`;
+        infoText.textContent = `Water permeability in the descending limb of the loop of Henle (DLH) determines water reabsorption in the descending limb.`;
     });
 
    kSlider.addEventListener("input", (e) => {
@@ -76,11 +76,11 @@ export function initUI(modelVars, onReset, onReplay) {
 
    // Collecting duct slider (kcd)
    kcdSlider.addEventListener("mouseover", (e) => {
-        infoText.textContent = `Collecting duct (CD) water permeability determines water reabsorption in the medullary collecting duct and is ADH-sensitive.`;
+        infoText.textContent = `Collecting duct (CD) water permeability determines water reabsorption in the collecting duct. The permeability is regulated by ADH.`;
     });
 
     kcdSlider.addEventListener("touchstart", (e) => {
-        infoText.textContent = `Collecting duct (CD) water permeability determines water reabsorption in the medullary collecting duct and is ADH-sensitive.`;
+        infoText.textContent = `Collecting duct (CD) water permeability determines water reabsorption in the collecting duct. The permeability is regulated by ADH.`;
     });
 
     kcdSlider.addEventListener("input", (e) => {
@@ -90,11 +90,11 @@ export function initUI(modelVars, onReset, onReplay) {
     });
 
     maxRNaSlider.addEventListener("mouseover", (e) => {
-        infoText.textContent = `NaCl reabsorption in the ascending loop of Henle (ALH) controls how much NaCl the ascending limb actively pumps into the interstitium. A NaCl reabsorption of 100% corresponds to the normal value for the reabsorption rate.`;
+        infoText.textContent = `NaCl reabsorption in the ascending limb of the loop of Henle (ALH) controls how much NaCl the ascending limb actively pumps into the interstitium.`;
     });
 
     maxRNaSlider.addEventListener("touchstart", (e) => {
-        infoText.textContent = `NaCl reabsorption in the ascending loop of Henle (ALH)  actively pumps into the interstitium. A NaCl reabsorption of 100% corresponds to the normal value for the reabsorption rate.`;
+        infoText.textContent = `NaCl reabsorption in the ascending limb of the loop of Henle (ALH) controls how much NaCl the ascending limb actively pumps into the interstitium.`;
     });
 
     maxRNaSlider.addEventListener("input", (e) => {
@@ -103,11 +103,11 @@ export function initUI(modelVars, onReset, onReplay) {
     });
 
     F0Slider.addEventListener("mouseover", (e) => {
-        infoText.textContent = `Loop of Henle flow sets the flow of isotonic fluid entering the descending limb of the loop of Henle. An flow of 100% corresponds to the normal value for the inflow of isotonic fluid to the descending limb.`;
+        infoText.textContent = `Loop of Henle flow sets the flow of isotonic fluid entering the descending limb of the loop of Henle.`;
     });
 
     F0Slider.addEventListener("touchstart", (e) => {
-        infoText.textContent = `Loop of Henle flow sets the flow of isotonic fluid entering the descending limb of the loop of Henle. An flow of 100% corresponds to the normal value for the inflow of isotonic fluid to the descending limb.`;
+        infoText.textContent = `Loop of Henle flow sets the flow of isotonic fluid entering the descending limb of the loop of Henle.`;
     });
 
     F0Slider.addEventListener("input", (e) => {
@@ -117,11 +117,11 @@ export function initUI(modelVars, onReset, onReplay) {
     });
 
     FvasaSlider.addEventListener("mouseover", (e) => {
-        infoText.textContent = `Vasa recta flow sets the blood flow entering the descending vasa recta. A vasa recta inflow of 100% corresponds to the normal value for the inflow of blood.`;
+        infoText.textContent = `Vasa recta blood flow sets the flow rate entering the descending vasa recta.`;
     });
 
     FvasaSlider.addEventListener("touchstart", (e) => {
-        infoText.textContent = `Vasa recta flow sets the blood flow entering the descending vasa recta. A vasa recta inflow of 100% corresponds to the normal value for the inflow of blood.`;
+        infoText.textContent = `Vasa recta blood flow sets the flow rate entering the descending vasa recta.`;
     });   
 
     FvasaSlider.addEventListener("input", (e) => {
