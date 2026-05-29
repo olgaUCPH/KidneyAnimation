@@ -260,7 +260,7 @@ function showQuestion(index) {
     if (currentQuestionIndex === 0) {
       currentQuestions = null;
       currentQuestionIndex = 0;
-      mcqContainer.innerHTML = '<p>Select a module to begin.</p>';
+      mcqContainer.innerHTML = '<p>Select one of the buttons above to begin.</p>';
       const kb = document.getElementById('KnowledgeCheckButton');
       const ib = document.getElementById('interactiveLabButton');
       if (kb) kb.style.display = '';
@@ -306,7 +306,7 @@ function loadModule(moduleName) {
 }
 
 // Initial prompt
-mcqContainer.innerHTML = '<p>Select a module to begin.</p>';
+mcqContainer.innerHTML = '<p>Select one of the buttons above to begin.</p>';
 
 // Wire buttons
 const knowledgeBtn = document.getElementById('KnowledgeCheckButton');
