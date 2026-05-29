@@ -161,7 +161,7 @@ function drawInterstitiumGradient(segmentState) {
     const color = concentrationToColor(bottomInt);
     bottomCtx.fillStyle = color;
     bottomCtx.fillRect(0, 0, bottomCanvas.width, bottomCanvas.height);
-    drawLegend(bottomCtx)
+    drawLegend(bottomCtx) //bottomCtx
 }
 
 // ---- Animation loop ----

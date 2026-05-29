@@ -268,19 +268,19 @@ export function drawLegend(ctx, scale = 0.7) {
   ctx.save();                  // save current state
   ctx.scale(scale, scale);     // scale everything
 
-  ctx.font = "14px Arial";   
+  ctx.font = "18px Arial";   
   ctx.textAlign = "left";
   ctx.textBaseline = "middle";
 
   // NaCl flux (black)
   ctx.fillStyle = "black";
   ctx.fillText("NaCl flux", 10 / scale, 20 / scale);
-  drawArrowOn(ctx, 60 / scale, 20 / scale, 80 / scale, 20 / scale, "black");
+  drawArrowOn(ctx, 70 / scale, 20 / scale, 90 / scale, 20 / scale, "black");
 
   // Water flux (red)
   ctx.fillStyle = "red";
   ctx.fillText("Water flux", 10 / scale, 40 / scale);
-  drawArrowOn(ctx, 60 / scale, 40 / scale, 80 / scale, 40 / scale, "red");
+  drawArrowOn(ctx, 70 / scale, 40 / scale, 90 / scale, 40 / scale, "red");
 
   ctx.restore();               // restore original state
 }

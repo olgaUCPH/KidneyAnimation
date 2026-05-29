@@ -46,11 +46,11 @@ export function initUI(modelVars, onReset, onReplay) {
 
     // ---- Sliders ----
     kSlider.addEventListener("mouseover", (e) => {
-        infoText.textContent = `Water permeability determines how much water is reabsorbed in the descending limb of the loop of Henle. A permeability of 100% corresponds to the normal value for the water reabsorption rate.`;
+        infoText.textContent = `Water permeability in the descending loop of Henle (DLH) determines how much water is reabsorbed in the descending limb. A permeability of 100% corresponds to the normal value for the water reabsorption rate.`;
     });
 
     kSlider.addEventListener("touchstart", (e) => {
-        infoText.textContent = `Water permeability determines how much water is reabsorbed in the descending limb of the loop of Henle. A permeability of 100% corresponds to the normal value for the water reabsorption rate.`;
+        infoText.textContent = `Water permeability in the descending loop of Henle (DLH) determines how much water is reabsorbed in the descending limb. A permeability of 100% corresponds to the normal value for the water reabsorption rate.`;
     });
 
    kSlider.addEventListener("input", (e) => {
@@ -61,11 +61,11 @@ export function initUI(modelVars, onReset, onReplay) {
 
    // Na reab in distal tubule and collecting duct slider 
     knacdSlider.addEventListener("mouseover", (e) => {
-        infoText.textContent = `The reabsorbtion of NaCl in the collecting duct is the main site for determining renal NaCl excretion. The reabsorption rate is regulated by aldosterone`;
+        infoText.textContent = `The reabsorbtion of NaCl in the collecting duct (CD) is the main site for determining renal NaCl excretion. The reabsorption rate is regulated by aldosterone`;
     });
 
     knacdSlider.addEventListener("touchstart", (e) => {
-        infoText.textContent = `The reabsorbtion of NaCl in the collecting duct is the main site for determining renal NaCl excretion. The reabsorption rate is regulated by aldosterone`;
+        infoText.textContent = `The reabsorbtion of NaCl in the collecting duct (CD) is the main site for determining renal NaCl excretion. The reabsorption rate is regulated by aldosterone`;
     });
 
     knacdSlider.addEventListener("input", (e) => {
@@ -76,11 +76,11 @@ export function initUI(modelVars, onReset, onReplay) {
 
    // Collecting duct slider (kcd)
    kcdSlider.addEventListener("mouseover", (e) => {
-        infoText.textContent = `Collecting duct water permeability determines water reabsorption in the medullary collecting duct and is ADH-sensitive.`;
+        infoText.textContent = `Collecting duct (CD) water permeability determines water reabsorption in the medullary collecting duct and is ADH-sensitive.`;
     });
 
     kcdSlider.addEventListener("touchstart", (e) => {
-        infoText.textContent = `Collecting duct water permeability determines water reabsorption in the medullary collecting duct and is ADH-sensitive.`;
+        infoText.textContent = `Collecting duct (CD) water permeability determines water reabsorption in the medullary collecting duct and is ADH-sensitive.`;
     });
 
     kcdSlider.addEventListener("input", (e) => {
@@ -90,11 +90,11 @@ export function initUI(modelVars, onReset, onReplay) {
     });
 
     maxRNaSlider.addEventListener("mouseover", (e) => {
-        infoText.textContent = `NaCl reabsorption controls how much NaCl the ascending limb actively pumps into the interstitium. A NaCl reabsorption of 100% corresponds to the normal value for the reabsorption rate.`;
+        infoText.textContent = `NaCl reabsorption in the ascending loop of Henle (ALH) controls how much NaCl the ascending limb actively pumps into the interstitium. A NaCl reabsorption of 100% corresponds to the normal value for the reabsorption rate.`;
     });
 
     maxRNaSlider.addEventListener("touchstart", (e) => {
-        infoText.textContent = `NaCl reabsorption controls how much NaCl the ascending limb actively pumps into the interstitium. A NaCl reabsorption of 100% corresponds to the normal value for the reabsorption rate.`;
+        infoText.textContent = `NaCl reabsorption in the ascending loop of Henle (ALH)  actively pumps into the interstitium. A NaCl reabsorption of 100% corresponds to the normal value for the reabsorption rate.`;
     });
 
     maxRNaSlider.addEventListener("input", (e) => {
