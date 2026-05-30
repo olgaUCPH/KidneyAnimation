@@ -124,10 +124,10 @@ export function drawVasa(vasaCtx, vasaState, segmentState) {
 export function drawArrowOn(ctx, x1, y1, x2, y2, color) {
     ctx.strokeStyle = color;
     ctx.fillStyle = color;
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 3; // changed from 2
 
     const angle = Math.atan2(y2 - y1, x2 - x1);
-    const headLength = 6; // length of the triangle head
+    const headLength = 8; // length of the triangle head, changed from 6
 
     // Shorten the main line to end at base of arrowhead
     const xEnd = x2 - headLength/2 * Math.cos(angle);
@@ -159,9 +159,9 @@ export function drawArrows(ctx, R, RNa) {
         const magnitude = Math.abs(R[i]) * params.waterArrowScale;
 
         if (R[i] > 0) {
-            drawArrowOn(ctx, params.descWidth, y, params.descWidth + magnitude, y, "red");
+            drawArrowOn(ctx, params.descWidth, y, params.descWidth + magnitude, y, "blue");
         } else if (R[i] < 0) {
-            drawArrowOn(ctx, params.descWidth, y, params.descWidth - magnitude, y, "red");
+            drawArrowOn(ctx, params.descWidth, y, params.descWidth - magnitude, y, "blue");
         }
     }
 
@@ -190,14 +190,14 @@ export function drawVasaArrows(vasaCtx, R, RNa) {
         const magWaterDesc = R[j] * params.waterArrowScale * params.vasaArrowScale;
         const magNaDesc = RNa[j] * params.saltArrowScale * params.vasaArrowScale * params.vasaSaltArrowScale;
 
-        drawArrowOn(vasaCtx, xDesc + params.descWidthVasa, y, xDesc + params.descWidthVasa + magWaterDesc, y, "red");
+        drawArrowOn(vasaCtx, xDesc + params.descWidthVasa, y, xDesc + params.descWidthVasa + magWaterDesc, y, "blue");
         drawArrowOn(vasaCtx, xDesc + params.descWidthVasa, y, xDesc + params.descWidthVasa - magNaDesc, y, "black");
 
         // Ascending vasa
         const magWaterAsc = R[j] * params.waterArrowScale * params.vasaArrowScale;
         const magNaAsc = RNa[j] * params.saltArrowScale * params.vasaArrowScale * params.vasaSaltArrowScale;
 
-        drawArrowOn(vasaCtx, xAsc, y, xAsc + magWaterAsc, y, "red");
+        drawArrowOn(vasaCtx, xAsc, y, xAsc + magWaterAsc, y, "blue");
         drawArrowOn(vasaCtx, xAsc, y, xAsc - magNaAsc, y, "black");
     }
 }
@@ -278,9 +278,9 @@ export function drawLegend(ctx, scale = 0.7) {
   drawArrowOn(ctx, 70 / scale, 20 / scale, 90 / scale, 20 / scale, "black");
 
   // Water flux (red)
-  ctx.fillStyle = "red";
+  ctx.fillStyle = "blue";
   ctx.fillText("Water flux", 10 / scale, 40 / scale);
-  drawArrowOn(ctx, 70 / scale, 40 / scale, 90 / scale, 40 / scale, "red");
+  drawArrowOn(ctx, 70 / scale, 40 / scale, 90 / scale, 40 / scale, "blue");
 
   ctx.restore();               // restore original state
 }
