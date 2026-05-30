@@ -113,7 +113,7 @@ const interactiveQuestions = [
       { text: "Decreased flow in the loop of Henle", correct: false },
       { text: "Increased ADH secretion", correct: false },
       { text: "Increased water permeability in descending limb", correct: false },
-      { text: "Decreased NaCl reabsorption in the thick ascending limb", correct: True }
+      { text: "Decreased NaCl reabsorption in the thick ascending limb", correct: true }
     ]
   },
 
